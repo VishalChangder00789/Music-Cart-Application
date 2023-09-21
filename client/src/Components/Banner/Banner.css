@@ -1,0 +1,52 @@
+.BannerContent {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+}
+
+.LogoHeaderContent {
+  /* border: 2px solid green; */
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.LeftPart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid yellow; */
+  width: 25%;
+}
+
+.LeftPart > img {
+  height: 100%;
+  width: 50%;
+}
+
+.CartButton {
+  /* border: 2px solid red; */
+  width: 10%;
+}
+
+.LinkTag {
+  margin-left: 14%;
+  font-size: larger;
+}
+
+.BannerContainer {
+  display: flex;
+  margin-top: 2%;
+  /* border: 2px solid red; */
+  width: 100%;
+  height: 250px;
+  justify-content: center;
+  align-items: center;
+}
+
+.BannerContainer > img {
+  /* border: 2px solid red; */
+  display: flex;
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,10 @@
+.LinkPagesContainerOuter {
+  /* border: 2px solid red; */
+  margin-top: 2%;
+}
+
+.LinkPagesContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
