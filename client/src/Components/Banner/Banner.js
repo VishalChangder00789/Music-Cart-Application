@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 // Files
 import Button from "./../Buttons/Button";
-import Filter from "../Filter/Filter";
 import { BASEURL } from "../../Constants/Client_Path";
 import HeaderLogoImage from "../../Assets/HeaderLogo.png";
 import BannerImage from "../../Assets/Banner.png";
@@ -36,8 +35,6 @@ const Banner = () => {
       <div className="BannerContainer">
         <img src={BannerImage} className="BannerImage" />
       </div>
-
-      <Filter />
     </div>
   );
 };

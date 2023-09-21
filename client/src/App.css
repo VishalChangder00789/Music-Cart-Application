@@ -9,7 +9,7 @@
   display: flex;
   /* border: 2px solid red; */
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   min-height: 100vh;
   font-family: "DM Sans", sans-serif;
@@ -21,4 +21,26 @@
   flex-direction: column;
   /* border: 2px solid blueviolet; */
   width: 90%;
+  margin-top: 1%;
+}
+
+/*SCROLLBAR*/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(46, 0, 82);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

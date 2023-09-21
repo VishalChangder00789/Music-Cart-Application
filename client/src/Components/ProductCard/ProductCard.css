@@ -1,0 +1,15 @@
+.ProductCardContainer-Grid {
+  border: 2px solid red;
+  /* width: 240px; */
+  flex-basis: 20%;
+  height: 400px;
+  margin: 1%;
+}
+
+.ProductCardContainer-List {
+  border: 2px solid red;
+  /* width: 240px; */
+  /* flex-basis: 20%; */
+  height: 150px;
+  margin-top: 2%;
+}

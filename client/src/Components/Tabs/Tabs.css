@@ -1,0 +1,20 @@
+.TabsContainer {
+  display: flex;
+  /* border: 2px solid grey; */
+  min-width: 15%;
+  height: 30px;
+  border-radius: 14px;
+  justify-content: center;
+  align-items: center;
+  background: #d9d9d9;
+  margin-left: 3%;
+  font-size: smaller;
+}
+
+.TabsOptions {
+  border: 2px solid green;
+  position: relative;
+  top: 55px;
+  left: -10%;
+  background: white;
+}

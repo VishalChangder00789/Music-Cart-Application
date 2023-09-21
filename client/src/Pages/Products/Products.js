@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Products.css";
+import axios from "axios";
+
 import ProductSuperHeader from "../../Components/ProductHeader/ProductSuperHeader";
 import Banner from "../../Components/Banner/Banner";
+import Footer from "../../Components/Footer/Footer";
+import ProductCard from "../../Components/ProductCard/ProductCard";
 
-const Products = () => {
+import { getProducts } from "../../Controller/productController";
+import FilterMechanism from "../../Components/FilterMechanism/FilterMechanism";
+
+const Products = ({ setSelectedProduct }) => {
+  const [products, setProducts] = useState([]);
+  const [showGrid, setShowGrid] = useState(false);
+
+  useEffect(() => {
+    if (products.length === 0) {
+      axios.get("https://dummyjson.com/products").then((data) => {
+        setProducts(data.data.products);
+      });
+    }
+  }, []);
+
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
       <ProductSuperHeader
@@ -17,7 +35,38 @@ const Products = () => {
       />
       <div className="_GLOBAL_MAIN_CONTENT_HOLDER">
         <Banner />
+        <FilterMechanism setShowGrid={setShowGrid} />
+
+        {/* 
+        
+          Put all the products here
+        
+        
+        */}
+        <div
+          className={showGrid ? `ProductHandler-Grid` : `ProductHandler-List`}
+        >
+          {products
+            ? products.map((product) => {
+                return (
+                  <ProductCard
+                    product={product}
+                    showGrid={showGrid}
+                    setSelectedProduct={setSelectedProduct}
+                  />
+                );
+              })
+            : ""}
+        </div>
       </div>
+
+      <Footer
+        ContainerHeight="40px"
+        ContainerWidth="100%"
+        FooterMessage="Musicart | All rights reserved"
+        FooterBackground="
+        #2E0052"
+      />
     </div>
   );
 };

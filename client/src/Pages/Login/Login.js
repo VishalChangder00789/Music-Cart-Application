@@ -17,9 +17,9 @@ const Login = () => {
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
       <LogoHeader
-        ContainerHeight="100px"
+        ContainerHeight="60px"
         ContainerWidth="100%"
-        LogoHeight="40%"
+        LogoHeight="70%"
         LogoWidth="10%"
       />
       <FormContainer
