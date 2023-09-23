@@ -1,0 +1,27 @@
+.ViewCartButtonContainer {
+  display: flex;
+  /* border: 2px solid #b6b6b6; */
+  border-radius: 4px;
+  flex-direction: column;
+  justify-content: space-around;
+  font-family: "DM Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
+  margin-top: 8%;
+}
+
+.ViewCartButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  outline: none;
+  padding-left: 2%;
+  font-size: 12px;
+  font-weight: 500;
+  font-size: 15px;
+  border: 2px solid;
+}
+
+.ViewCartButton:hover {
+  cursor: pointer;
+}
