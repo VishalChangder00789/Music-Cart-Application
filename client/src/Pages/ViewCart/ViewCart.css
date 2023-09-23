@@ -1,0 +1,66 @@
+.ViewCartInnerBody {
+  display: flex;
+  /* border: 2px solid red; */
+  flex-direction: column;
+}
+
+.ViewCartLogo {
+  /* border: 2px solid green; */
+  width: 100%;
+  margin-top: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ViewCartLogo > img {
+  height: 100%;
+  width: 8%;
+}
+
+.ViewCart-BiSection {
+  display: flex;
+  /* border: 2px solid red; */
+}
+
+.CartDetails {
+  /* border: 2px solid green; */
+  display: flex;
+  width: 70%;
+  margin: 2%;
+  border-top: 2px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
+  padding: 1%;
+}
+
+.TotalPricing {
+  width: 29.05%;
+  min-height: 250px;
+  margin-left: 0.5%;
+  border-left: 2px solid #e1e1e1;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* border: 2px solid maroon; */
+  min-height: 10px;
+}
+
+.PricingText {
+  /* border: 2px solid red; */
+}
+
+.PricingText > span {
+  font-weight: 700;
+  /* border: 2px solid orange; */
+}
+
+.PricingText > div {
+  margin-top: 2%;
+}
+
+.CartTotalAmount {
+  /* border: 2px solid gray */
+  margin-top: 20%;
+  font-weight: 700;
+}
