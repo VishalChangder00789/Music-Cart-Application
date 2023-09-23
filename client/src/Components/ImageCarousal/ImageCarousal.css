@@ -1,0 +1,44 @@
+.ImageCarousalContainer {
+  /* border: 2px solid rgb(255, 0, 255); */
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.BigImage {
+  border: 2px solid black;
+  width: 100%;
+  height: 72%;
+  border-radius: 7px;
+}
+
+.BigImage > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+}
+
+.ImageCollection {
+  /* border: 2px solid red; */
+  width: 100%;
+  height: 26%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SmallerImages {
+  height: 80%;
+  width: 25%;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 7px;
+}
+
+.SmallerImages > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
