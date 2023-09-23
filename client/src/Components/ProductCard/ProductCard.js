@@ -2,23 +2,36 @@ import React from "react";
 import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { SINGLEPRODUCT } from "../../Constants/Client_Path";
+import { sendProductIdToLocalStorage } from "../../Controller/localStorageConnection";
 
 const ProductCard = ({ product, showGrid, setSelectedProduct }) => {
   const navigate = useNavigate();
 
-  const handleProductClick = (sentProduct) => {
-    setSelectedProduct(sentProduct);
+  const handleProductClick = async (e, sentProduct) => {
+    e.preventDefault();
+    await setSelectedProduct(sentProduct);
+    await sendProductIdToLocalStorage(sentProduct);
     navigate(SINGLEPRODUCT);
   };
 
   return (
     <div
-      onClick={() => handleProductClick(product)}
+      key={product._id}
+      onClick={(e) => handleProductClick(e, product._id)}
       className={
         showGrid ? `ProductCardContainer-Grid` : `ProductCardContainer-List`
       }
     >
-      <div className="">{product.title}</div>
+      <div className="ImageContainer">
+        <img src={product.imageURL[0]} />
+      </div>
+      <div className="ProductDetailsContainer">
+        <span>{product.codeName}</span>
+        <span>Price - &#8377; {product.price}</span>
+        <span>
+          {product.color} | {product.productType.toUpperCase()}
+        </span>
+      </div>
     </div>
   );
 };

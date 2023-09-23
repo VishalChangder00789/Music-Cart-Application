@@ -12,14 +12,14 @@ import FilterMechanism from "../../Components/FilterMechanism/FilterMechanism";
 
 const Products = ({ setSelectedProduct }) => {
   const [products, setProducts] = useState([]);
-  const [showGrid, setShowGrid] = useState(false);
+  const [showGrid, setShowGrid] = useState(true);
 
   useEffect(() => {
-    if (products.length === 0) {
-      axios.get("https://dummyjson.com/products").then((data) => {
-        setProducts(data.data.products);
-      });
-    }
+    axios.get("http://localhost:8000/api/v1/_PRODUCTS").then((data) => {
+      // setProducts(data.data.products);
+      console.log(data.data.products);
+      setProducts(data.data.products);
+    });
   }, []);
 
   return (
@@ -34,7 +34,17 @@ const Products = ({ setSelectedProduct }) => {
         ImageWidth="20%"
       />
       <div className="_GLOBAL_MAIN_CONTENT_HOLDER">
-        <Banner />
+        <Banner
+          showAdBanner
+          productPath={false}
+          showClassifiedButton={false}
+          navigationRoute
+          BannerContainerWidth="100%"
+          LogoContainerWidth="20%"
+          LogoContainerHeight="40px"
+          LogoWidth="60%"
+          LogoHeigth="100%"
+        />
         <FilterMechanism setShowGrid={setShowGrid} />
 
         {/* 

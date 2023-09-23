@@ -33,3 +33,7 @@
   color: white;
   margin-right: 2%;
 }
+
+.AuthorizationContent :hover {
+  cursor: pointer;
+}

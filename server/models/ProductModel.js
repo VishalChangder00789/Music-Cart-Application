@@ -7,14 +7,17 @@ const productSchema = mongoose.Schema({
     type: String,
     required: [true, "A product should have a name"],
   },
-
+  imageURL: {
+    type: [String],
+    required: [true, "A product should have multiple images"],
+  },
   rating: {
     type: Number,
     required: [true, "Aproduct should have a rating"],
     min: 1,
     max: 5,
   },
-  Color: {
+  color: {
     type: String,
     required: [true, "A product should have a color"],
   },
@@ -31,6 +34,18 @@ const productSchema = mongoose.Schema({
   brand: {
     type: String,
     required: [true, "A product needs a brand"],
+  },
+  available: {
+    type: Boolean,
+    required: [true, "A product should be In-Stock"],
+  },
+  price: {
+    type: Number,
+    required: [true, "A product cannot be free of cost"],
+  },
+  codeName: {
+    type: String,
+    required: [true, "A product should have a code name"],
   },
 });
 

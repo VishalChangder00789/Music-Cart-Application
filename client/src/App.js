@@ -7,14 +7,16 @@ import {
   REGISTER,
   PRODUCTS,
   SINGLEPRODUCT,
+  VIEWCART,
 } from "./Constants/Client_Path";
 
 // Files
+import { useState } from "react";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Products from "./Pages/Products/Products";
-import { useState } from "react";
 import SingleProduct from "./Pages/SingleProduct/SingleProduct";
+import ViewCart from "./Pages/ViewCart/ViewCart";
 
 function App() {
   const [SelectedProduct, setSelectedProduct] = useState({});
@@ -33,6 +35,7 @@ function App() {
             path={SINGLEPRODUCT}
             element={<SingleProduct SelectedProduct={SelectedProduct} />}
           />
+          <Route path={VIEWCART} element={<ViewCart />} />
         </Routes>
       </BrowserRouter>
     </div>

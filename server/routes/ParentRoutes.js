@@ -5,16 +5,19 @@ const authController = require("../controller/authController");
 const cartController = require("../controller/cartController");
 const productController = require("../controller/productController");
 
+// USERS
 router.route("/_REGISTER").post(authController.register);
 router.route("/_LOGIN").post(authController.login);
 router.route("/_USERS").get(userController.getAllUsers);
 
+// CART
 router.route("/_USERCREATECART").post(cartController.createCart);
 router
   .route("/_USERCREATECART/:id")
   .patch(authController.protect, cartController.updateCartItem)
   .get(authController.protect, cartController.getCartItemById);
 
+// PRODUCTS
 router
   .route("/_PRODUCTS")
   .get(productController.getAllProducts)

@@ -17,6 +17,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   return res.status(201).json({
     status: "Success",
     message: "Products are fetched",
+    length: products.length,
     products,
   });
 });
@@ -41,10 +42,14 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
-  const updatedProduct = await findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  const updatedProduct = await Product.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   return res.status(201).json({
     status: "Success",

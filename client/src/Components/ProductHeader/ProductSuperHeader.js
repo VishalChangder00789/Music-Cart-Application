@@ -4,6 +4,8 @@ import "./ProductSuperHeader.css";
 // File Imports
 import PhoneLogo from "../../Assets/Phone.png";
 import { getTokenFromLocalStorage } from "../../Controller/localStorageConnection";
+import { useNavigate } from "react-router-dom";
+import { LOGIN, REGISTER } from "../../Constants/Client_Path";
 
 const ProductSuperHeader = ({
   PhoneNumber,
@@ -17,6 +19,7 @@ const ProductSuperHeader = ({
   // get token from localStoarge
   const token = getTokenFromLocalStorage();
 
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -35,8 +38,8 @@ const ProductSuperHeader = ({
 
       {!token ? (
         <div className="AuthorizationContent">
-          <div>Login</div>
-          <div>Register</div>
+          <div onClick={() => navigate(LOGIN)}>Login</div>
+          <div onClick={() => navigate(REGISTER)}>Register</div>
         </div>
       ) : (
         <div>Logout</div>
