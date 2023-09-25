@@ -1,39 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "./SingleProduct.css";
-import ProductSuperHeader from "../../Components/ProductHeader/ProductSuperHeader";
+import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuperHeader";
 import Banner from "../../Components/Banner/Banner";
 import Button from "../../Components/Buttons/Button";
 import Footer from "../../Components/Footer/Footer";
 import axios, { Axios } from "axios";
-import { GET_PRODUCT_BY_ID } from "../../Constants/Server_Path";
 import {
+  ADD_ITEM_TO_CART,
+  GET_PRODUCT_BY_ID,
+} from "../../Constants/Server_Path";
+import {
+  getIdsFromLocalStorage,
   getProductIdFromLocalStorage,
   getTokenFromLocalStorage,
 } from "../../Controller/localStorageConnection";
 import ImageCarousal from "../../Components/ImageCarousal/ImageCarousal";
 import Stars from "../../Components/Stars/Stars";
 import { useNavigate } from "react-router-dom";
-import { PRODUCTS } from "../../Constants/Client_Path";
+import { LOGIN, PRODUCTS, VIEWCART } from "../../Constants/Client_Path";
 
 const SingleProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:8000/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
-        {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGMzNzUzMDUwNzg4NmI2Y2ZlNjAzYiIsImlhdCI6MTY5NTQwODQwNywiZXhwIjoxNzAzMTg0NDA3fQ.d5btwW-Vbei8MN7GkG-YAk1_-B9PhuNBmkfE7Wc2NIs `,
-          },
-        }
-      )
-      .then((response) => {
-        setSelectedProduct(response.data.fetchedProduct);
-      })
-      .catch((err) => {
-        console.log("Error is : ", err);
-      });
+    if (getTokenFromLocalStorage()) {
+      axios
+        .get(
+          `http://localhost:8000/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+            },
+          }
+        )
+        .then((response) => {
+          setSelectedProduct(response.data.fetchedProduct);
+        })
+        .catch((err) => {
+          console.log("Error is : ", err);
+        });
+    } else {
+      navigate(LOGIN);
+    }
   }, []);
 
   useEffect(() => {
@@ -41,6 +49,35 @@ const SingleProduct = () => {
   });
 
   const navigate = useNavigate();
+
+  const handleAddToCart = async (productId) => {
+    // Only add the item to the cart
+    const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+    const apiPath = ADD_ITEM_TO_CART(userId, productId);
+    const apiUrl = await axios
+      .post(apiPath)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleBuyNow = async (productId) => {
+    // add the item to the cart and navigate to cart
+    const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+    const apiPath = ADD_ITEM_TO_CART(userId, productId);
+    const apiUrl = await axios
+      .post(apiPath)
+      .then((response) => {
+        console.log(response);
+        navigate(VIEWCART);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER_NOSPACING">
@@ -100,10 +137,14 @@ const SingleProduct = () => {
                   <span>Brand - </span>
                   <div>{selectedProduct.brand}</div>
                 </div>
-
+                {/* ADD ITEMS TO THE CART */}
                 <div className="SingleProductSeperatedContainer Vertical">
-                  <button>Add To Cart</button>
-                  <button>Buy Now</button>
+                  <button onClick={() => handleAddToCart(selectedProduct._id)}>
+                    Add To Cart
+                  </button>
+                  <button onClick={() => handleBuyNow(selectedProduct._id)}>
+                    Buy Now
+                  </button>
                 </div>
               </div>
             </div>

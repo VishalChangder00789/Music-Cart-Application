@@ -1,5 +1,6 @@
 const catchAsync = require("../utils/catchAsync");
 const userModel = require("../models/UserModel");
+const cartModel = require("../models/CartModel");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
@@ -13,15 +14,15 @@ const signToken = (id) => {
 // The user will be signing up and will be generating a jsonWebToken
 exports.register = catchAsync(async (req, res, next) => {
   const newUser = await userModel.create(req.body);
+  const newUserCart = await cartModel.create({ user: newUser._id, items: [] });
 
   const token = signToken(newUser._id);
 
   return res.status(201).json({
-    status: "success",
+    status: "User is Registered",
     token,
-    data: {
-      newUser,
-    },
+    userId: newUser._id,
+    cartId: newUserCart._id,
   });
 });
 
@@ -50,12 +51,15 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // sign the token
   const token = signToken(user._id);
+  const cartId = await cartModel.findOne({ user: user._id });
 
-  res.status(201).json({
+  return res.status(201).json({
     status: "success",
     token,
     data: {
       userName: user.name,
+      userId: user._id,
+      cartId: cartId._id,
     },
   });
 });

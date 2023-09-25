@@ -1,39 +1,75 @@
 const catchAsync = require("../utils/catchAsync");
 const Cart = require("../models/CartModel");
 
-exports.createCart = catchAsync(async (req, res, next) => {
-  const cart = await Cart.create(req.body);
+exports.getCarts = catchAsync(async (req, res, next) => {
+  const carts = await Cart.find();
 
   return res.status(201).json({
-    status: "success",
-    message: "cart is created for user",
+    status: "Success",
+    length: carts.length,
+    carts,
+  });
+});
+
+exports.addItemToCart = catchAsync(async (req, res, next) => {
+  const userId = req.params.userId;
+  const productId = req.params.productId;
+  const quantity = req.body.quantity || 1; // Default to 1 if quantity not specified
+
+  const cart = await Cart.findOne({ user: userId });
+
+  const existingItem = cart.items.find((item) =>
+    item.product.equals(productId)
+  );
+
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.items.push({ product: productId, quantity: quantity });
+  }
+
+  await cart.save();
+
+  return res.status(201).json({
+    status: "Success",
     cart,
   });
 });
 
-exports.getCartItemById = catchAsync(async (req, res, next) => {
-  const cartItem = await Cart.findById(req.params.id);
+exports.getUserItemsFromCart = catchAsync(async (req, res, next) => {
+  const cartId = req.params.cartId;
 
-  res.status(201).json({
+  const UserCart = await Cart.findById(cartId);
+
+  return res.status(201).json({
     status: "Success",
-    cartItem,
+    UserCart,
   });
 });
 
-exports.updateCartItem = catchAsync(async (req, res, next) => {
-  const updatedCartItem = await Cart.findByIdAndUpdate(
-    req.params.id,
-    { $push: { products: req.body } },
-    {
-      new: true,
-      runValidators: true,
-    }
+exports.removeItemFromCart = catchAsync(async (req, res, next) => {
+  const userId = req.params.userId;
+  const productId = req.params.productId;
+
+  // Getting the cart of User
+  const cart = await Cart.findOne({ user: userId });
+
+  const itemIndex = cart.items.findIndex((item) =>
+    item.product.equals(productId)
   );
 
-  res.status(201).json({
-    status: "Success",
-    data: {
-      updatedCartItem,
-    },
-  });
+  if (itemIndex !== -1) {
+    if (cart.items[itemIndex].quantity > 1) {
+      cart.items[itemIndex].quantity -= 1;
+    } else {
+      cart.items.splice(itemIndex, 1);
+    }
+
+    await cart.save();
+
+    return res.status(201).json({
+      status: "Item is removed",
+      cart,
+    });
+  }
 });

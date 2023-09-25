@@ -22,15 +22,38 @@ const ProductCard = ({ product, showGrid, setSelectedProduct }) => {
         showGrid ? `ProductCardContainer-Grid` : `ProductCardContainer-List`
       }
     >
-      <div className="ImageContainer">
+      <div className={showGrid ? `ImageContainer` : `ImageContainer-List`}>
         <img src={product.imageURL[0]} />
       </div>
-      <div className="ProductDetailsContainer">
-        <span>{product.codeName}</span>
-        <span>Price - &#8377; {product.price}</span>
-        <span>
-          {product.color} | {product.productType.toUpperCase()}
-        </span>
+      <div
+        className={
+          showGrid ? `ProductDetailsContainer` : `ProductDetailsContainer-List`
+        }
+      >
+        {showGrid ? (
+          <>
+            <span>{product.codeName}</span>
+            <span>Price - &#8377; {product.price}</span>
+            <span>
+              {product.color} | {product.productType.toUpperCase()}
+            </span>
+          </>
+        ) : (
+          <div className="List_Product_Detail">
+            <span className="Heading ListProductDetailHeading">
+              {product.codeName}
+            </span>
+            <span className="ListProductDetail_Subheading">
+              Price - &#8377; {product.price}
+            </span>
+            <span className="ListProductDetail_Subheading">
+              {product.color} | {product.productType.toUpperCase()}
+            </span>
+            <span className="ListProductDetail_Subheading">
+              {product.productName}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

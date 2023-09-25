@@ -12,6 +12,7 @@ const Button = ({
   borderColor,
   marginTop,
   borderRadius,
+  ButtonActivation,
 }) => {
   return (
     <div
@@ -24,6 +25,7 @@ const Button = ({
       className="ButtonContainer"
     >
       <button
+        onClick={ButtonActivation}
         className="Button"
         style={{
           height: `${ButtonHeight}`,

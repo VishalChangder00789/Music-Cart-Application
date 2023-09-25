@@ -12,7 +12,32 @@ exports.createProuct = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
-  const products = await Product.find();
+  const queryObj = {};
+
+  if (req.query.color) {
+    queryObj.color = req.query.color;
+  }
+
+  if (req.query.brand) {
+    queryObj.brand = req.query.brand;
+  }
+
+  if (req.query.productType) {
+    queryObj.productType = req.query.productType;
+  }
+
+  if (req.query.price) {
+    queryObj.price = req.query.price;
+  }
+
+  if (req.query.search) {
+    queryObj.productName = { $regex: new RegExp(req.query.search, "i") };
+  }
+
+  console.log(req.query);
+  console.log(queryObj);
+
+  const products = await Product.find(queryObj);
 
   return res.status(201).json({
     status: "Success",

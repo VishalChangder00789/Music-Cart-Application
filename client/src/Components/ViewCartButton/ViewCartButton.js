@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./ViewCartButton.css";
-import { VIEWCART } from "../../Constants/Client_Path";
+import { LOGIN, VIEWCART } from "../../Constants/Client_Path";
 import { useNavigate } from "react-router-dom";
+import { getTokenFromLocalStorage } from "../../Controller/localStorageConnection";
 
 const ViewCartButton = ({
   label,
@@ -18,7 +19,11 @@ const ViewCartButton = ({
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
-    navigate(path);
+    if (!getTokenFromLocalStorage()) {
+      navigate(LOGIN);
+    } else {
+      navigate(path);
+    }
   };
 
   return (

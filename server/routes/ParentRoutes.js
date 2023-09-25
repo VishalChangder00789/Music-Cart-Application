@@ -11,11 +11,21 @@ router.route("/_LOGIN").post(authController.login);
 router.route("/_USERS").get(userController.getAllUsers);
 
 // CART
-router.route("/_USERCREATECART").post(cartController.createCart);
+
+// Add Items to the cart and increase the quantity of the item
 router
-  .route("/_USERCREATECART/:id")
-  .patch(authController.protect, cartController.updateCartItem)
-  .get(authController.protect, cartController.getCartItemById);
+  .route("/_USERS/:userId/_ADDPRODUCT/:productId")
+  .post(cartController.addItemToCart);
+
+// Remove items from the cart
+router
+  .route("/_USERS/:userId/_ADDPRODUCT/:productId")
+  .delete(cartController.removeItemFromCart);
+
+router.route("/_CARTS").get(cartController.getCarts);
+
+router.route("/_CARTS/:cartId").get(cartController.getUserItemsFromCart);
+// Remove the item when the item quantity is 0
 
 // PRODUCTS
 router

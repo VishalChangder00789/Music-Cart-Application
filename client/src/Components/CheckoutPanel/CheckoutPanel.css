@@ -1,0 +1,27 @@
+.CheckoutPanelContainer {
+  display: flex;
+  /* border: 2px solid red; */
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 2px solid #e1e1e1;
+}
+
+.CheckoutPanelContainer_CartContent {
+  border: 2px solid red;
+}
+
+.CheckoutPanelContainer_Title {
+  display: flex;
+  width: 40%;
+  color: #b52b00;
+  font-weight: 600;
+  margin: 2%;
+}
+
+.CheckoutPanelContainer_Details {
+  display: flex;
+  width: 60%;
+  color: #797979;
+  margin: 2%;
+  /* border: 2px solid yellow; */
+}

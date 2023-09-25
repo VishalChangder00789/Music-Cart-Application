@@ -1,16 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ViewCart.css";
-import ProductSuperHeader from "../../Components/ProductHeader/ProductSuperHeader";
+import axios from "axios";
+import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuperHeader";
 import Footer from "../../Components/Footer/Footer";
 import Banner from "../../Components/Banner/Banner";
+import CartItem from "../../Components/CartItem/CartItem";
 
 // Files
 import CartLogo from "../../Assets/mycart.png";
 
 import { PRODUCTS } from "../../Constants/Client_Path";
 import Button from "../../Components/Buttons/Button";
+import { GET_PRODUCT_BY_ID, GET_USER_CART } from "../../Constants/Server_Path";
+import { json, useNavigate } from "react-router-dom";
+import {
+  getIdsFromLocalStorage,
+  getTokenFromLocalStorage,
+} from "../../Controller/localStorageConnection";
+import {
+  GetDiscountedPrice,
+  GetPriceConvientFees,
+  GetTotalPrice,
+} from "../../Controller/Utilities";
 
 const ViewCart = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [mergedData, setMergedData] = useState([]);
+  const navigate = useNavigate();
+  const handlePlaceOrderNavigation = () => {
+    navigate("/checkout");
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          GET_USER_CART(JSON.parse(getIdsFromLocalStorage()).cartId)
+        );
+
+        const cartItemsFromApi = response.data.UserCart.items;
+        setCartItems(cartItemsFromApi);
+
+        const productDetailRequests = cartItemsFromApi.map((item) =>
+          axios.get(`http://localhost:8000/api/v1/_PRODUCTS/${item.product}`, {
+            headers: {
+              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+            },
+          })
+        );
+
+        const productDetailResponses = await axios.all(productDetailRequests);
+
+        const mergedData = cartItemsFromApi.map((cartItem, index) => ({
+          ...cartItem,
+          details: productDetailResponses[index].data,
+        }));
+
+        setMergedData(mergedData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER_NOSPACING">
       <ProductSuperHeader
@@ -41,17 +95,41 @@ const ViewCart = () => {
             <img src={CartLogo} />
           </div>
           <div className="ViewCart-BiSection">
-            <div className="CartDetails">DE</div>
+            <div className="CartDetails">
+              {mergedData
+                ? mergedData.map((item) => {
+                    return <CartItem key={item._id} singleProduct={item} />;
+                  })
+                : ""}
+            </div>
             <div className="TotalPricing">
               <div className="PricingText">
-                <span>PRICE DETAILS</span>
-                <div>Total MRP {"            "}120000000</div>
-                <div>Discount on MRP {"            "}50%</div>
-                <div>Convenience Fee {"            "}2%</div>
+                <span className="PR_Heading">PRICE DETAILS</span>
+                <div className="PR_Heading">
+                  <div>Total MRP </div>
+                  <div className="SubHeading">{GetTotalPrice(mergedData)}</div>
+                </div>
+                <div className="PR_Heading">
+                  <div>Discount on MRP(50%)</div>
+                  <div className="SubHeading">
+                    {GetDiscountedPrice(GetTotalPrice(mergedData), 50)}
+                  </div>
+                </div>
+                <div className="PR_Heading">
+                  <div>Convenience Fee(2%)</div>
+                  <div className="SubHeading">
+                    {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+                  </div>
+                </div>
               </div>
 
               <div className="CartTotalAmount">
-                <span>Total Amount {"            "}34999</span>
+                <div className="PR_Heading">
+                  <div>Total Amount </div>
+                  <div className="SubHeading">
+                    {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+                  </div>
+                </div>
               </div>
               <Button
                 label="PLACE ORDER"
@@ -64,9 +142,15 @@ const ViewCart = () => {
                 borderColor="white"
                 marginTop="5%"
                 borderRadius="7px"
+                ButtonActivation={handlePlaceOrderNavigation}
               />
             </div>
           </div>
+        </div>
+
+        <div className="Additional_Information">
+          <div className="items">{mergedData.length} Item</div>
+          <div className="items">&#8377;{GetTotalPrice(mergedData)}</div>
         </div>
       </div>
 

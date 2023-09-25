@@ -27,6 +27,7 @@ const FormContainer = ({
   bottomMessage,
   arrayOfStates,
   containerMarginTop,
+  ButtonActivation,
 }) => {
   const renderInputs = [];
   for (let i = 0; i < numberOFInputs; i++) {
@@ -72,6 +73,7 @@ const FormContainer = ({
           ButtonWidth={ButtonWidth}
           textColor={ButtontextColor}
           background="#2E0052"
+          ButtonActivation={ButtonActivation}
         />
         <div className="BottomMessage">{bottomMessage}</div>
       </div>

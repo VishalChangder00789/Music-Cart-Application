@@ -1,0 +1,116 @@
+.ContentHolder {
+  /* border: 2px solid rgb(250, 4, 226); */
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.HeadingContainer {
+  /* border: 2px solid green; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-top: 2%;
+}
+
+.CheckoutContentHolder {
+  display: flex;
+  /* border: 2px solid pink; */
+  width: 100%;
+  justify-content: space-between;
+}
+
+.CheckoutContentHolder_CheckoutDetais {
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid navy; */
+  width: 58%;
+  margin-top: 5%;
+}
+
+.CheckoutContentHolder_CheckoutPricingDetails {
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid rgb(0, 128, 4); */
+  width: 38%;
+  margin-top: 5%;
+
+  /* padding: 2%; */
+}
+
+/**/
+
+.CheckoutContentHolder_CheckoutPricingDetails {
+  /* border: 2px solid wheat; */
+  min-height: 150px;
+  max-height: 350px;
+  width: 25%;
+  padding: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CheckoutContentHolder_CheckoutPricingDetails_Container {
+  /* border: 2px solid red; */
+  width: 90%;
+  height: 90%;
+  border-radius: 7px;
+  box-shadow: 2px 2px 12px 2px rgba(80, 80, 80, 0.189);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CheckoutContentHolder_CheckoutPricingDetails_Container_PlaceOrderButton {
+  background: #ffd600;
+  width: 80%;
+  height: 12%;
+  border: none;
+  outline: none;
+  margin-top: 8%;
+  border-radius: 7px;
+  font-weight: 700;
+}
+
+.Information {
+  width: 80%;
+  margin-top: 2%;
+  font-size: 10px;
+  padding: 5%;
+  border-bottom: 2px solid #e1e1e1;
+}
+
+.MainDetails {
+  display: flex;
+  width: 80%;
+  margin-top: 5%;
+  flex-direction: column;
+  /* border: 2px solid red; */
+  border-bottom: 2px solid #e1e1e1;
+}
+
+.PriceDetails {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  font-size: 14px;
+}
+
+.PriceDetaisItems {
+  display: flex;
+  /* border: 2px solid red; */
+  justify-content: space-between;
+}
+
+.OrderTotal {
+  width: 80%;
+  margin-top: 8%;
+  color: #b52b00;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}

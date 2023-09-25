@@ -17,6 +17,7 @@ const LinkPages = ({
   lineHeight,
   lineWidth,
   ButtonBorderColor,
+  handleGotoRegister,
 }) => {
   return (
     <div
@@ -40,6 +41,7 @@ const LinkPages = ({
         ButtonWidth={ButtonWidth}
         ButtonHeight={ButtonHeight}
         borderColor={ButtonBorderColor}
+        ButtonActivation={handleGotoRegister}
       />
     </div>
   );

@@ -1,20 +1,44 @@
 .TabsContainer {
   display: flex;
   /* border: 2px solid grey; */
-  min-width: 15%;
+  min-width: 25%;
   height: 30px;
   border-radius: 14px;
   justify-content: center;
   align-items: center;
   background: #d9d9d9;
   margin-left: 3%;
-  font-size: smaller;
+  font-size: 12px;
+  font-weight: 700;
+  position: relative;
 }
 
 .TabsOptions {
-  border: 2px solid green;
-  position: relative;
-  top: 55px;
-  left: -10%;
+  /* border: 2px solid green; */
+  position: absolute;
+  top: 100%;
   background: white;
+  box-shadow: 2px 2px 2px 2px rgba(48, 48, 48, 0.177);
+  top: 80%;
+  font-size: 12px;
+  border-radius: 4px;
+  min-width: 100px;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
+  padding: 10%;
+  font-weight: 500;
+}
+
+.TabsItem {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  background: rgba(217, 217, 217, 0.085);
+  padding: 5%;
+}
+
+.TabsItem:hover {
+  cursor: pointer;
+  background: rgba(130, 130, 130, 0.085);
 }

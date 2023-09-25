@@ -5,7 +5,7 @@ import "./ProductSuperHeader.css";
 import PhoneLogo from "../../Assets/Phone.png";
 import { getTokenFromLocalStorage } from "../../Controller/localStorageConnection";
 import { useNavigate } from "react-router-dom";
-import { LOGIN, REGISTER } from "../../Constants/Client_Path";
+import { LOGIN, PRODUCTS, REGISTER } from "../../Constants/Client_Path";
 
 const ProductSuperHeader = ({
   PhoneNumber,
@@ -42,7 +42,16 @@ const ProductSuperHeader = ({
           <div onClick={() => navigate(REGISTER)}>Register</div>
         </div>
       ) : (
-        <div>Logout</div>
+        <div
+          onClick={() => {
+            localStorage.removeItem("userToken");
+            localStorage.removeItem("UserIds");
+            navigate(PRODUCTS);
+          }}
+          className="AuthorizationContent"
+        >
+          Logout
+        </div>
       )}
     </div>
   );

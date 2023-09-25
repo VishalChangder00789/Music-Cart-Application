@@ -2,25 +2,55 @@ import React, { useEffect, useState } from "react";
 import "./Products.css";
 import axios from "axios";
 
-import ProductSuperHeader from "../../Components/ProductHeader/ProductSuperHeader";
+import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuperHeader";
 import Banner from "../../Components/Banner/Banner";
 import Footer from "../../Components/Footer/Footer";
 import ProductCard from "../../Components/ProductCard/ProductCard";
-
-import { getProducts } from "../../Controller/productController";
 import FilterMechanism from "../../Components/FilterMechanism/FilterMechanism";
+import { GET_ALL_PRODUCTS } from "../../Constants/Server_Path";
 
 const Products = ({ setSelectedProduct }) => {
   const [products, setProducts] = useState([]);
   const [showGrid, setShowGrid] = useState(true);
 
+  const [Parent_HeadPhoneType, Parent_setHeadPhoneType] = useState("");
+  const [Parent_Company, Parent_setCompany] = useState("");
+  const [Parent_Color, Parent_setColor] = useState("");
+  const [Parent_Price, Parent_setPrice] = useState("");
+  const [Parent_SearchTerm, Parent_setSearchTerm] = useState("");
+
   useEffect(() => {
-    axios.get("http://localhost:8000/api/v1/_PRODUCTS").then((data) => {
+    axios.get(GET_ALL_PRODUCTS).then((data) => {
       // setProducts(data.data.products);
-      console.log(data.data.products);
       setProducts(data.data.products);
     });
   }, []);
+
+  useEffect(() => {
+    // if (
+    //   Parent_Color ||
+    //   Parent_Company ||
+    //   Parent_HeadPhoneType ||
+    //   Parent_Price ||
+    //   Parent_SearchTerm
+    // ) {
+    axios
+      .get(
+        `http://localhost:8000/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
+      )
+      .then((response) => {
+        console.log(response);
+        setProducts(response.data.products);
+        console.log(products);
+      });
+    //}
+  }, [
+    Parent_HeadPhoneType,
+    Parent_Company,
+    Parent_Color,
+    Parent_Price,
+    Parent_SearchTerm,
+  ]);
 
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
@@ -45,7 +75,14 @@ const Products = ({ setSelectedProduct }) => {
           LogoWidth="60%"
           LogoHeigth="100%"
         />
-        <FilterMechanism setShowGrid={setShowGrid} />
+        <FilterMechanism
+          setShowGrid={setShowGrid}
+          Parent_setHeadPhoneType={Parent_setHeadPhoneType}
+          Parent_setCompany={Parent_setCompany}
+          Parent_setColor={Parent_setColor}
+          Parent_setPrice={Parent_setPrice}
+          Parent_setSearchTerm={Parent_setSearchTerm}
+        />
 
         {/* 
         
