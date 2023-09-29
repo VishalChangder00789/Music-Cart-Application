@@ -47,20 +47,16 @@ const Products = ({ setSelectedProduct }) => {
 
   useEffect(() => {
     if (Parent_Featured === "Price : Lowest") {
-      axios
-        .get(`http://localhost:${CLIENT_PORT}/api/v1/price_lowest`)
-        .then((response) => {
-          console.log(response.data.products);
-          setProducts(response.data.products);
-        });
+      axios.get(`${DEPLOYED_BASE_URL}/api/v1/price_lowest`).then((response) => {
+        console.log(response.data.products);
+        setProducts(response.data.products);
+      });
     }
 
     if (Parent_Featured === "Name : (A-Z)") {
-      axios
-        .get(`http://localhost:10000/api/v1/sortAscending`)
-        .then((response) => {
-          setProducts(response.data.products);
-        });
+      axios.get(`${DEPLOYED_BASE_URL}/sortAscending`).then((response) => {
+        setProducts(response.data.products);
+      });
     }
   }, [Parent_Featured]);
 
