@@ -5,6 +5,7 @@ import axios from "axios";
 
 // Files
 import _GLOBAL_MOBILE_PRODUCT_CARD from "../_GLOBAL_MOBILE_PRODUCT_CARD/_GLOBAL_MOBILE_PRODUCT_CARD";
+import { CLIENT_PORT } from "../../../Constants/Client_Path";
 
 const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
   setSelectedProduct,
@@ -34,7 +35,7 @@ const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8000/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
+        `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
       )
       .then((response) => {
         setProducts(response.data.products);
@@ -51,7 +52,7 @@ const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
   useEffect(() => {
     if (Parent_Featured === "Price : Lowest") {
       axios
-        .get(`http://localhost:8000/api/v1/price_lowest`)
+        .get(`http://localhost:${CLIENT_PORT}/api/v1/price_lowest`)
         .then((response) => {
           setProducts(response.data.products);
         });
@@ -59,7 +60,7 @@ const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
 
     if (Parent_Featured === "Name : (A-Z)") {
       axios
-        .get(`http://localhost:8000/api/v1/sortAscending`)
+        .get(`http://localhost:${CLIENT_PORT}/api/v1/sortAscending`)
         .then((response) => {
           setProducts(response.data.products);
         });

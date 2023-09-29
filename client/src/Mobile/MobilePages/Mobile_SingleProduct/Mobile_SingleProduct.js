@@ -3,7 +3,7 @@ import "./Mobile_SingleProduct.css";
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../../../Controller/localStorageConnection";
 import { getProductIdFromLocalStorage } from "../../../Controller/localStorageConnection";
-import { LOGIN, PRODUCTS } from "../../../Constants/Client_Path";
+import { CLIENT_PORT, LOGIN, PRODUCTS } from "../../../Constants/Client_Path";
 import { useNavigate } from "react-router-dom";
 import { getIdsFromLocalStorage } from "../../../Controller/localStorageConnection";
 import { ADD_ITEM_TO_CART } from "../../../Constants/Server_Path";
@@ -76,7 +76,7 @@ const Mobile_SingleProduct = ({}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
+          `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
           {
             headers: {
               Authorization: `Bearer ${getTokenFromLocalStorage()}`,

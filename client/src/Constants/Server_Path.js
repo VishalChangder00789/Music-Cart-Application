@@ -1,14 +1,16 @@
+import { CLIENT_PORT } from "./Client_Path";
+
 // BASE URL
-export const SERVER_BASEURL = "http://localhost:8000/api/v1";
+export const SERVER_BASEURL = `http://localhost:${CLIENT_PORT}/api/v1`;
 
 // Products
 export const GET_ALL_PRODUCTS = SERVER_BASEURL + "/_PRODUCTS";
 export const CREATE_A_PRODUCT = SERVER_BASEURL + "/_PRODUCTS";
 export const GET_PRODUCT_BY_ID = (id) => {
-  return `http://localhost:8000/api/v1/_PRODUCTS/${id}`;
+  return `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${id}`;
 };
 export const UPDATE_PRODUCT_BY_ID = (id) => {
-  return `http://localhost:8000/api/v1/_PRODUCTS/${id}`;
+  return `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${id}`;
 };
 
 // USERS

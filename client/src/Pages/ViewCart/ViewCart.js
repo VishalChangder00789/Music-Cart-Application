@@ -9,7 +9,7 @@ import CartItem from "../../Components/CartItem/CartItem";
 // Files
 import CartLogo from "../../Assets/mycart.png";
 
-import { PRODUCTS } from "../../Constants/Client_Path";
+import { CLIENT_PORT, PRODUCTS } from "../../Constants/Client_Path";
 import Button from "../../Components/Buttons/Button";
 import { GET_PRODUCT_BY_ID, GET_USER_CART } from "../../Constants/Server_Path";
 import { json, useNavigate } from "react-router-dom";
@@ -42,11 +42,14 @@ const ViewCart = () => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/_PRODUCTS/${item.product}`, {
-            headers: {
-              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-            },
-          })
+          axios.get(
+            `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${item.product}`,
+            {
+              headers: {
+                Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+              },
+            }
+          )
         );
 
         const productDetailResponses = await axios.all(productDetailRequests);

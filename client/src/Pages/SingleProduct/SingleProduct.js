@@ -17,7 +17,12 @@ import {
 import ImageCarousal from "../../Components/ImageCarousal/ImageCarousal";
 import Stars from "../../Components/Stars/Stars";
 import { useNavigate } from "react-router-dom";
-import { LOGIN, PRODUCTS, VIEWCART } from "../../Constants/Client_Path";
+import {
+  CLIENT_PORT,
+  LOGIN,
+  PRODUCTS,
+  VIEWCART,
+} from "../../Constants/Client_Path";
 
 const SingleProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -26,7 +31,7 @@ const SingleProduct = () => {
     if (getTokenFromLocalStorage()) {
       axios
         .get(
-          `http://localhost:8000/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
+          `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
           {
             headers: {
               Authorization: `Bearer ${getTokenFromLocalStorage()}`,

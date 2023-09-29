@@ -11,7 +11,11 @@ import { GetTotalPrice } from "../../../Controller/Utilities";
 // Files
 import _GLOBAL_MOBILE_HEADER from "../../MobileComponents/_GLOBAL_MOBILE_HEADER/_GLOBAL_MOBILE_HEADER";
 import _GLOBAL_MOBILE_FOOTER from "../../MobileComponents/_GLOBAL_MOBILE_FOOTER/_GLOBAL_MOBILE_FOOTER";
-import { CHECKOUT, SINGLEPRODUCT } from "../../../Constants/Client_Path";
+import {
+  CHECKOUT,
+  CLIENT_PORT,
+  SINGLEPRODUCT,
+} from "../../../Constants/Client_Path";
 import _GLOBAL_MOBILE_BUTTON from "../.././MobileComponents/_GLOBAL_MOBILE_BUTTON/_GLOBAL_MOBILE_BUTTON";
 import CartItem from "../../../Components/CartItem/CartItem";
 import _Mobile_Cart_Items from "../../MobileComponents/_Mobile_Cart_Items/_Mobile_Cart_Items";
@@ -36,11 +40,14 @@ const Mobile_Cart = () => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/_PRODUCTS/${item.product}`, {
-            headers: {
-              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-            },
-          })
+          axios.get(
+            `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${item.product}`,
+            {
+              headers: {
+                Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+              },
+            }
+          )
         );
 
         const productDetailResponses = await axios.all(productDetailRequests);

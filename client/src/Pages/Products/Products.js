@@ -8,6 +8,7 @@ import Footer from "../../Components/Footer/Footer";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import FilterMechanism from "../../Components/FilterMechanism/FilterMechanism";
 import { GET_ALL_PRODUCTS } from "../../Constants/Server_Path";
+import { CLIENT_PORT } from "../../Constants/Client_Path";
 
 const Products = ({ setSelectedProduct }) => {
   const [products, setProducts] = useState([]);
@@ -30,12 +31,10 @@ const Products = ({ setSelectedProduct }) => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8000/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
+        `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
       )
       .then((response) => {
-        console.log(response);
         setProducts(response.data.products);
-        console.log(products);
       });
     //}
   }, [
@@ -49,7 +48,7 @@ const Products = ({ setSelectedProduct }) => {
   useEffect(() => {
     if (Parent_Featured === "Price : Lowest") {
       axios
-        .get(`http://localhost:8000/api/v1/price_lowest`)
+        .get(`http://localhost:${CLIENT_PORT}/api/v1/price_lowest`)
         .then((response) => {
           console.log(response.data.products);
           setProducts(response.data.products);
@@ -58,7 +57,7 @@ const Products = ({ setSelectedProduct }) => {
 
     if (Parent_Featured === "Name : (A-Z)") {
       axios
-        .get(`http://localhost:8000/api/v1/sortAscending`)
+        .get(`http://localhost:10000/api/v1/sortAscending`)
         .then((response) => {
           setProducts(response.data.products);
         });

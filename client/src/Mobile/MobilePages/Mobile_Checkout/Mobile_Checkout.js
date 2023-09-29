@@ -11,7 +11,7 @@ import { GetTotalPrice } from "../../../Controller/Utilities";
 import _GLOBAL_MOBILE_HEADER from "../../MobileComponents/_GLOBAL_MOBILE_HEADER/_GLOBAL_MOBILE_HEADER";
 import _GLOBAL_MOBILE_BUTTON from "../../MobileComponents/_GLOBAL_MOBILE_BUTTON/_GLOBAL_MOBILE_BUTTON";
 import _Mobile_Checkout_Items from "../../MobileComponents/_Mobile_Checkout_Items/_Mobile_Checkout_Items";
-import { VIEWCART } from "../../../Constants/Client_Path";
+import { CLIENT_PORT, VIEWCART } from "../../../Constants/Client_Path";
 import { useNavigate } from "react-router-dom";
 
 const Mobile_Checkout = () => {
@@ -31,11 +31,14 @@ const Mobile_Checkout = () => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/_PRODUCTS/${item.product}`, {
-            headers: {
-              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-            },
-          })
+          axios.get(
+            `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${item.product}`,
+            {
+              headers: {
+                Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+              },
+            }
+          )
         );
 
         const productDetailResponses = await axios.all(productDetailRequests);

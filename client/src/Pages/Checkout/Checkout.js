@@ -6,7 +6,7 @@ import {
   getIdsFromLocalStorage,
   getTokenFromLocalStorage,
 } from "../../Controller/localStorageConnection";
-import { PRODUCTS } from "../../Constants/Client_Path";
+import { CLIENT_PORT, PRODUCTS } from "../../Constants/Client_Path";
 
 // Files
 import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuperHeader";
@@ -35,11 +35,14 @@ const Checkout = () => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/_PRODUCTS/${item.product}`, {
-            headers: {
-              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-            },
-          })
+          axios.get(
+            `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${item.product}`,
+            {
+              headers: {
+                Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+              },
+            }
+          )
         );
 
         const productDetailResponses = await axios.all(productDetailRequests);
