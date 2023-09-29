@@ -31,7 +31,7 @@ const Products = ({ setSelectedProduct }) => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
+        `${DEPLOYED_BASE_URL}/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
       )
       .then((response) => {
         setProducts(response.data.products);

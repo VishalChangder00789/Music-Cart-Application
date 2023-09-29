@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Mobile_Cart.css";
 import axios from "axios";
-import { GET_USER_CART } from "../../../Constants/Server_Path";
+import {
+  DEPLOYED_BASE_URL,
+  GET_USER_CART,
+} from "../../../Constants/Server_Path";
 import { useNavigate } from "react-router-dom";
 import { getIdsFromLocalStorage } from "../../../Controller/localStorageConnection";
 import { getTokenFromLocalStorage } from "../../../Controller/localStorageConnection";
@@ -40,14 +43,11 @@ const Mobile_Cart = () => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(
-            `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${item.product}`,
-            {
-              headers: {
-                Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-              },
-            }
-          )
+          axios.get(`${DEPLOYED_BASE_URL}/_PRODUCTS/${item.product}`, {
+            headers: {
+              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+            },
+          })
         );
 
         const productDetailResponses = await axios.all(productDetailRequests);

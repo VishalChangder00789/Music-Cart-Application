@@ -76,7 +76,7 @@ const Mobile_SingleProduct = ({}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${getProductIdFromLocalStorage()}`,
+          `${DEPLOYED_BASE_URL}/_PRODUCTS/${getProductIdFromLocalStorage()}`,
           {
             headers: {
               Authorization: `Bearer ${getTokenFromLocalStorage()}`,

@@ -42,14 +42,11 @@ const ViewCart = () => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(
-            `http://localhost:${CLIENT_PORT}/api/v1/_PRODUCTS/${item.product}`,
-            {
-              headers: {
-                Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-              },
-            }
-          )
+          axios.get(`${DEPLOYED_BASE_URL}/_PRODUCTS/${item.product}`, {
+            headers: {
+              Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+            },
+          })
         );
 
         const productDetailResponses = await axios.all(productDetailRequests);

@@ -16,20 +16,20 @@ export const UPDATE_PRODUCT_BY_ID = (id) => {
 
 // USERS
 export const SERVER_GET_ALL_USERS = "/_USERS";
-export const SERVER_REGISTER_ALL_USERS = SERVER_BASEURL + "/_REGISTER";
-export const SERVER_LOGIN = SERVER_BASEURL + "/_LOGIN";
+export const SERVER_REGISTER_ALL_USERS = DEPLOYED_BASE_URL + "/_REGISTER";
+export const SERVER_LOGIN = DEPLOYED_BASE_URL + "/_LOGIN";
 
 // CART
 export const ADD_ITEM_TO_CART = (userId, productId) => {
-  return `${SERVER_BASEURL}/_USERS/${userId}/_ADDPRODUCT/${productId}`;
+  return `${DEPLOYED_BASE_URL}/_USERS/${userId}/_ADDPRODUCT/${productId}`;
 };
 
 export const REMOVE_ITEM_FROM_CART = (userId, productId) => {
-  return `${SERVER_BASEURL}/_USERS/${userId}/_ADDPRODUCT/${productId}`;
+  return `${DEPLOYED_BASE_URL}/_USERS/${userId}/_ADDPRODUCT/${productId}`;
 };
 
 export const GET_USER_CART = (cartId) => {
-  return `${SERVER_BASEURL + `/_CARTS/${cartId}`}`;
+  return `${DEPLOYED_BASE_URL + `/_CARTS/${cartId}`}`;
 };
 
-export const GET_ALL_CARTS = SERVER_BASEURL + "/_CARTS";
+export const GET_ALL_CARTS = DEPLOYED_BASE_URL + "/_CARTS";
