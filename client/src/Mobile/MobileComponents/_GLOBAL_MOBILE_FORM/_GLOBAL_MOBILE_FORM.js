@@ -18,6 +18,7 @@ const _GLOBAL_MOBILE_FORM = ({
   ArrayStateChange,
   HandleFormControl,
   linkPages,
+  passedTitle,
 }) => {
   const renderInputs = [];
   for (let i = 0; i < NumberofInputs; i++) {
@@ -66,7 +67,7 @@ const _GLOBAL_MOBILE_FORM = ({
         </div>
       </div>
 
-      <_GLOBAL_LINK_PAGE linkPages={linkPages} />
+      <_GLOBAL_LINK_PAGE linkPages={linkPages} title={passedTitle} />
     </div>
   );
 };

@@ -67,8 +67,8 @@ const Mobile_Register = () => {
       />
 
       <_GLOBAL_MOBILE_FORM
-        MainTaskMessage="Sign in."
-        SubTaskMessage="Already a customer?"
+        MainTaskMessage="Create Account."
+        SubTaskMessage="Don’t have an account?"
         NumberofInputs={4}
         ArrayInputTitles={[
           "Your name",
@@ -81,6 +81,7 @@ const Mobile_Register = () => {
         ArrayStateChange={[setName, setPhone, setEmail, setPassword]}
         HandleFormControl={handleRegister}
         linkPages={linkPages}
+        passedTitle="Already a Customer ?"
       />
       <_GLOBAL_MOBILE_FOOTER
         FooterMessage="Musicart | All rights reserved"

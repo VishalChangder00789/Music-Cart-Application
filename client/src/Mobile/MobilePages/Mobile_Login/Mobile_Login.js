@@ -67,6 +67,7 @@ const Mobile_Login = () => {
         ArrayStateChange={[setEmail, setPassword]}
         HandleFormControl={handleLoginButton}
         linkPages={handleLinkPages}
+        passedTitle="New to Music Cart ?"
       />
 
       <_GLOBAL_MOBILE_FOOTER

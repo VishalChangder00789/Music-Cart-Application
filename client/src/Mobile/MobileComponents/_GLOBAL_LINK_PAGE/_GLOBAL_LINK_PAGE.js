@@ -3,10 +3,10 @@ import "./_GLOBAL_LINK_PAGE.css";
 
 import _GLOBAL_MOBILE_BUTTON from "../_GLOBAL_MOBILE_BUTTON/_GLOBAL_MOBILE_BUTTON";
 
-const _GLOBAL_LINK_PAGE = ({ linkPages }) => {
+const _GLOBAL_LINK_PAGE = ({ linkPages, title }) => {
   return (
     <div className="_GLOBAL_LINK_PAGE_Container">
-      __________ New to Musicart? __________
+      __________{` ${title} `} __________
       <_GLOBAL_MOBILE_BUTTON
         buttonTitle="Continue"
         buttonHeight="50px"
