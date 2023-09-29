@@ -48,7 +48,7 @@ const Products = ({ setSelectedProduct }) => {
 
   useEffect(() => {
     if (Parent_Featured === "Price : Lowest") {
-      axios.get(`${DEPLOYED_BASE_URL}/api/v1/price_lowest`).then((response) => {
+      axios.get(`${DEPLOYED_BASE_URL}/price_lowest`).then((response) => {
         console.log(response.data.products);
         setProducts(response.data.products);
       });
