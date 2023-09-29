@@ -6,6 +6,7 @@ const productSchema = mongoose.Schema({
   productName: {
     type: String,
     required: [true, "A product should have a name"],
+    unique: true,
   },
   imageURL: {
     type: [String],

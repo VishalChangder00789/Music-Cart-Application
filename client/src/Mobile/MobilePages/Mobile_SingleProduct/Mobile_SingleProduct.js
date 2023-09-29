@@ -74,6 +74,10 @@ const Mobile_SingleProduct = ({}) => {
   // }, []);
 
   useEffect(() => {
+    if (!getTokenFromLocalStorage()) {
+      navigate(LOGIN);
+    }
+
     const fetchData = async () => {
       try {
         const response = await axios.get(
