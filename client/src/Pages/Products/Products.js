@@ -9,6 +9,7 @@ import ProductCard from "../../Components/ProductCard/ProductCard";
 import FilterMechanism from "../../Components/FilterMechanism/FilterMechanism";
 import { GET_ALL_PRODUCTS } from "../../Constants/Server_Path";
 import { CLIENT_PORT } from "../../Constants/Client_Path";
+import { DEPLOYED_BASE_URL } from "../../Constants/Server_Path";
 
 const Products = ({ setSelectedProduct }) => {
   const [products, setProducts] = useState([]);

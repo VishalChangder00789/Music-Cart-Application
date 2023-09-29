@@ -13,6 +13,7 @@ import _GLOBAL_MOBILE_BUTTON from "../../MobileComponents/_GLOBAL_MOBILE_BUTTON/
 import _Mobile_Checkout_Items from "../../MobileComponents/_Mobile_Checkout_Items/_Mobile_Checkout_Items";
 import { CLIENT_PORT, VIEWCART } from "../../../Constants/Client_Path";
 import { useNavigate } from "react-router-dom";
+import { DEPLOYED_BASE_URL } from "../../../Constants/Server_Path";
 
 const Mobile_Checkout = () => {
   const [cartItems, setCartItems] = useState([]);

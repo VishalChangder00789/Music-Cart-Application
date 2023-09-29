@@ -5,6 +5,7 @@ import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuper
 import Footer from "../../Components/Footer/Footer";
 import Banner from "../../Components/Banner/Banner";
 import CartItem from "../../Components/CartItem/CartItem";
+import { DEPLOYED_BASE_URL } from "../../Constants/Server_Path";
 
 // Files
 import CartLogo from "../../Assets/mycart.png";

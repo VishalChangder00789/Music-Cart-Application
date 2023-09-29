@@ -24,6 +24,7 @@ import {
   VIEWCART,
 } from "../../Constants/Client_Path";
 
+import { DEPLOYED_BASE_URL } from "../../Constants/Server_Path";
 const SingleProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
 

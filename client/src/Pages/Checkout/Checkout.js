@@ -15,6 +15,7 @@ import CheckoutPanel from "../../Components/CheckoutPanel/CheckoutPanel";
 import CheckoutPanelArray from "../../Components/CheckoutPanelArray/CheckoutPanelArray";
 import Footer from "../../Components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
+import { DEPLOYED_BASE_URL } from "../../Constants/Server_Path";
 import {
   GetPriceConvientFees,
   GetTotalPrice,
