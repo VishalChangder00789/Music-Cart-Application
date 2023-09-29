@@ -50,10 +50,6 @@ const Login = () => {
       });
   };
 
-  useEffect(() => {
-    // When Inputs will change this will run
-  }, [Email, Password]);
-
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
       <LogoHeader

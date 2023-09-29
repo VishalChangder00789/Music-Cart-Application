@@ -1,0 +1,19 @@
+._GLOBAL_MOBILE_TABS {
+  border: 2px solid red;
+  min-width: 20%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  /* border: 2px solid #e1e1e1; */
+  font-weight: 400;
+  position: relative;
+}
+
+._MOBILE_TAB_INNER_HOLDER {
+  border: 2px solid red;
+  position: absolute;
+  top: 30%;
+  background: white;
+}

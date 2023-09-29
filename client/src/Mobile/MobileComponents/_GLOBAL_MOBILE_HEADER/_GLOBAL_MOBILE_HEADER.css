@@ -1,0 +1,101 @@
+.MOBILEHEADER_CONTAINER {
+  /* border: 2px solid red; */
+}
+
+.MOBILEHEADER_CONTAINER_IMAGECONTAINER {
+  /* border: 22px solid crimson; */
+  display: flex;
+  height: 60px;
+  background: #2e0052;
+  align-items: center;
+}
+.MOBILEHEADER_CONTAINER_IMAGECONTAINER > img {
+  /* border: 2px solid rgb(255, 255, 255); */
+  height: 70%;
+  margin-left: 5%;
+}
+
+/*Search Container*/
+.MOBILEHEADER_CONTAINER_SEARCHCONTAINER {
+  display: flex;
+  height: 60px;
+  background: #2e0052;
+  align-items: center;
+  justify-content: center;
+  padding: 1%;
+}
+
+.MOBILEHEADER_CONTAINER_SEARCHCONTAINER_ImageContainer {
+  /* border: 2px solid red; */
+  height: 60%;
+  width: 80%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+}
+
+.MOBILEHEADER_CONTAINER_SEARCHCONTAINER_ImageContainer > img {
+  /* border: 2px solid black; */
+  height: 90%;
+  width: 10%;
+  margin-right: 5%;
+}
+
+.MOBILEHEADER_CONTAINER_SEARCHCONTAINER_ImageContainer > input {
+  height: 100%;
+  width: 80%;
+  /* border-radius: 7px; */
+  border: none;
+  /* border: 2px solid rgb(38, 255, 0); */
+  outline: none;
+  font-size: 15px;
+}
+
+/*Header*/
+
+.MOBILEHEADER_CONTAINER_Header {
+  margin-top: 8%;
+  font-size: 30px;
+  color: #2e0052;
+  margin-left: 5%;
+}
+
+/*BACK BUTTON*/
+
+.MOBILEHEADER_CONTAINER_Button {
+  /* border: 2px solid red; */
+  margin-top: 2%;
+  font-size: 30px;
+  color: #2e0052;
+  height: 30px;
+}
+
+.MOBILEHEADER_CONTAINER_Button > img {
+  /* border: 2px solid rgb(0, 128, 96); */
+  height: 80%;
+  width: 7%;
+  margin-left: 2%;
+  border-radius: 50%;
+  padding: 2%;
+  background: white;
+  box-shadow: 2px 2px 7px 2px rgba(68, 68, 68, 0.484);
+}
+
+/*BANNER*/
+._MOBILEHEADER_CONTAINER_BANNER_CONTAINER {
+  /* border: 2px solid rgb(0, 0, 0); */
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* height: 150px; */
+}
+
+._MOBILEHEADER_CONTAINER_BANNER_CONTAINER > img {
+  width: 95%;
+  height: 100%;
+}

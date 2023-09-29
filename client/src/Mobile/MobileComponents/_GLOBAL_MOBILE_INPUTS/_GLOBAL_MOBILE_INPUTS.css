@@ -1,0 +1,23 @@
+._GLOBAL_MOBILE_INPUTS_CONTAINER {
+  /* border: 2px SOLID RED; */
+  margin-top: 5%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+._GLOBAL_MOBILE_INPUTS_CONTAINER > input {
+  border: 2px solid #b6b6b6;
+  height: 25px;
+  margin-top: 2%;
+  outline: none;
+  border-radius: 7px;
+  font-size: 20px;
+  padding: 3%;
+}
+
+._INPUT_LABEL {
+  /* border: 2px solid black; */
+  font-weight: 500;
+}

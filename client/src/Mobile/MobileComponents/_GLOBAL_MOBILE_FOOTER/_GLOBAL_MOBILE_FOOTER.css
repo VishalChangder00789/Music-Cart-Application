@@ -1,0 +1,37 @@
+.MOBILEFOOTER_CONTAINER {
+  display: flex;
+  height: 40px;
+  background: #2e0052;
+  align-items: center;
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
+  justify-content: center;
+  color: white;
+}
+
+.Background {
+  display: flex;
+  height: 40px;
+  background: #ffffff;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  justify-content: center;
+  color: white;
+  border-top: 2px solid #c8c8c8;
+}
+
+.MOBILEFOOTER_CONTAINER_SHOWOPTIONS {
+  /* border: 2px solid red; */
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.MOBILEFOOTER_CONTAINER_SHOWOPTIONS > img {
+  height: 70%;
+}
