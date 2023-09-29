@@ -29,6 +29,8 @@
   flex-direction: column;
   padding: 10%;
   font-weight: 500;
+  overflow-y: scroll;
+  height: 100px;
 }
 
 .TabsItem {

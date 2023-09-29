@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Tabs.css";
 
 const Tabs = ({ Tabtitle, options, setStateValue }) => {
@@ -16,8 +16,33 @@ const Tabs = ({ Tabtitle, options, setStateValue }) => {
   const handleOpenModal = () => {
     setOpenDropDown(!openDropDown);
   };
+
+  const myComponentRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        myComponentRef.current &&
+        !myComponentRef.current.contains(event.target)
+      ) {
+        // Click occurred outside of the component
+        setOpenDropDown(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [myComponentRef]);
+
   return (
-    <div onClick={(e) => handleOpenModal()} className="TabsContainer">
+    <div
+      ref={myComponentRef}
+      onClick={(e) => handleOpenModal()}
+      className="TabsContainer"
+    >
       {!tabOptionSelection ? Tabtitle : tabOptionSelection}
       {openDropDown ? (
         <div className="TabsOptions">
