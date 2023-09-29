@@ -35,3 +35,18 @@
   font-weight: 700;
   background: rgba(212, 212, 212, 0.549);
 }
+
+@media (max-width: 450px) {
+  .QuantityControlContainer {
+    width: 60%;
+  }
+
+  .Display {
+    width: 30%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-weight: 700;
+    background: rgba(243, 243, 243, 0.848);
+  }
+}

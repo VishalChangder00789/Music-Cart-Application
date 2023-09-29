@@ -21,8 +21,6 @@ export const GetDiscountedPrice = (totalPrice, discount) => {
 };
 
 export const GetPriceConvientFees = (totalPrice, fees, discount) => {
-  console.log("Total Price", totalPrice);
-
   let discountPrice = GetDiscountedPrice(totalPrice, discount);
 
   let conviened = (discountPrice * fees) / 100;
@@ -39,7 +37,6 @@ export const SetProductAttribute = (
   setColor,
   setPrice
 ) => {
-  console.log(product);
   let headPhoneTypes = [];
   let companies = [];
   let Color = [];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./_GLOBAL_MOBILE_HEADER.css";
 
 // Files
@@ -7,12 +7,29 @@ import BackButtonLogoImage from "../../../Assets/BackButtonHeaderLogo.png";
 import SearchButtonLogoImage from "../../../Assets/searchbutton.png";
 import BannerImageLogo from "../../../Assets/MobileBanner.png";
 
+import { PRODUCTS } from "../../../Constants/Client_Path";
+import { useNavigate } from "react-router-dom";
+
 const _GLOBAL_MOBILE_HEADER = ({
   HeaderMessage,
   ButtonActivation,
   SearchActive,
   isBannerActive,
+  pageToGo,
+  setSearchTerm,
 }) => {
+  const navigate = useNavigate();
+  const handleClickEvent = (pageToGo) => {
+    navigate(pageToGo);
+  };
+
+  const [localSearchTermControl, setLocalSearchTermControl] = useState("");
+
+  const handleInputChange = (e) => {
+    setLocalSearchTermControl(e.target.value);
+    setSearchTerm(localSearchTermControl);
+  };
+
   return (
     <div className="MOBILEHEADER_CONTAINER">
       <div
@@ -25,7 +42,11 @@ const _GLOBAL_MOBILE_HEADER = ({
         {SearchActive ? (
           <div className="MOBILEHEADER_CONTAINER_SEARCHCONTAINER_ImageContainer">
             <img src={SearchButtonLogoImage} />
-            <input placeholder="Search Musicart" />
+            <input
+              value={localSearchTermControl}
+              onChange={(e) => handleInputChange(e)}
+              placeholder="Search Musicart"
+            />
           </div>
         ) : (
           <img src={HeaderLogoImage} />
@@ -37,7 +58,10 @@ const _GLOBAL_MOBILE_HEADER = ({
         ""
       )}
       {ButtonActivation ? (
-        <div className="MOBILEHEADER_CONTAINER_Button">
+        <div
+          onClick={() => handleClickEvent(pageToGo)}
+          className="MOBILEHEADER_CONTAINER_Button"
+        >
           <img src={BackButtonLogoImage} />
         </div>
       ) : (

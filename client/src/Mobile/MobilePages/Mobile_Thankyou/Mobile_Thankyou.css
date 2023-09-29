@@ -1,0 +1,50 @@
+.Mobile_ThankyouContainer {
+  /* border: 2px solid hotpink; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+}
+
+.Mobile_ThankyouContainer_Holder {
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  padding: 5%;
+  box-shadow: 2px 2px 12px 2px rgb(159, 159, 159);
+}
+
+.Mobile_ThankyouContainer_Holder > img {
+  width: 50%;
+  height: 50%;
+  /* border: 2px solid black; */
+}
+
+._ThankyouHeading {
+  font-size: 24px;
+  margin-top: 7%;
+  font-weight: 600;
+}
+
+._ThankyouHeading_Sub {
+  font-weight: 400;
+  font-size: 14px;
+  /* border: 2px solid black; */
+  width: 90%;
+  margin-top: 5%;
+}
+
+._ThankyouHeading_Button {
+  /* border: 2px solid red; */
+  margin-top: 10%;
+  width: 95%;
+  height: 50px;
+  border-radius: 7px;
+  font-size: 20px;
+  background: #2e0052;
+  color: white;
+  border: none;
+}

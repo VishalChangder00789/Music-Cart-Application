@@ -1,6 +1,26 @@
 const catchAsync = require("./../utils/catchAsync");
 const Product = require("../models/ProductModel");
 
+exports.getLowestPriceProduct = catchAsync(async (req, res, next) => {
+  const products = await Product.find({}).sort({ price: 1 });
+
+  return res.status(201).json({
+    status: "Success",
+    message: "Got all products",
+    products,
+  });
+});
+
+exports.getAscending = catchAsync(async (req, res, next) => {
+  const products = await Product.find({}).sort({ productName: 1 });
+
+  return res.status(201).json({
+    status: "Success",
+    message: "Got all products",
+    products,
+  });
+});
+
 exports.createProuct = catchAsync(async (req, res, next) => {
   const createProduct = await Product.create(req.body);
 

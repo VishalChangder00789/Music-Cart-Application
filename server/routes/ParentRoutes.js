@@ -39,4 +39,8 @@ router
   .delete(authController.protect, productController.deleteProduct)
   .patch(authController.protect, productController.updateProduct);
 
+router.route("/price_lowest").get(productController.getLowestPriceProduct);
+
+router.route("/sortAscending").get(productController.getAscending);
+
 module.exports = router;

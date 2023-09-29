@@ -3,7 +3,7 @@ import "./_GLOBAL_LINK_PAGE.css";
 
 import _GLOBAL_MOBILE_BUTTON from "../_GLOBAL_MOBILE_BUTTON/_GLOBAL_MOBILE_BUTTON";
 
-const _GLOBAL_LINK_PAGE = () => {
+const _GLOBAL_LINK_PAGE = ({ linkPages }) => {
   return (
     <div className="_GLOBAL_LINK_PAGE_Container">
       __________ New to Musicart? __________
@@ -18,6 +18,7 @@ const _GLOBAL_LINK_PAGE = () => {
         fontSize="18px"
         marginTop="7%"
         border="2px solid #BDBDBD"
+        addFunctionality={linkPages}
       />
     </div>
   );

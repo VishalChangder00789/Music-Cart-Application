@@ -6,14 +6,13 @@
   justify-content: center;
   align-items: center;
   border-radius: 7px;
-  /* border: 2px solid #e1e1e1; */
   font-weight: 400;
-  position: relative;
+  margin: 5%;
 }
 
 ._MOBILE_TAB_INNER_HOLDER {
   border: 2px solid red;
-  position: absolute;
-  top: 30%;
+  top: 20%;
   background: white;
+  position: absolute;
 }

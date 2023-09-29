@@ -17,6 +17,7 @@ const FilterMechanism = ({
   Parent_setColor,
   Parent_setPrice,
   Parent_setSearchTerm,
+  Parent_setFeatured,
 }) => {
   const [GridView, setGridView] = useState(true);
   const [ListView, setListView] = useState(false);
@@ -30,6 +31,10 @@ const FilterMechanism = ({
   const [Company, setCompany] = useState([]);
   const [Color, setColor] = useState([]);
   const [Price, setPrice] = useState([]);
+  const [Featured, setFeatured] = useState([]);
+
+  // Setting up the Featured deals
+  const FeaturedOptions = ["Price : Lowest", "Name : (A-Z)"];
 
   // Setting up all the product attributes
   // Fetching all the products and creating options
@@ -102,7 +107,11 @@ const FilterMechanism = ({
         </div>
         {/* Work a bit */}
         <div className="SortOptions">
-          <Tabs Tabtitle="Sort by : Featured" />
+          <Tabs
+            Tabtitle="Sort by : Featured"
+            options={FeaturedOptions}
+            setStateValue={Parent_setFeatured}
+          />
         </div>
       </div>
     </div>

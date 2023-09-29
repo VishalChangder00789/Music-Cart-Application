@@ -42,3 +42,11 @@
   cursor: pointer;
   background: rgba(130, 130, 130, 0.085);
 }
+
+@media (max-width: 450px) {
+  .TabsContainer {
+    /* border: 2px solid magenta; */
+    font-size: 12px;
+    min-width: 40px;
+  }
+}

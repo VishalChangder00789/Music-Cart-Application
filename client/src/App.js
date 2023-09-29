@@ -26,6 +26,10 @@ import Thankyou from "./Pages/Thankyou/Thankyou";
 import Mobile_Login from "./Mobile/MobilePages/Mobile_Login/Mobile_Login";
 import Mobile_Register from "./Mobile/MobilePages/Mobile_Register/Mobile_Register";
 import Mobile_Product from "./Mobile/MobilePages/Mobile_Product/Mobile_Product";
+import Mobile_SingleProduct from "./Mobile/MobilePages/Mobile_SingleProduct/Mobile_SingleProduct";
+import Mobile_Cart from "./Mobile/MobilePages/Mobile_Cart/Mobile_Cart";
+import Mobile_Checkout from "./Mobile/MobilePages/Mobile_Checkout/Mobile_Checkout";
+import Mobile_Thankyou from "./Mobile/MobilePages/Mobile_Thankyou/Mobile_Thankyou";
 
 function App() {
   const [SelectedProduct, setSelectedProduct] = useState({});
@@ -47,14 +51,29 @@ function App() {
   }, []);
 
   if (width < 450) {
-    console.log("Mobile");
     return (
       <div className="Mobile">
         <BrowserRouter>
           <Routes>
             <Route path={REGISTER} element={<Mobile_Register />} />
             <Route path={LOGIN} element={<Mobile_Login />} />
-            <Route path={PRODUCTS} element={<Mobile_Product />} />
+            <Route
+              path={PRODUCTS}
+              element={
+                <Mobile_Product setSelectedProduct={setSelectedProduct} />
+              }
+            />
+            <Route path={SINGLEPRODUCT} element={<Mobile_SingleProduct />} />
+            <Route path={VIEWCART} element={<Mobile_Cart />} />
+            <Route path={CHECKOUT} element={<Mobile_Checkout />} />
+
+            <Route
+              path={BASEURL}
+              element={
+                <Mobile_Product setSelectedProduct={setSelectedProduct} />
+              }
+            />
+            <Route path="/thankyou" element={<Mobile_Thankyou />} />
           </Routes>
         </BrowserRouter>
       </div>

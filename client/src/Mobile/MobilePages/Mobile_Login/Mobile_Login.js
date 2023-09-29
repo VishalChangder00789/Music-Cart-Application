@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import "./Mobile_Login.css";
 import "../../../Mobile.css";
 import { nanoid } from "nanoid";
+import axios from "axios";
+import { SERVER_LOGIN } from "../../../Constants/Server_Path";
+import { sendTokenToLocalStorage } from "../../../Controller/localStorageConnection";
+import { sendIdsToLocalStorage } from "../../../Controller/localStorageConnection";
+import { PRODUCTS, REGISTER } from "../../../Constants/Client_Path";
 
 // Files
 import _GLOBAL_MOBILE_HEADER from "../../MobileComponents/_GLOBAL_MOBILE_HEADER/_GLOBAL_MOBILE_HEADER";
@@ -9,13 +14,40 @@ import _GLOBAL_MOBILE_FOOTER from "../../MobileComponents/_GLOBAL_MOBILE_FOOTER/
 import _GLOBAL_MOBILE_FORM from "../../MobileComponents/_GLOBAL_MOBILE_FORM/_GLOBAL_MOBILE_FORM";
 import _GLOBAL_MOBILE_INPUTS from "../../MobileComponents/_GLOBAL_MOBILE_INPUTS/_GLOBAL_MOBILE_INPUTS";
 import FormContainer from "../../../Components/FormContainer/FormContainer";
+import { useNavigate } from "react-router-dom";
 
 const Mobile_Login = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLoginButton = () => {
-    console.log("Something");
+  const handleLoginButton = async () => {
+    if (!Email || !Password) {
+      return;
+    }
+
+    await axios
+      .post(SERVER_LOGIN, {
+        email: Email,
+        password: Password,
+      })
+      .then((response) => {
+        let data = response.data.data;
+        let token = response.data.token;
+        let cartId = data.cartId;
+        let userId = data.userId;
+
+        sendTokenToLocalStorage(token);
+        sendIdsToLocalStorage(userId, cartId);
+        navigate(PRODUCTS);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const handleLinkPages = () => {
+    navigate(REGISTER);
   };
 
   return (
@@ -33,6 +65,8 @@ const Mobile_Login = () => {
         ArrayInputTypes={["email", "password"]}
         ArrayPlaceHolder={["Email", "Password"]}
         ArrayStateChange={[setEmail, setPassword]}
+        HandleFormControl={handleLoginButton}
+        linkPages={handleLinkPages}
       />
 
       <_GLOBAL_MOBILE_FOOTER

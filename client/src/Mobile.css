@@ -35,10 +35,11 @@
 }
 
 ._GLOBAL_MOBILE_HOLDER_ADJUSTED {
+  /* border: 12px solid rgb(245, 25, 1); */
   display: flex;
-  /* border: 12px solid red; */
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  min-height: 100vh;
   font-family: "DM Sans", sans-serif;
   font-family: "Roboto", sans-serif;
 }

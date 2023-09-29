@@ -1,0 +1,56 @@
+._Mobile_Checkout_Header_Message {
+  /* border: 2px solid red; */
+  font-size: 28px;
+  margin-left: 2%;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+._Mobile_Checkout_Comp1 {
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid gold; */
+  margin-left: 2%;
+  margin-top: 5%;
+}
+
+._Mobile_Checkout_Comp2 {
+  margin-left: 5%;
+  font-size: 20px;
+  color: #b52b00;
+  font-weight: 600;
+  margin-top: 5%;
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+}
+
+._MobileHeading {
+  font-size: 20px;
+  color: #b52b00;
+  font-weight: 600;
+}
+
+._mob {
+  margin-left: 4%;
+  margin-top: 5%;
+  /* border: 2px solid hotpink; */
+  width: 90%;
+  flex-wrap: wrap;
+  color: #797979;
+}
+
+.ProductCatalogue {
+  margin-left: 4%;
+  margin-top: 5%;
+  /* border: 2px solid hotpink; */
+  width: 90%;
+  flex-wrap: wrap;
+}
+
+._Mobile_Checkout_Comp5 {
+  /* border: 2px solid navajowhite; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+}

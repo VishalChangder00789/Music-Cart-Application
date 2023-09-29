@@ -1,5 +1,6 @@
 import React from "react";
 import "./_GLOBAL_MOBILE_BUTTON.css";
+import { useNavigate } from "react-router-dom";
 
 const _GLOBAL_MOBILE_BUTTON = ({
   buttonTitle,
@@ -16,9 +17,13 @@ const _GLOBAL_MOBILE_BUTTON = ({
   marginRight,
   border,
   fontWeight,
+  addFunctionality,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <button
+      onClick={addFunctionality}
       style={{
         height: `${buttonHeight}`,
         width: `${buttonWidth}`,

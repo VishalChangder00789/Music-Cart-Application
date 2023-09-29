@@ -16,6 +16,8 @@ const _GLOBAL_MOBILE_FORM = ({
   ArrayInputTypes,
   ArrayPlaceHolder,
   ArrayStateChange,
+  HandleFormControl,
+  linkPages,
 }) => {
   const renderInputs = [];
   for (let i = 0; i < NumberofInputs; i++) {
@@ -55,6 +57,7 @@ const _GLOBAL_MOBILE_FORM = ({
           borderRadius="7px"
           fontSize="18px"
           marginTop="7%"
+          addFunctionality={HandleFormControl}
         />
 
         <div className="_GLOBAL_MOBILE_FORM_CONTAINER_INNER__BottomMessage">
@@ -63,7 +66,7 @@ const _GLOBAL_MOBILE_FORM = ({
         </div>
       </div>
 
-      <_GLOBAL_LINK_PAGE />
+      <_GLOBAL_LINK_PAGE linkPages={linkPages} />
     </div>
   );
 };

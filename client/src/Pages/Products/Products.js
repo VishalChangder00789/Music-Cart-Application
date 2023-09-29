@@ -18,6 +18,7 @@ const Products = ({ setSelectedProduct }) => {
   const [Parent_Color, Parent_setColor] = useState("");
   const [Parent_Price, Parent_setPrice] = useState("");
   const [Parent_SearchTerm, Parent_setSearchTerm] = useState("");
+  const [Parent_Featured, Parent_setFeatured] = useState("");
 
   useEffect(() => {
     axios.get(GET_ALL_PRODUCTS).then((data) => {
@@ -27,13 +28,6 @@ const Products = ({ setSelectedProduct }) => {
   }, []);
 
   useEffect(() => {
-    // if (
-    //   Parent_Color ||
-    //   Parent_Company ||
-    //   Parent_HeadPhoneType ||
-    //   Parent_Price ||
-    //   Parent_SearchTerm
-    // ) {
     axios
       .get(
         `http://localhost:8000/api/v1/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
@@ -51,6 +45,25 @@ const Products = ({ setSelectedProduct }) => {
     Parent_Price,
     Parent_SearchTerm,
   ]);
+
+  useEffect(() => {
+    if (Parent_Featured === "Price : Lowest") {
+      axios
+        .get(`http://localhost:8000/api/v1/price_lowest`)
+        .then((response) => {
+          console.log(response.data.products);
+          setProducts(response.data.products);
+        });
+    }
+
+    if (Parent_Featured === "Name : (A-Z)") {
+      axios
+        .get(`http://localhost:8000/api/v1/sortAscending`)
+        .then((response) => {
+          setProducts(response.data.products);
+        });
+    }
+  }, [Parent_Featured]);
 
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
@@ -82,6 +95,7 @@ const Products = ({ setSelectedProduct }) => {
           Parent_setColor={Parent_setColor}
           Parent_setPrice={Parent_setPrice}
           Parent_setSearchTerm={Parent_setSearchTerm}
+          Parent_setFeatured={Parent_setFeatured}
         />
 
         {/* 
