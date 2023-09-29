@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./CheckoutPanelArray.css";
 import axios from "axios";
-import { GET_USER_CART } from "../../Constants/Server_Path";
+import {
+  DEPLOYED_BASE_URL,
+  GET_USER_CART,
+  SERVER_BASEURL,
+} from "../../Constants/Server_Path";
 import {
   getIdsFromLocalStorage,
   getTokenFromLocalStorage,
@@ -25,7 +29,7 @@ const CheckoutPanelArray = ({ title, Details }) => {
         setCartItems(cartItemsFromApi);
 
         const productDetailRequests = cartItemsFromApi.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/_PRODUCTS/${item.product}`, {
+          axios.get(`${DEPLOYED_BASE_URL}/_PRODUCTS/${item.product}`, {
             headers: {
               Authorization: `Bearer ${getTokenFromLocalStorage()}`,
             },
@@ -47,8 +51,6 @@ const CheckoutPanelArray = ({ title, Details }) => {
 
     fetchData();
   }, []);
-
-  console.log(mergedData);
 
   return (
     <div className="CheckoutPanelArrayContainer">
