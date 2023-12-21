@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 dotenv.config();
 
 // Routing
-app.use("/api/v1/", ParentRoutes);
+app.use("/api/v1", ParentRoutes);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't Find ${req.originalUrl} on the server`, 404));

@@ -18,6 +18,7 @@ exports.addItemToCart = catchAsync(async (req, res, next) => {
 
   const cart = await Cart.findOne({ user: userId });
 
+  // if there is an item already existing
   const existingItem = cart.items.find((item) =>
     item.product.equals(productId)
   );
@@ -62,6 +63,7 @@ exports.removeItemFromCart = catchAsync(async (req, res, next) => {
     if (cart.items[itemIndex].quantity > 1) {
       cart.items[itemIndex].quantity -= 1;
     } else {
+      // no. of element to be removed from the cart
       cart.items.splice(itemIndex, 1);
     }
 

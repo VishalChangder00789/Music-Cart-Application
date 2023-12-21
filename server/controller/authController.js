@@ -42,6 +42,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // instance method is applied over the queried document
 
+  // Both the passwords passed are encrypted form
   if (!user || !(await user.correctPassword(password, user.password))) {
     return res.status(400).json({
       status: "fail",

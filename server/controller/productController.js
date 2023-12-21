@@ -1,5 +1,8 @@
 const catchAsync = require("./../utils/catchAsync");
 const Product = require("../models/ProductModel");
+const Cart = require("./../models/CartModel");
+const User = require("./../models/UserModel");
+const { default: mongoose, Mongoose, mongo } = require("mongoose");
 
 exports.getLowestPriceProduct = catchAsync(async (req, res, next) => {
   const products = await Product.find({}).sort({ price: 1 });
@@ -53,9 +56,6 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   if (req.query.search) {
     queryObj.productName = { $regex: new RegExp(req.query.search, "i") };
   }
-
-  console.log(req.query);
-  console.log(queryObj);
 
   const products = await Product.find(queryObj);
 
