@@ -3,6 +3,9 @@ import "./_IMAGECAROUSAL_MOBILE.css";
 import LeftArrow from "../../../Assets/leftArrow.png";
 import RightArrow from "../../../Assets/rightArrow.png";
 
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
+
 const _IMAGECAROUSAL_MOBILE = ({ arrayImages = [] }) => {
   const [url, setURL] = useState();
 
@@ -36,14 +39,25 @@ const _IMAGECAROUSAL_MOBILE = ({ arrayImages = [] }) => {
   };
 
   return (
-    <div className="_IMAGECAROUSAL_MOBILE_Container">
-      <div className="_IMAGECAROUSAL_MOBILE_Container_ImageContainer">
-        <img src={url} />
+    <div className="p-4 bg-[#eaeaea] rounded-sm">
+      <div className="border">
+        <img src={url} className="w-full shadow-lg" />
       </div>
 
-      <div className="ImageControl">
-        <img onClick={() => getImageDecrement()} src={LeftArrow} />
-        <img onClick={() => getImageIncrement()} src={RightArrow} />
+      <div className="mt-4 flex items-center justify-end pr-2">
+        <FaRegArrowAltCircleLeft
+          onClick={() => getImageDecrement()}
+          src={LeftArrow}
+          size={30}
+          color="grey"
+        />
+        <FaRegArrowAltCircleRight
+          onClick={() => getImageIncrement()}
+          src={RightArrow}
+          size={30}
+          color="grey"
+          className="ml-2"
+        />
       </div>
     </div>
   );

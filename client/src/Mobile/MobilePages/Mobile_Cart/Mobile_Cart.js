@@ -100,7 +100,7 @@ const Mobile_Cart = () => {
           addFunctionality={handleCheckoutButton}
         />
       </div>
-      <_GLOBAL_MOBILE_FOOTER OptionFooter={true} />
+      {/* <_GLOBAL_MOBILE_FOOTER OptionFooter={true} /> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 // api support https://dummyjson.com/docs/products
 
 import "./App.css";
+import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   LOGIN,
@@ -30,6 +31,7 @@ import Mobile_SingleProduct from "./Mobile/MobilePages/Mobile_SingleProduct/Mobi
 import Mobile_Cart from "./Mobile/MobilePages/Mobile_Cart/Mobile_Cart";
 import Mobile_Checkout from "./Mobile/MobilePages/Mobile_Checkout/Mobile_Checkout";
 import Mobile_Thankyou from "./Mobile/MobilePages/Mobile_Thankyou/Mobile_Thankyou";
+import FooterOptions from "./CommonComponents/FooterOptions/footer-options";
 
 function App() {
   const [SelectedProduct, setSelectedProduct] = useState({});
@@ -75,6 +77,7 @@ function App() {
             />
             <Route path="/thankyou" element={<Mobile_Thankyou />} />
           </Routes>
+          <FooterOptions />
         </BrowserRouter>
       </div>
     );

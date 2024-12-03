@@ -18,7 +18,7 @@ const Mobile_Product = ({ setSelectedProduct }) => {
   const [Parent_Featured, Parent_setFeatured] = useState("");
 
   return (
-    <div className="_GLOBAL_MOBILE_HOLDER_ADJUSTED">
+    <div className="">
       <_GLOBAL_MOBILE_HEADER
         SearchActive={true}
         isBannerActive={true}
@@ -44,7 +44,7 @@ const Mobile_Product = ({ setSelectedProduct }) => {
         Parent_Featured={Parent_Featured}
       />
 
-      <_GLOBAL_MOBILE_FOOTER OptionFooter={true} />
+      {/* <_GLOBAL_MOBILE_FOOTER OptionFooter={true} /> */}
     </div>
   );
 };
