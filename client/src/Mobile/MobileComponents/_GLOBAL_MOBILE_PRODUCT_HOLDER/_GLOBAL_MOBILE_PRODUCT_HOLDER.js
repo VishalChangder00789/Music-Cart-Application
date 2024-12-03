@@ -71,7 +71,7 @@ const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
   }, [searchTerm]);
 
   return (
-    <div className="_GLOBAL_MOBILE_PRODUCT_HOLDER_Container">
+    <div className="_GLOBAL_MOBILE_PRODUCT_HOLDER_Container min-h-screen border">
       {products
         ? products.map((product) => {
             return (

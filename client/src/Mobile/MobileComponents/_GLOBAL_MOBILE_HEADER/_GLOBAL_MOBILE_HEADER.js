@@ -8,7 +8,7 @@ import SearchButtonLogoImage from "../../../Assets/searchbutton.png";
 import BannerImageLogo from "../../../Assets/MobileBanner.png";
 
 import { PRODUCTS } from "../../../Constants/Client_Path";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const _GLOBAL_MOBILE_HEADER = ({
   HeaderMessage,
@@ -19,6 +19,8 @@ const _GLOBAL_MOBILE_HEADER = ({
   setSearchTerm,
 }) => {
   const navigate = useNavigate();
+  const pathname = useLocation().pathname;
+
   const handleClickEvent = (pageToGo) => {
     navigate(pageToGo);
   };
@@ -31,25 +33,29 @@ const _GLOBAL_MOBILE_HEADER = ({
   };
 
   return (
-    <div className="MOBILEHEADER_CONTAINER">
-      <div
-        className={
-          !SearchActive
-            ? `MOBILEHEADER_CONTAINER_IMAGECONTAINER`
-            : `MOBILEHEADER_CONTAINER_SEARCHCONTAINER`
-        }
-      >
+    <div
+      style={{
+        fontFamily: "Poppins , sans-serif",
+        fontWeight: "500",
+        fontStyle: "normal",
+      }}
+      className=""
+    >
+      <div className="bg-[#3c1143] p-4 flex items-center justify-between">
+        <img src={HeaderLogoImage} alt="Logo" />
         {SearchActive ? (
-          <div className="MOBILEHEADER_CONTAINER_SEARCHCONTAINER_ImageContainer">
-            <img src={SearchButtonLogoImage} />
+          <div className="flex border bg-white p-2 w-[150px] rounded-md items-center justify-around">
+            <img src={SearchButtonLogoImage} className="h-4 w-4 mb-[1px]" />
             <input
+              className="w-5/6 outline-none text-xs mt-[1px] text-[#3c1143]"
               value={localSearchTermControl}
               onChange={(e) => handleInputChange(e)}
               placeholder="Search Musicart"
             />
           </div>
         ) : (
-          <img src={HeaderLogoImage} />
+          ""
+          // <img src={HeaderLogoImage} />
         )}
       </div>
       {HeaderMessage ? (
@@ -57,7 +63,7 @@ const _GLOBAL_MOBILE_HEADER = ({
       ) : (
         ""
       )}
-      {ButtonActivation ? (
+      {/* {ButtonActivation ? (
         <div
           onClick={() => handleClickEvent(pageToGo)}
           className="MOBILEHEADER_CONTAINER_Button"
@@ -66,15 +72,17 @@ const _GLOBAL_MOBILE_HEADER = ({
         </div>
       ) : (
         ""
-      )}
+      )} */}
 
-      {isBannerActive ? (
+      {pathname === "/" && <div>Categories</div>}
+
+      {/* {isBannerActive ? (
         <div className="_MOBILEHEADER_CONTAINER_BANNER_CONTAINER">
           <img src={BannerImageLogo} />
         </div>
       ) : (
         ""
-      )}
+      )} */}
     </div>
   );
 };
