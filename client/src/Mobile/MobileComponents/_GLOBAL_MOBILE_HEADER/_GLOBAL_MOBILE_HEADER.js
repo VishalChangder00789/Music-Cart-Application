@@ -3,27 +3,20 @@ import "./_GLOBAL_MOBILE_HEADER.css";
 
 // Files
 import HeaderLogoImage from "../../../Assets/HeaderLogoMobile.png";
-import BackButtonLogoImage from "../../../Assets/BackButtonHeaderLogo.png";
 import SearchButtonLogoImage from "../../../Assets/searchbutton.png";
-import BannerImageLogo from "../../../Assets/MobileBanner.png";
-
-import { PRODUCTS } from "../../../Constants/Client_Path";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const _GLOBAL_MOBILE_HEADER = ({
   HeaderMessage,
-  ButtonActivation,
   SearchActive,
-  isBannerActive,
-  pageToGo,
   setSearchTerm,
 }) => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
 
-  const handleClickEvent = (pageToGo) => {
-    navigate(pageToGo);
-  };
+  // const handleClickEvent = (pageToGo) => {
+  //   navigate(pageToGo);
+  // };
 
   const [localSearchTermControl, setLocalSearchTermControl] = useState("");
 

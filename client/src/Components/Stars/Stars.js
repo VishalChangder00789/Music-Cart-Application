@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Stars.css";
 import StarsImage from "../../Assets/Star.png";
 

@@ -8,7 +8,6 @@ import axios from "axios";
 
 // Files
 import _GLOBAL_MOBILE_PRODUCT_CARD from "../_GLOBAL_MOBILE_PRODUCT_CARD/_GLOBAL_MOBILE_PRODUCT_CARD";
-import { CLIENT_PORT } from "../../../Constants/Client_Path";
 
 const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
   setSelectedProduct,
@@ -20,7 +19,6 @@ const _GLOBAL_MOBILE_PRODUCT_HOLDER = ({
   Parent_Featured,
 }) => {
   const [products, setProducts] = useState([]);
-  const [showGrid, setShowGrid] = useState(true);
 
   // const [Parent_HeadPhoneType, Parent_setHeadPhoneType] = useState("");
   // const [Parent_Company, Parent_setCompany] = useState("");

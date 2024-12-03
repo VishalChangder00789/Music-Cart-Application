@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./QuantityControl.css";
-import {
-  getIdsFromLocalStorage,
-  getProductIdFromLocalStorage,
-  getTokenFromLocalStorage,
-} from "../../Controller/localStorageConnection";
+import { getIdsFromLocalStorage } from "../../Controller/localStorageConnection";
 
 import {
   ADD_ITEM_TO_CART,
-  GET_PRODUCT_BY_ID,
   REMOVE_ITEM_FROM_CART,
 } from "../../Constants/Server_Path";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { VIEWCART } from "../../Constants/Client_Path";
 
 const QuantityControl = ({ quantity, productId }) => {
   const [quantityState, setQuantity] = useState(quantity);
-  const navigate = useNavigate();
 
   const handleMinus = async (productId, quantityState) => {
     if (quantityState - 1 == 0) {

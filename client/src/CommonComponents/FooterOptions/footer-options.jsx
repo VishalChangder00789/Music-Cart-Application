@@ -8,8 +8,7 @@ const FooterOptions = () => {
   const [selectedIcon, setSelectedIcon] = useState(""); // Track the selected icon
   const [numberOfItems, setNumberItems] = useState(0);
   const location = useLocation(); // Get the current location (pathname)
-  const cartId = JSON.parse(localStorage.getItem("UserIds")).cartId;
-  console.log(cartId);
+  let cartId = 0;
 
   useEffect(() => {
     const getCartTotalNumber = async () => {
@@ -18,7 +17,10 @@ const FooterOptions = () => {
       setNumberItems(noOfItems);
     };
 
-    getCartTotalNumber();
+    if (localStorage.getItem("UserId")) {
+      cartId = JSON.parse(localStorage.getItem("UserIds")).cartId;
+      getCartTotalNumber();
+    }
   });
 
   // Set the selected icon when the component mounts or when the location changes
