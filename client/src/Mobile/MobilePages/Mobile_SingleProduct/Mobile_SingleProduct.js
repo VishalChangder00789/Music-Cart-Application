@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
 import "./Mobile_SingleProduct.css";
 import axios from "axios";
-import { getTokenFromLocalStorage } from "../../../Controller/localStorageConnection";
-import { getProductIdFromLocalStorage } from "../../../Controller/localStorageConnection";
-import { CLIENT_PORT, LOGIN, PRODUCTS } from "../../../Constants/Client_Path";
+import {
+  getTokenFromLocalStorage,
+  getProductIdFromLocalStorage,
+  getIdsFromLocalStorage,
+} from "../../../Controller/localStorageConnection";
+import {
+  CLIENT_PORT,
+  LOGIN,
+  PRODUCTS,
+  VIEWCART,
+} from "../../../Constants/Client_Path";
+import {
+  ADD_ITEM_TO_CART,
+  DEPLOYED_BASE_URL,
+} from "../../../Constants/Server_Path";
 import { useNavigate } from "react-router-dom";
-import { getIdsFromLocalStorage } from "../../../Controller/localStorageConnection";
-import { ADD_ITEM_TO_CART } from "../../../Constants/Server_Path";
-import { VIEWCART } from "../../../Constants/Client_Path";
 
 import { RiStarSFill } from "react-icons/ri";
 import { GoDotFill } from "react-icons/go";
@@ -17,64 +26,46 @@ import _GLOBAL_MOBILE_HEADER from "../../MobileComponents/_GLOBAL_MOBILE_HEADER/
 import _GLOBAL_MOBILE_FOOTER from "../../MobileComponents/_GLOBAL_MOBILE_FOOTER/_GLOBAL_MOBILE_FOOTER";
 import _GLOBAL_MOBILE_BUTTON from "../../MobileComponents/_GLOBAL_MOBILE_BUTTON/_GLOBAL_MOBILE_BUTTON";
 import _IMAGECAROUSAL_MOBILE from "../../MobileComponents/_IMAGECAROUSAL_MOBILE/_IMAGECAROUSAL_MOBILE";
-import { DEPLOYED_BASE_URL } from "../../../Constants/Server_Path";
 
-const Mobile_SingleProduct = ({}) => {
+const Mobile_SingleProduct = () => {
   const navigate = useNavigate();
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [moreDescription, setMoreDescription] = useState(false);
 
+  // Add to Cart Handler
   const handleAddToCart = async (productId) => {
-    // Only add the item to the cart
-    const userId = JSON.parse(getIdsFromLocalStorage()).userId;
-    const apiPath = ADD_ITEM_TO_CART(userId, productId);
-    const apiUrl = await axios
-      .post(apiPath)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+      const apiPath = ADD_ITEM_TO_CART(userId, productId);
+      await axios.post(apiPath);
+      console.log("Product added to cart successfully.");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
+  // Buy Now Handler
   const handleBuyNow = async (productId) => {
-    // add the item to the cart and navigate to cart
-    const userId = JSON.parse(getIdsFromLocalStorage()).userId;
-    const apiPath = ADD_ITEM_TO_CART(userId, productId);
-    const apiUrl = await axios
-      .post(apiPath)
-      .then((response) => {
-        console.log(response);
-        navigate(VIEWCART);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+      const apiPath = ADD_ITEM_TO_CART(userId, productId);
+      await axios.post(apiPath);
+      navigate(VIEWCART);
+    } catch (error) {
+      console.error("Error buying product:", error);
+    }
   };
 
+  // Truncate and Format Description
   const readCharacters = (about, shortenIt) => {
-    let description = about;
-
-    if (shortenIt) {
-      description = "";
-      for (let i = 0; i < 250; i++) {
-        description += about[i];
-      }
-    }
-
-    // Render Description
-    let newDescription = [];
-    newDescription = description.split("-");
-
-    return newDescription;
+    const description = shortenIt ? about.slice(0, 250) : about;
+    return description.split("-").map((str) => str.trim());
   };
 
+  // Fetch Product Data
   useEffect(() => {
-    if (!getTokenFromLocalStorage()) {
-      navigate(LOGIN);
-    }
+    if (!getTokenFromLocalStorage()) navigate(LOGIN);
 
     const fetchData = async () => {
       try {
@@ -86,142 +77,100 @@ const Mobile_SingleProduct = ({}) => {
             },
           }
         );
-
         setSelectedProduct(response.data.fetchedProduct);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.error("Error fetching product:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
+  // Render Star Ratings
   const StarRating = (rating) => {
-    console.log(Math.floor(rating));
-    const stars = [];
-
-    for (let i = 0; i < Math.floor(rating); i++) {
-      stars.push(<RiStarSFill key={i} color="gold" />);
-    }
-
-    return stars;
+    return Array.from({ length: Math.floor(rating) }, (_, i) => (
+      <RiStarSFill key={i} color="gold" />
+    ));
   };
 
-  const determineProductColor = (m) => {
-    const productColor = m.toLowerCase();
-
-    if (productColor === "white") {
-      return "bg-white";
-    }
-    if (productColor === "black") {
-      return "bg-black";
-    }
-    if (productColor === "silver") {
-      return "bg-gray-300";
-    }
-    if (productColor === "grey") {
-      return "bg-gray-500";
-    }
-    return `bg-${productColor}-500`;
+  // Determine Background and Text Color
+  const getProductColorStyle = (color) => {
+    const lightColors = ["white", "silver", "yellow"];
+    return {
+      backgroundColor: color.toLowerCase(),
+      color: lightColors.includes(color.toLowerCase()) ? "black" : "white",
+    };
   };
 
-  if (loading) return <div>Loading ...</div>;
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="">
+    <div>
       <_GLOBAL_MOBILE_HEADER ButtonActivation={true} pageToGo={PRODUCTS} />
-
       <div
-        style={{
-          fontFamily: "Poppins , sans-serif",
-          fontWeight: "500",
-          fontStyle: "normal",
-        }}
+        style={{ fontFamily: "Poppins, sans-serif", fontWeight: "500" }}
         className="p-4"
       >
         <_IMAGECAROUSAL_MOBILE arrayImages={selectedProduct.imageURL} />
-
-        <div className="mt-10 ">
-          <div className="text-3xl font-semibold">
-            {selectedProduct.codeName}
-          </div>
-          <div className="flex items-center">
+        <div className="mt-10">
+          <h1 className="text-3xl font-semibold">{selectedProduct.codeName}</h1>
+          <div className="flex items-center mt-2">
             {selectedProduct.rating}
-            <div className="ml-2 flex">
+            <div className="ml-2 flex items-center">
               {StarRating(selectedProduct.rating)}
             </div>
           </div>
           <div className="text-md mt-4">{selectedProduct.productName}</div>
-          <div className="text-sm mt-4">Brand : {selectedProduct.brand}</div>
+          <div className="text-sm mt-4">Brand: {selectedProduct.brand}</div>
 
           <div
-            className={`text-xl mt-4 ${determineProductColor(
-              selectedProduct.color
-            )}  w-3/6 p-2 text-white rounded-md flex items-center justify-center`}
+            className="text-sm mt-4 w-3/6 p-2 rounded-md flex items-center pl-3 border"
+            style={getProductColorStyle(selectedProduct.color)}
           >
             {selectedProduct.color} | {selectedProduct.productType}
           </div>
 
           <div className="mt-4">
-            <div className="text-xl font-bold">Description</div>
-            {!moreDescription ? (
-              <div className="mt-4 text-sm">
-                {readCharacters(selectedProduct.about, true).map((string) => {
-                  return (
-                    <div className="flex mt-2 items-center">
-                      <GoDotFill size={20} />
-                      <div className="w-full ml-2">{string}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="mt-4 text-sm">
-                {readCharacters(selectedProduct.about, false).map((string) => {
-                  return (
-                    <div className="flex mt-2 items-center">
-                      <GoDotFill size={20} />
-                      <div className="w-full ml-2">{string}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            <div className="mt-4 w-full flex justify-end items-end">
-              <div
+            <h2 className="text-xl font-bold">Description</h2>
+            <div className="mt-4 text-sm">
+              {readCharacters(selectedProduct.about, !moreDescription).map(
+                (string, index) => (
+                  <div key={index} className="flex mt-2 items-center">
+                    <GoDotFill size={20} />
+                    <p className="ml-2">{string}</p>
+                  </div>
+                )
+              )}
+            </div>
+            <div className="mt-4 w-full flex justify-end">
+              <button
                 onClick={() => setMoreDescription(!moreDescription)}
-                className="w-1/6 p-2 rounded-sm text-white bg-blue-500 flex items-center justify-center"
+                className="w-1/6 p-2 rounded-sm text-white bg-blue-500"
               >
                 {moreDescription ? "Less" : "More"}
-              </div>
+              </button>
             </div>
           </div>
 
           <div className="_availabilityDetails">
-            {selectedProduct.available ? (
-              <div
-                className={`border border-black w-3/12 justify-center items-center flex p-2 ${
-                  selectedProduct.available ? "bg-green-400" : "bg-red-400"
-                } text-xs`}
-              >
-                In-Stock
+            {selectedProduct.available && (
+              <div className="bg-green-400 text-xs border border-black p-2 w-3/12 text-center">
+                In Stock
               </div>
-            ) : (
-              ""
             )}
           </div>
 
-          <div className="flex justify-around items-center mt-8">
+          <div className="flex justify-around mt-8">
             <button
-              className="rounded-sm p-3 w-5/12 text-black text-sm bg-[#FFC107]"
+              className="rounded-sm p-3 w-5/12 bg-[#FFC107] text-black text-sm"
               onClick={() => handleAddToCart(selectedProduct._id)}
             >
               Add To Cart
             </button>
             <button
-              className="rounded-sm p-3 w-5/12 text-black text-sm bg-[#FFC107]"
+              className="rounded-sm p-3 w-5/12 bg-[#FFC107] text-black text-sm"
               onClick={() => handleBuyNow(selectedProduct._id)}
             >
               Buy Now
@@ -229,11 +178,6 @@ const Mobile_SingleProduct = ({}) => {
           </div>
         </div>
       </div>
-
-      {/* <_GLOBAL_MOBILE_FOOTER
-        // FooterMessage="Musicart | All rights reserved"
-        OptionFooter={true}
-      /> */}
     </div>
   );
 };

@@ -36,6 +36,15 @@ const _GLOBAL_MOBILE_PRODUCT_CARD = ({ setSelectedProduct, product }) => {
     return `bg-${productColor}-500`;
   };
 
+  const getProductColor = () => {
+    const productColor = product.color.toLowerCase();
+    const lightColors = ["white", "silvler", "yellow"];
+    return {
+      background: productColor,
+      color: lightColors.includes(productColor) ? "black" : "white",
+    };
+  };
+
   return (
     <div
       style={{
@@ -54,7 +63,8 @@ const _GLOBAL_MOBILE_PRODUCT_CARD = ({ setSelectedProduct, product }) => {
           <div className="text-[14px] font-medium">{product.codeName}</div>
           <div className="_mobileDisplayName">
             <div
-              className={`${determineProductColor()} border border-black  rounded-[50%] h-4 w-4 p-2 mt-1`}
+              style={getProductColor()}
+              className={`border border-black  rounded-[50%] h-4 w-4 p-2 mt-1`}
             ></div>
             <div className="mt-2">{product.productType.toUpperCase()}</div>
           </div>
