@@ -32,6 +32,8 @@ const Mobile_Cart = () => {
     navigate("/checkout");
   };
 
+  console.log(cartItems);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,30 +77,34 @@ const Mobile_Cart = () => {
   };
 
   return (
-    <div className="_GLOBAL_MOBILE_HOLDER_ADJUSTED">
+    <div
+      style={{
+        fontFamily: "Poppins , sans-serif",
+        fontWeight: "500",
+        fontStyle: "normal",
+      }}
+      className=""
+    >
       <_GLOBAL_MOBILE_HEADER ButtonActivation={true} pageToGo={SINGLEPRODUCT} />
-      <div className="_CART_ITEM_HOLDER">
+      <div className="p-4 h-[550px]">
         {mergedData.map((item) => {
           return <_Mobile_Cart_Items item={item} />;
         })}
       </div>
-      <div className="_Amount_Total">
-        Total Amount {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+      <div className="p-4 text-lg ">
+        <div className="font-bold">Total Amount</div>
+        <div>
+          &#8377;{GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+        </div>
       </div>
 
-      <div className="_mobile_BuyButton">
-        <_GLOBAL_MOBILE_BUTTON
-          buttonTitle="Place Order"
-          buttonHeight="50px"
-          buttonWidth="80%"
-          background="#FFB800"
-          fontColor="black"
-          outline="none"
-          borderRadius="7px"
-          fontSize="18px"
-          marginTop="7%"
-          addFunctionality={handleCheckoutButton}
-        />
+      <div className="p-4">
+        <button
+          className="border w-full p-4 bg-[#ffc107]"
+          onClick={handleCheckoutButton}
+        >
+          Place Order
+        </button>
       </div>
       {/* <_GLOBAL_MOBILE_FOOTER OptionFooter={true} /> */}
     </div>

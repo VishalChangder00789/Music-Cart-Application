@@ -9,26 +9,28 @@ const _Mobile_Cart_Items = ({ item }) => {
   const totalPrice = productFeatures.price * productDetails;
 
   return (
-    <div className="_Mobile_CartItem_Unique">
-      <div className="_Mobile_CartItemImageContainer">
-        <img src={productFeatures.imageURL[0]} />
+    <div className="w-full border border-black rounded-sm flex mt-4">
+      <div className="bg-[#74747455] flex justify-center items-center p-4">
+        <img className="shadow-md w-24 " src={productFeatures.imageURL[0]} />
       </div>
-      <div className="_Mobile_CartItemDetails">
-        <div className="_Mobile_FlexCol width1">
-          <div className="_Mobile_Heading">{productFeatures.codeName}</div>
-          <div>{productFeatures.color}</div>
-          <div>{productFeatures.inStock}</div>
+
+      <div className="ml-2">
+        <div className="">
+          <div className="font-bold">{productFeatures.codeName}</div>
+          <div className="mt-2">{productFeatures.color}</div>
+          {/* <div className="mt-2">{productFeatures.inStock}</div> */}
         </div>
-        <div className="_Mobile_FlexCol _mobile_width2">
-          <div className="_Mobile_Heading">Price</div>
+        <div className="text-lg font-bold">
           <div>&#8377;{totalPrice}</div>
         </div>
-        <div className="_Mobile_FlexCol _mobile_width3">
-          <div className="_Mobile_Heading">Quantity</div>
-          <QuantityControl
-            productId={productFeatures._id}
-            quantity={productDetails}
-          />
+        <div className="flex flex-col">
+          <div className="">Quantity</div>
+          <div className="mt-2 mb-2">
+            <QuantityControl
+              productId={productFeatures._id}
+              quantity={productDetails}
+            />
+          </div>
         </div>
       </div>
     </div>

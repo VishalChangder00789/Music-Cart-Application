@@ -50,17 +50,19 @@ const QuantityControl = ({ quantity, productId }) => {
   };
 
   return (
-    <div className="QuantityControlContainer">
+    <div className="flex border justify-between rounded-sm">
       <div
         onClick={() => handleMinus(productId, quantityState)}
-        className="Control minus"
+        className="flex items-center justify-center p-2 w-1/3 bg-red-500 text-white"
       >
         -
       </div>
-      <div className="Display">{quantityState}</div>
+      <div className="flex items-center justify-center p-2 w-1/3">
+        {quantityState}
+      </div>
       <div
+        className="flex items-center justify-center p-2 w-1/3 bg-green-500 text-white"
         onClick={() => handlePlus(productId, quantityState)}
-        className="Control plus"
       >
         +
       </div>
