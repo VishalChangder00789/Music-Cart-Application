@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUserInformation } from "./contexts/user-information";
 import Banner from "../../Components/Banner/Banner";
+import axios from "axios";
 
 // Icons
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
@@ -13,9 +14,10 @@ import { TbLogout } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import Switch from "./components/Switch/Switch";
 import { MdDarkMode } from "react-icons/md";
+import { getIdsFromLocalStorage } from "../../Controller/localStorageConnection";
 
 const Profile = () => {
-  const { userInformation } = useUserInformation();
+  const { userInformation, setUserInformation } = useUserInformation();
   const navigate = useNavigate();
 
   return (

@@ -14,11 +14,12 @@ const UserInformationProvider = ({ children }) => {
       const response = await axios.get(
         `https://music-cart-backend-5.onrender.com/api/v1/_USERS/${userId}`
       );
+      console.log(response);
       setUserInformation(response.data.data);
     };
 
-    if (userInformation === "") getUserInformation();
-  });
+    getUserInformation();
+  }, []);
 
   return (
     <UserInformationContext.Provider
