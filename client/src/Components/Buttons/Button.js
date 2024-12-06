@@ -4,8 +4,6 @@ import "./Button.css";
 const Button = ({
   label,
   background,
-  containerWidth,
-  containerHeight,
   ButtonWidth,
   ButtonHeight,
   textColor,
@@ -15,31 +13,21 @@ const Button = ({
   ButtonActivation,
 }) => {
   return (
-    <div
+    <button
+      onClick={ButtonActivation}
+      className="Button"
       style={{
-        width: `${containerWidth}`,
-        height: `${containerHeight}`,
+        height: `${ButtonHeight}`,
+        width: `${ButtonWidth}`,
+        background: `${background}`,
+        color: `${textColor}`,
+        border: `2px solid ${borderColor}`,
         marginTop: `${marginTop}`,
         borderRadius: `${borderRadius}`,
       }}
-      className="ButtonContainer"
     >
-      <button
-        onClick={ButtonActivation}
-        className="Button"
-        style={{
-          height: `${ButtonHeight}`,
-          width: `${ButtonWidth}`,
-          background: `${background}`,
-          color: `${textColor}`,
-          border: `2px solid ${borderColor}`,
-          marginTop: `${marginTop}`,
-          borderRadius: `${borderRadius}`,
-        }}
-      >
-        {label}
-      </button>
-    </div>
+      {label}
+    </button>
   );
 };
 

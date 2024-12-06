@@ -3,69 +3,31 @@ import "./Banner.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-// Files
-import Button from "./../Buttons/Button";
-import { BASEURL } from "../../Constants/Client_Path";
-import HeaderLogoImage from "../../Assets/HeaderLogo.png";
-import BannerImage from "../../Assets/Banner.png";
-import ViewCartButton from "../ViewCartButton/ViewCartButton";
+// Logo and Images
+import HeaderLogoImage from "../../Assets/HeaderLogoMobile.png";
+import { BiSearchAlt } from "react-icons/bi";
 
-const Banner = ({
-  showAdBanner,
-  productPath,
-  showClassifiedButton,
-  navigationRoute,
+// Hooks
+import useScreenSize from "../../CustomHooks/useScreenSize";
+import NavigationPanel from "../NavigationPanel.js/NavigationPanel";
 
-  BannerContainerWidth,
-  LogoContainerWidth,
-  LogoContainerHeight,
-
-  LogoWidth,
-  LogoHeigth,
-}) => {
+const Banner = ({ navigationRoute }) => {
   const navigate = useNavigate();
-
-  const handleNavigateToProducts = () => {
-    navigate(navigationRoute);
-  };
+  const { width } = useScreenSize();
 
   return (
-    <div style={{ width: `${BannerContainerWidth}` }} className="BannerContent">
-      <div className="LogoHeaderContent">
-        <div
-          style={{
-            height: `${LogoContainerHeight}`,
-            width: `${LogoContainerWidth}`,
-          }}
-          className="LeftPart"
-        >
-          <img width={LogoWidth} height={LogoHeigth} src={HeaderLogoImage} />
-          <Link className="LinkTag" to={BASEURL}>
-            Home {productPath ? `/${productPath}` : ""}
-          </Link>
-        </div>
-        <ViewCartButton
-          label="View Cart"
-          background="#1D7000"
-          containerWidth="10%"
-          containerHeight="100%"
-          ButtonHeight="100%"
-          ButtonWidth="100%"
-          textColor="white"
-          marginTop="0px"
-          borderRadius="24px"
+    <div className="bg-[#3c1143] flex p-2 min-h-16 items-center justify-between  lg:min-h-10 lg:p-4 lg:justify-between lg:sticky lg:top-0 lg:z-20">
+      <img className="h-8" src={HeaderLogoImage} />
+      <div className="bg-white flex justify-between items-center w-5/12 lg:w-4/12 p-1 rounded-sm ">
+        <BiSearchAlt />
+        <input
+          className="outline-none w-10/12 h-full lg:w-full lg:ml-2 text-xs"
+          placeholder="Search Music cart"
         />
       </div>
-      {showClassifiedButton ? (
-        <div className="ClassifiedButtonContainer">
-          <button onClick={handleNavigateToProducts}>Back to products</button>
-        </div>
-      ) : (
-        ""
-      )}
-      {showAdBanner ? (
-        <div className="BannerContainer">
-          <img src={BannerImage} className="BannerImage" />
+      {width > 768 ? (
+        <div className="w-[150px] mr-4">
+          <NavigationPanel />
         </div>
       ) : (
         ""

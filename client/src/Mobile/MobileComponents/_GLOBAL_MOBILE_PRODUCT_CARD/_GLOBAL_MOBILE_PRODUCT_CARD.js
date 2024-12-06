@@ -7,33 +7,13 @@ import { sendProductIdToLocalStorage } from "../../../Controller/localStorageCon
 const _GLOBAL_MOBILE_PRODUCT_CARD = ({ setSelectedProduct, product }) => {
   const navigate = useNavigate();
 
-  const handleProductClick = async (e, sentProduct) => {
+  const handleProductClick = (e, sentProduct) => {
     e.preventDefault();
-    await setSelectedProduct(sentProduct);
-    await sendProductIdToLocalStorage(sentProduct);
+    if (sentProduct) {
+      setSelectedProduct(sentProduct);
+    }
+    sendProductIdToLocalStorage(sentProduct);
     navigate(SINGLEPRODUCT);
-  };
-
-  const determineProductColor = () => {
-    const productColor = product.color.toLowerCase();
-
-    if (productColor === "white") {
-      return "bg-white";
-    }
-
-    if (productColor === "black") {
-      return "bg-black";
-    }
-
-    if (productColor === "silver") {
-      return "bg-gray-300";
-    }
-
-    if (productColor === "grey") {
-      return "bg-gray-500";
-    }
-
-    return `bg-${productColor}-500`;
   };
 
   const getProductColor = () => {
@@ -53,7 +33,6 @@ const _GLOBAL_MOBILE_PRODUCT_CARD = ({ setSelectedProduct, product }) => {
         fontStyle: "normal",
       }}
       onClick={(e) => handleProductClick(e, product._id)}
-      // className="_GLOBAL_MOBILE_PRODUCT_CARD"
       className="shadow-md p-2 bg-[#eaeaea] border-1 h-72"
     >
       <div className="flex flex-col justify-around">

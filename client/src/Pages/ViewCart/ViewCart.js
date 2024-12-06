@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ViewCart.css";
 import axios from "axios";
-import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuperHeader";
 import Footer from "../../Components/Footer/Footer";
 import Banner from "../../Components/Banner/Banner";
 import CartItem from "../../Components/CartItem/CartItem";
@@ -69,101 +68,99 @@ const ViewCart = () => {
   }, []);
 
   return (
-    <div className="_GLOBAL_PAGE_INNER_HOLDER_NOSPACING">
-      <ProductSuperHeader
-        ContainerHeight="30px"
-        ContainerWidth="100%"
-        PhoneNumber="912121131313"
-        MiddleMessage="Get 50% off on selected items | Shop Now"
-        BackgroundColor="#2E0052"
-        ImageHeight="80%"
-        ImageWidth="20%"
+    <div className="lg:flex lg:flex-col">
+      <Banner
+        showAdBanner={false}
+        productPath="View Cart"
+        showClassifiedButton={true}
+        navigationRoute={PRODUCTS}
+        BannerContainerWidth="100%"
+        LogoContainerWidth="40%"
+        LogoContainerHeight="40pX"
+        LogoWidth="30%"
+        LogoHeigth="35px"
       />
-
-      <div className="_GLOBAL_MAIN_CONTENT_HOLDER">
-        <Banner
-          showAdBanner={false}
-          productPath="View Cart"
-          showClassifiedButton={true}
-          navigationRoute={PRODUCTS}
-          BannerContainerWidth="100%"
-          LogoContainerWidth="40%"
-          LogoContainerHeight="40pX"
-          LogoWidth="30%"
-          LogoHeigth="35px"
-        />
-
-        <div className="ViewCartInnerBody">
-          <div className="ViewCartLogo">
-            <img src={CartLogo} />
+      <div className="p-4 bg-[#f6f6f6] lg:bg-white">
+        <div className="flex lg:justify-around flex-col lg:flex-row">
+          <div className="lg:min-h-[550px] lg:w-1/2 lg:flex lg:flex-col">
+            {mergedData
+              ? mergedData.map((item) => {
+                  return (
+                    <>
+                      <CartItem key={item._id} singleProduct={item} />
+                    </>
+                  );
+                })
+              : ""}
           </div>
-          <div className="ViewCart-BiSection">
-            <div className="CartDetails">
-              {mergedData
-                ? mergedData.map((item) => {
-                    return <CartItem key={item._id} singleProduct={item} />;
-                  })
-                : ""}
-            </div>
-            <div className="TotalPricing">
-              <div className="PricingText">
-                <span className="PR_Heading">PRICE DETAILS</span>
-                <div className="PR_Heading">
-                  <div>Total MRP </div>
-                  <div className="SubHeading">{GetTotalPrice(mergedData)}</div>
+
+          <div className="lg:w-1/3 lg:relative mt-4 p-2 bg-white">
+            <div className="lg:w-full lg:sticky lg:top-28 lg:min-h-[300px] lg:max-h-96 lg:flex lg:flex-col lg:items-center lg:mt-4 lg:p-2 lg:bg-[#f6f6f6]">
+              <div className="lg:w-full">
+                <span className="text-xs font-semibold">Details</span>
+                <div className="flex w-full justify-between items-center mt-6">
+                  <div>Total </div>
+                  <div className="mr-10 flex">
+                    <div>&#8377;</div>
+                    <div className="text-xl font-semibold">
+                      {GetTotalPrice(mergedData)}
+                    </div>
+                  </div>
                 </div>
-                <div className="PR_Heading">
+                <div className="flex w-full justify-between items-center">
                   <div>Discount on MRP(50%)</div>
-                  <div className="SubHeading">
-                    {GetDiscountedPrice(GetTotalPrice(mergedData), 50)}
+                  <div className="mr-10 flex">
+                    <div>- &#8377;</div>
+                    <div className="text-xl font-semibold">
+                      {GetDiscountedPrice(GetTotalPrice(mergedData), 50)}
+                    </div>
                   </div>
                 </div>
-                <div className="PR_Heading">
+                <div className="flex w-full justify-between items-center">
                   <div>Convenience Fee(2%)</div>
-                  <div className="SubHeading">
-                    {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+                  <div className="mr-10 flex">
+                    <div>+ &#8377;</div>
+                    <div className="text-xl font-semibold">
+                      {(GetDiscountedPrice(GetTotalPrice(mergedData), 50) * 2) /
+                        100}
+                    </div>
                   </div>
+                </div>
+                <div className="mt-6 text-xs font-semibold">
+                  <div>Total Items</div>
+                  <div className="">{mergedData.length} Item</div>
                 </div>
               </div>
 
-              <div className="CartTotalAmount">
-                <div className="PR_Heading">
-                  <div>Total Amount </div>
-                  <div className="SubHeading">
-                    {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+              <div className="w-full mt-6">
+                <div className="flex w-full justify-between items-center">
+                  <div className="text-xs font-semibold flex items-center">
+                    Total Amount{" "}
+                  </div>
+                  <div className="flex mr-10">
+                    <div>&#8377;</div>
+                    <div className="text-xl font-semibold">
+                      {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+                    </div>
                   </div>
                 </div>
               </div>
-              <Button
-                label="PLACE ORDER"
-                background="#FFD600"
-                containerWidth="100%"
-                containerHeight="60px"
-                ButtonWidth="100%"
-                ButtonHeight="100%"
-                textColor="black"
-                borderColor="white"
-                marginTop="5%"
-                borderRadius="7px"
-                ButtonActivation={handlePlaceOrderNavigation}
-              />
+              <div className="w-full h-10 flex items-center justify-center mt-10">
+                <Button
+                  label="PLACE ORDER"
+                  background="#FFD600"
+                  textColor="black"
+                  marginTop="0"
+                  ButtonWidth="100%"
+                  ButtonHeight="100%"
+                  ButtonActivation={handlePlaceOrderNavigation}
+                  borderColor="transparent"
+                />
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="Additional_Information">
-          <div className="items">{mergedData.length} Item</div>
-          <div className="items">&#8377;{GetTotalPrice(mergedData)}</div>
         </div>
       </div>
-
-      <Footer
-        ContainerHeight="40px"
-        ContainerWidth="100%"
-        FooterMessage="Musicart | All rights reserved"
-        FooterBackground="
-        #2E0052"
-      />
     </div>
   );
 };

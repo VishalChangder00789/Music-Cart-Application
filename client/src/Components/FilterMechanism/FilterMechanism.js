@@ -10,6 +10,10 @@ import GridIcon from "../../Assets/GridView.png";
 import ListIcon from "../../Assets/ListView.png";
 import { SetProductAttribute } from "../../Controller/Utilities";
 
+import { BsGrid1X2Fill } from "react-icons/bs";
+import { FaThList } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa";
+
 const FilterMechanism = ({
   setShowGrid,
   Parent_setHeadPhoneType,
@@ -18,6 +22,7 @@ const FilterMechanism = ({
   Parent_setPrice,
   Parent_setSearchTerm,
   Parent_setFeatured,
+  showGrid,
 }) => {
   const [GridView, setGridView] = useState(true);
   const [ListView, setListView] = useState(false);
@@ -58,61 +63,54 @@ const FilterMechanism = ({
   }, [products]);
 
   return (
-    <div className="FilterMechanism">
-      <Input
-        type="text"
-        placeholder="Enter Search"
-        label
-        borderColor
-        width="98%"
-        height="100%"
-        ContainerHeight="60px"
-        ContainerWidth="100%"
-        marginTop="0px"
-        containerMarginTop="0px"
-        setValue={Parent_setSearchTerm}
-        borderRadius="70px"
-      />
+    <div className="flex w-full justify-between">
+      <div className="flex w-1/3 items-center justify-start cursor-pointer">
+        <div onClick={() => setShowGrid(true)} className="flex items-center">
+          <BsGrid1X2Fill
+            size={showGrid ? 28 : 22}
+            color={showGrid ? "black" : "grey"}
+          />
+        </div>
+        <div onClick={() => setShowGrid(false)} className="flex items-center">
+          <FaThList
+            size={!showGrid ? 28 : 25}
+            className="ml-2"
+            color={!showGrid ? "black" : "grey"}
+          />
+        </div>
+      </div>
 
-      <div className="FilterOptions">
-        <div className="LayoutButtons">
-          <div onClick={() => setShowGrid(true)} className="Icon">
-            <img src={GridIcon} />
-          </div>
-          <div onClick={() => setShowGrid(false)} className="Icon">
-            <img src={ListIcon} />
-          </div>
-        </div>
-        <div className="FilteringOptions">
-          <Tabs
-            Tabtitle="Headphone Type"
-            options={HeadphoneType}
-            setStateValue={Parent_setHeadPhoneType}
-          />
-          <Tabs
-            Tabtitle="Company"
-            options={Company}
-            setStateValue={Parent_setCompany}
-          />
-          <Tabs
-            Tabtitle="Colour"
-            options={Color}
-            setStateValue={Parent_setColor}
-          />
-          <Tabs
-            Tabtitle="Price"
-            options={Price}
-            setStateValue={Parent_setPrice}
-          />
-        </div>
-        {/* Work a bit */}
-        <div className="SortOptions">
-          <Tabs
-            Tabtitle="Sort by : Featured"
-            options={FeaturedOptions}
-            setStateValue={Parent_setFeatured}
-          />
-        </div>
+      <div className="flex w-1/3 cursor-pointer items-center justify-between">
+        <FaFilter color="#9c41b0" size={35} className="mr-4" />
+        <Tabs
+          Tabtitle="Headphone Type"
+          options={HeadphoneType}
+          setStateValue={Parent_setHeadPhoneType}
+        />
+
+        <Tabs
+          Tabtitle="Company"
+          options={Company}
+          setStateValue={Parent_setCompany}
+        />
+        <Tabs
+          Tabtitle="Colour"
+          options={Color}
+          setStateValue={Parent_setColor}
+        />
+        <Tabs
+          Tabtitle="Price"
+          options={Price}
+          setStateValue={Parent_setPrice}
+        />
+      </div>
+
+      <div className="lg:flex lg:justify-end lg:items-center lg:w-1/3 cursor-pointer">
+        <Tabs
+          Tabtitle="Sort by : Featured"
+          options={FeaturedOptions}
+          setStateValue={Parent_setFeatured}
+        />
       </div>
     </div>
   );

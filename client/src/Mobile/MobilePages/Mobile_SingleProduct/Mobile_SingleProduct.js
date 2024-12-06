@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./Mobile_SingleProduct.css";
 import axios from "axios";
 import {
@@ -25,45 +25,16 @@ import { GoDotFill } from "react-icons/go";
 import _GLOBAL_MOBILE_HEADER from "../../MobileComponents/_GLOBAL_MOBILE_HEADER/_GLOBAL_MOBILE_HEADER";
 import _GLOBAL_MOBILE_FOOTER from "../../MobileComponents/_GLOBAL_MOBILE_FOOTER/_GLOBAL_MOBILE_FOOTER";
 import _GLOBAL_MOBILE_BUTTON from "../../MobileComponents/_GLOBAL_MOBILE_BUTTON/_GLOBAL_MOBILE_BUTTON";
-import _IMAGECAROUSAL_MOBILE from "../../MobileComponents/_IMAGECAROUSAL_MOBILE/_IMAGECAROUSAL_MOBILE";
+// import _IMAGECAROUSAL_MOBILE from "../../MobileComponents/_IMAGECAROUSAL_MOBILE/_IMAGECAROUSAL_MOBILE";
 
-const Mobile_SingleProduct = () => {
+const Mobile_SingleProduct = ({}) => {
   const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [moreDescription, setMoreDescription] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Add to Cart Handler
-  const handleAddToCart = async (productId) => {
-    try {
-      const userId = JSON.parse(getIdsFromLocalStorage()).userId;
-      const apiPath = ADD_ITEM_TO_CART(userId, productId);
-      await axios.post(apiPath);
-      console.log("Product added to cart successfully.");
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
-  };
-
-  // Buy Now Handler
-  const handleBuyNow = async (productId) => {
-    try {
-      const userId = JSON.parse(getIdsFromLocalStorage()).userId;
-      const apiPath = ADD_ITEM_TO_CART(userId, productId);
-      await axios.post(apiPath);
-      navigate(VIEWCART);
-    } catch (error) {
-      console.error("Error buying product:", error);
-    }
-  };
-
-  // Truncate and Format Description
-  const readCharacters = (about, shortenIt) => {
-    const description = shortenIt ? about.slice(0, 250) : about;
-    return description.split("-").map((str) => str.trim());
-  };
-
-  // Fetch Product Data
+  // Fetch Product Data with Error Handling
   useEffect(() => {
     if (!getTokenFromLocalStorage()) navigate(LOGIN);
 
@@ -79,7 +50,7 @@ const Mobile_SingleProduct = () => {
         );
         setSelectedProduct(response.data.fetchedProduct);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        setError("Error fetching product details.");
       } finally {
         setLoading(false);
       }
@@ -88,7 +59,40 @@ const Mobile_SingleProduct = () => {
     fetchData();
   }, [navigate]);
 
-  // Render Star Ratings
+  // Add to Cart Handler with Feedback
+  const handleAddToCart = useCallback(async (productId) => {
+    try {
+      const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+      const apiPath = ADD_ITEM_TO_CART(userId, productId);
+      await axios.post(apiPath);
+      alert("Product added to cart successfully.");
+    } catch (error) {
+      setError("Error adding to cart. Please try again.");
+    }
+  }, []);
+
+  // Buy Now Handler with Feedback
+  const handleBuyNow = useCallback(
+    async (productId) => {
+      try {
+        const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+        const apiPath = ADD_ITEM_TO_CART(userId, productId);
+        await axios.post(apiPath);
+        navigate(VIEWCART);
+      } catch (error) {
+        setError("Error purchasing product. Please try again.");
+      }
+    },
+    [navigate]
+  );
+
+  // Truncate and Format Description
+  const readCharacters = (about, shortenIt) => {
+    const description = shortenIt ? about.slice(0, 250) : about;
+    return description.split("-").map((str) => str.trim());
+  };
+
+  // Star Rating Component
   const StarRating = (rating) => {
     return Array.from({ length: Math.floor(rating) }, (_, i) => (
       <RiStarSFill key={i} color="gold" />
@@ -105,6 +109,7 @@ const Mobile_SingleProduct = () => {
   };
 
   if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
@@ -113,7 +118,7 @@ const Mobile_SingleProduct = () => {
         style={{ fontFamily: "Poppins, sans-serif", fontWeight: "500" }}
         className="p-4"
       >
-        <_IMAGECAROUSAL_MOBILE arrayImages={selectedProduct.imageURL} />
+        {/* <_IMAGECAROUSAL_MOBILE arrayImages={selectedProduct.imageURL} /> */}
         <div className="mt-10">
           <h1 className="text-3xl font-semibold">{selectedProduct.codeName}</h1>
           <div className="flex items-center mt-2">
@@ -134,12 +139,12 @@ const Mobile_SingleProduct = () => {
 
           <div className="mt-4">
             <h2 className="text-xl font-bold">Description</h2>
-            <div className="mt-4 text-sm">
+            <div className="mt-4 text-sm border">
               {readCharacters(selectedProduct.about, !moreDescription).map(
                 (string, index) => (
-                  <div key={index} className="flex mt-2 items-center">
-                    <GoDotFill size={20} />
-                    <p className="ml-2">{string}</p>
+                  <div key={index} className="flex mt-2 items-center border ">
+                    <GoDotFill size={20} className="w-1/3 border" />
+                    <p className="ml-2 w-2/3">{string}</p>
                   </div>
                 )
               )}

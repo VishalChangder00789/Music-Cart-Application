@@ -32,19 +32,19 @@ const ImageCarousal = ({ arrayOfImageUrl }) => {
   }, []);
 
   return (
-    <div className="ImageCarousalContainer">
-      <div className="BigImage">
-        <img src={ImageToShow} />
+    <div className="sticky top-24 h-[630px] w-full p-2 bg-[#cccccc] shadow-lg shadow-[#00000049]">
+      <div className="h-3/4 w-full">
+        <img src={ImageToShow} className="h-full w-full" />
       </div>
 
-      <div className="ImageCollection">
+      <div className="h-1/4 flex items-center justify-between">
         {ArrayImages.map((url) => {
           return (
             <div
               onMouseEnter={() => handleMouseEnter(url)}
-              className="SmallerImages"
+              className="rounded-sm h-[95%] w-[32%] mt-2"
             >
-              <img src={url} />
+              <img src={url} className="h-[99%] w-[99%]" />
             </div>
           );
         })}

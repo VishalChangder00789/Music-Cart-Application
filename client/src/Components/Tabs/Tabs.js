@@ -103,7 +103,7 @@ const Tabs = ({
     >
       {!tabOptionSelection ? Tabtitle : tabOptionSelection}
       {openDropDown && (
-        <div className="z-10 min-h-[50px] max-h-[80px] absolute overflow-auto top-full border border-gray-300 mt-1 w-full bg-white rounded-sm shadow-lg">
+        <div className="min-h-[50px] max-h-[80px] absolute overflow-auto top-full border border-gray-300 mt-1 w-full bg-white rounded-sm shadow-lg">
           {options.map((m, index) => (
             <div
               key={index} // Add a key for each dropdown item

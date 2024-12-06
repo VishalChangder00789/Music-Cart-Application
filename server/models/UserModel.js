@@ -39,6 +39,14 @@ const userSchema = mongoose.Schema({
   cartId: {
     type: String,
   },
+
+  address: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+    },
+  ],
+
   passwordChangedAt: Date,
 });
 

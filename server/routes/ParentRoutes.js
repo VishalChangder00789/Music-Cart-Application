@@ -9,6 +9,7 @@ const productController = require("../controller/productController");
 router.route("/_REGISTER").post(authController.register);
 router.route("/_LOGIN").post(authController.login);
 router.route("/_USERS").get(userController.getAllUsers);
+router.route("/_USERS/:userId").get(userController.getUser);
 
 // CART
 

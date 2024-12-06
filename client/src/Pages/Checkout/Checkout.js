@@ -9,7 +9,6 @@ import {
 import { CLIENT_PORT, PRODUCTS } from "../../Constants/Client_Path";
 
 // Files
-import ProductSuperHeader from "../../Components/ProductSuperHeader/ProductSuperHeader";
 import Banner from "../../Components/Banner/Banner";
 import CheckoutPanel from "../../Components/CheckoutPanel/CheckoutPanel";
 import CheckoutPanelArray from "../../Components/CheckoutPanelArray/CheckoutPanelArray";
@@ -66,15 +65,6 @@ const Checkout = () => {
 
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER_NOCONTENTSEPERATION">
-      <ProductSuperHeader
-        ContainerHeight="30px"
-        ContainerWidth="100%"
-        PhoneNumber="912121131313"
-        MiddleMessage="Get 50% off on selected items | Shop Now"
-        BackgroundColor="#2E0052"
-        ImageHeight="80%"
-        ImageWidth="20%"
-      />
       <div className="_GLOBAL_MAIN_CONTENT_HOLDER">
         <Banner
           showAdBanner={false}
@@ -145,13 +135,6 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <Footer
-        ContainerHeight="40px"
-        ContainerWidth="100%"
-        FooterMessage="Musicart | All rights reserved"
-        FooterBackground="
-        #2E0052"
-      />
     </div>
   );
 };

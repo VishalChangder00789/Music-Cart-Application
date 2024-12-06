@@ -14,6 +14,7 @@ import _Mobile_Checkout_Items from "../../MobileComponents/_Mobile_Checkout_Item
 import { CLIENT_PORT, VIEWCART } from "../../../Constants/Client_Path";
 import { useNavigate } from "react-router-dom";
 import { DEPLOYED_BASE_URL } from "../../../Constants/Server_Path";
+import DropdownSelectable from "../../MobileComponents/Dropdown-Selectable/Dropdown-Selectable";
 
 const Mobile_Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -64,7 +65,13 @@ const Mobile_Checkout = () => {
   };
 
   return (
-    <div className="_GLOBAL_MOBILE_HOLDER_ADJUSTED">
+    <div
+      style={{
+        fontFamily: "Poppins , sans-serif",
+        fontStyle: "normal",
+      }}
+      className="bg-white"
+    >
       <_GLOBAL_MOBILE_HEADER
         //HeaderMessage="WELCOME"
         //SearchActive={true}
@@ -72,12 +79,36 @@ const Mobile_Checkout = () => {
         pageToGo={VIEWCART}
       />
 
-      <div className="_Mobile_Checkout_Header_Message">Checkout</div>
+      <div className="pl-2 flex mt-4">
+        <div className="text-black flex items-center text-md ">Subtotal</div>
+        <div className="flex ml-4 justify-center">
+          <div>&#8377;</div>
+          <div className="ml-1 text-2xl font-semibold">
+            {GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
+          </div>
+        </div>
+      </div>
+      <div className="pl-2 text-blue-500">EMI Available Details</div>
 
-      <div className="_Mobile_Checkout_Comp1">
-        <div className="_MobileHeading">1. Delivery Address</div>
-        <div className="_mob">
-          Akash Patel 104 kk hh nagar, Lucknow Uttar Pradesh 226025
+      <div className="flex justify-center">
+        <_GLOBAL_MOBILE_BUTTON
+          buttonTitle="Proceed to Buy"
+          buttonHeight="50px"
+          buttonWidth="90%"
+          background="#FFB800"
+          fontColor="black"
+          outline="none"
+          borderRadius="7px"
+          fontSize="16px"
+          marginTop="5%"
+          addFunctionality={handleThankyouPage}
+        />
+      </div>
+
+      <div className="p-2 mt-4">
+        <div className="text-lg font-semibold">Delivery Address</div>
+        <div className="mt-2">
+          <DropdownSelectable />
         </div>
       </div>
 
@@ -88,35 +119,13 @@ const Mobile_Checkout = () => {
         </div>
       </div>
 
-      <div className="_Mobile_Checkout_Comp1">
-        <div className="_MobileHeading">3. Review items and delivery</div>
-        <div className="ProductCatalogue">
+      <div className="p-2 mt-4">
+        <div className="text-lg font-semibold">Review items and delivery</div>
+        <div className="flex flex-col">
           {mergedData.map((item) => {
             return <_Mobile_Checkout_Items item={item} />;
           })}
         </div>
-      </div>
-
-      <div className="_Mobile_Checkout_Comp2">
-        <div className="_SumPaymentHeading">Order Total : </div>
-        <div className="_SumPaymentHeading_sub">
-          &#8377;{GetPriceConvientFees(GetTotalPrice(mergedData), 2, 50)}
-        </div>
-      </div>
-
-      <div className="_Mobile_Checkout_Comp5">
-        <_GLOBAL_MOBILE_BUTTON
-          buttonTitle="Place your Order"
-          buttonHeight="50px"
-          buttonWidth="80%"
-          background="#FFB800"
-          fontColor="black"
-          outline="none"
-          borderRadius="7px"
-          fontSize="18px"
-          marginTop="7%"
-          addFunctionality={handleThankyouPage}
-        />
       </div>
     </div>
   );
