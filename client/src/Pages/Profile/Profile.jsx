@@ -84,6 +84,7 @@ const Profile = () => {
           <ProfileOptionButton name="Payments" route="/payments" />
           <ProfileOptionButton name="Complaints" route="/complaints" />
           <ProfileOptionButton name="Supports" route="/supports" />
+          <ProfileOptionButton name="Logout" />
         </div>
 
         {/* Main Content */}
