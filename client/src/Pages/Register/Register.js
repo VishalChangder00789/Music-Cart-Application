@@ -31,7 +31,8 @@ const Register = () => {
     }
 
     await axios
-      .post(SERVER_REGISTER_ALL_USERS, {
+      // SERVER_REGISTER_ALL_USERS
+      .post("http://localhost:8000/api/v1/_REGISTER", {
         name: Name,
         mobile: Mobile,
         email: Email,

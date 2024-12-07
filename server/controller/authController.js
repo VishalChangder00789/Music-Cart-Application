@@ -3,6 +3,7 @@ const userModel = require("../models/UserModel");
 const cartModel = require("../models/CartModel");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+const { sendEmail } = require("./emailController");
 
 //creating token
 const signToken = (id) => {
@@ -13,10 +14,16 @@ const signToken = (id) => {
 
 // The user will be signing up and will be generating a jsonWebToken
 exports.register = catchAsync(async (req, res, next) => {
+  const { name, email, password } = req.body;
   const newUser = await userModel.create(req.body);
   const newUserCart = await cartModel.create({ user: newUser._id, items: [] });
 
   const token = signToken(newUser._id);
+
+  const subject = "Welcome to Music cart";
+  const text = `Hi ${name} , We are so excited to have you on board! Get ready to explore a world of music tailored just for you. Whether you are discovering new tracks, curating your personal playlist, or shopping for the best deals on music, Music Cart is here to bring you closer to the beats you love. Start exploring, enjoy the music, and let the journey begin! Happy listening! 🎧✨ Your password is ${password}`;
+
+  await sendEmail(email, subject, text);
 
   return res.status(201).json({
     status: "User is Registered",

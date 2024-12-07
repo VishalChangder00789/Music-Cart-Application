@@ -7,7 +7,14 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "A user should have a name"],
   },
-
+  dateOfBirth: {
+    type: String,
+    required: [true, "A user should have a DOB"],
+  },
+  location: {
+    type: String,
+    required: [true, "A user should have a location"],
+  },
   email: {
     type: String,
     required: [true, "A user should have an email"],
@@ -20,6 +27,12 @@ const userSchema = mongoose.Schema({
     type: String,
   },
 
+  phone: {
+    type: Number,
+    required: [true, "A user should have a phone"],
+    min: [10, "A phone number should be 10 digits"],
+    max: [10, "A phone number should be 10 digits"],
+  },
   password: {
     type: String,
     required: [true, "A user should include a password"],

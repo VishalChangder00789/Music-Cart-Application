@@ -1,0 +1,8 @@
+.glass-effect {
+    background-color: rgba(151, 47, 255, 0.3); /* Use rgba for transparency */
+    backdrop-filter: blur(10px); /* Apply blur effect */
+    border-radius: 10px; /* Optional: rounded corners */
+    padding: 20px; /* Adjust padding as needed */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Optional: light border to mimic glass edge */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for depth */
+  }

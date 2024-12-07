@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
@@ -9,7 +9,11 @@ const ProfileOptionButton = ({ name = "Default", route, Icon }) => {
     if (route) {
       navigate(route);
     } else {
-      // Signout Login
+      // Signout Logic
+      localStorage.removeItem("UserIds");
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("productId");
+      navigate("/");
     }
   };
 

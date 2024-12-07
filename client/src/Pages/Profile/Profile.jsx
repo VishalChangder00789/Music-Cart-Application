@@ -71,6 +71,7 @@ const Profile = () => {
             <ProfileOptionButton name="Payments" route="/payments" />
             <ProfileOptionButton name="Complaints" route="/complaints" />
             <ProfileOptionButton name="Supports" route="/supports" />
+            <ProfileOptionButton name="Logout" />
           </div>
         )}
 
@@ -100,7 +101,10 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md">
+              <button
+                onClick={() => navigate("/editProfile")}
+                className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md"
+              >
                 Edit Profile
               </button>
             </div>
