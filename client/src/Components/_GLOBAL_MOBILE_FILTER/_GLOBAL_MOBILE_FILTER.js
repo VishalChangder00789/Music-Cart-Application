@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./_GLOBAL_MOBILE_FILTER.css";
-import Tabs from "../../../Components/Tabs/Tabs";
-import { GET_ALL_PRODUCTS } from "../../../Constants/Server_Path";
+import Tabs from "../Tabs/Tabs";
+import { GET_ALL_PRODUCTS } from "../../Constants/Server_Path";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa"; // Import a filter icon from react-icons
 
-import { SetProductAttribute } from "../../../Controller/Utilities";
+import { SetProductAttribute } from "../../Controller/Utilities";
 
 const _GLOBAL_MOBILE_FILTER = ({
   setShowGrid,

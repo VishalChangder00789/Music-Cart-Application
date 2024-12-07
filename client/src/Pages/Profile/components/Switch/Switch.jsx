@@ -14,14 +14,14 @@ const Switch = ({ Icon, name, mode = false }) => {
           name === "Edit Profile"
             ? `bg-[#972fff] text-white justify-center`
             : "bg-[#ffffff] border text-black justify-between"
-        } mt-8  w-full flex items-center p-2 rounded-md font-semibold`}
+        } w-full flex items-center p-2 rounded-md font-semibold`}
       >
         {Icon && (
           <div className="w-[30px]">
             <Icon size={20} />
           </div>
         )}
-        <div className="w-[70px] flex">{name}</div>
+        <div className="flex">{name}</div>
         <div
           onClick={() => setStatusMode(!statusMode)}
           className={`w-[40px] mr-2 p-1 rounded-[24px] border-black ${

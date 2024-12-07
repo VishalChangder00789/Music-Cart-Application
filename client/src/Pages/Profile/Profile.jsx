@@ -1,23 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserInformation } from "./contexts/user-information";
 import Banner from "../../Components/Banner/Banner";
 import axios from "axios";
 
 // Icons
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import { HiOutlineMenu } from "react-icons/hi"; // Added icon for mobile menu
 import ProfileOptionButton from "./components/ProfileOptionButton/ProfileOptionButton";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoSettings } from "react-icons/io5";
 import { HiMiniLanguage } from "react-icons/hi2";
 import { MdDocumentScanner } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
 import Switch from "./components/Switch/Switch";
 import { MdDarkMode } from "react-icons/md";
 import { getIdsFromLocalStorage } from "../../Controller/localStorageConnection";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { userInformation, setUserInformation } = useUserInformation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to manage mobile menu
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,69 +47,106 @@ const Profile = () => {
   return (
     <div>
       <Banner />
-      <div className="min-h-[700px] p-4">
-        <div className="flex justify-betweeen mt-4 items-center">
+      <div className="min-h-[700px] p-4 lg:p-8 lg:flex lg:justify-between lg:gap-8 bg-[#c5c5c559]">
+        {/* Mobile Menu Toggle Button */}
+        <div className="lg:hidden flex justify-between items-center mb-4">
           <MdOutlineKeyboardArrowLeft
             className="w-[30px] ml-2"
             size={30}
             onClick={() => navigate("/")}
           />
-          <div className="w-2/3 text-lg flex justify-center items-center font-semibold">
-            Profile
-          </div>
+          <HiOutlineMenu
+            size={30}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          />
         </div>
 
-        {/* Profile Visibility */}
+        {/* Mobile Sidebar */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden bg-gray-100 p-4 space-y-4 shadow-md mb-2">
+            <ProfileOptionButton name="My dashboard" route="/dashboard" />
+            <ProfileOptionButton name="Accounts" route="/accounts" />
+            <Switch name="Night Mode" />
+            <ProfileOptionButton name="Mobile" route="/mobile" />
+            <ProfileOptionButton name="Payments" route="/payments" />
+            <ProfileOptionButton name="Complaints" route="/complaints" />
+            <ProfileOptionButton name="Supports" route="/supports" />
+          </div>
+        )}
 
-        <div className="mt-10 flex items-center">
-          <div className="w-[55px] h-14 rounded-[50%] bg-[#585858]"></div>
-          <div className="flex flex-col ml-2">
-            <div className="font-bold">{userInformation.name}</div>
-            <div className="text-sm text-[#7f7f7f]">
-              {userInformation.email}
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:flex lg:flex-col lg:w-1/4 lg:space-y-6">
+          <ProfileOptionButton name="My dashboard" route="/dashboard" />
+          <ProfileOptionButton name="Accounts" route="/accounts" />
+          <Switch name="Night Mode" />
+          <ProfileOptionButton name="Mobile" route="/mobile" />
+          <ProfileOptionButton name="Payments" route="/payments" />
+          <ProfileOptionButton name="Complaints" route="/complaints" />
+          <ProfileOptionButton name="Supports" route="/supports" />
+        </div>
+
+        {/* Main Content */}
+        <div className="lg:flex lg:flex-col lg:w-3/4 bg-white lg:p-2">
+          {/* Profile Header */}
+          <div className="lg:flex lg:space-x-8">
+            {/* Profile Card */}
+            <div className="p-6 border shadow-md rounded-md lg:w-1/3">
+              <div className="flex items-center mb-6">
+                <div className="w-16 h-16 rounded-full bg-[#585858]"></div>
+                <div className="flex flex-col ml-4">
+                  <div className="font-bold">{userInformation.name}</div>
+                  <div className="text-sm text-[#7f7f7f]">
+                    {userInformation.email}
+                  </div>
+                </div>
+              </div>
+              <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md">
+                Edit Profile
+              </button>
+            </div>
+
+            {/* Account Details */}
+            <div className="p-6 border shadow-md rounded-md lg:w-1/3 bg-white">
+              <h3 className="font-bold text-lg mb-4">My xPay Accounts</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span>Active account</span>
+                  <button className="bg-red-500 text-white py-1 px-3 rounded">
+                    Block Account
+                  </button>
+                </div>
+                <div className="flex justify-between items-center bg-white">
+                  <span>Blocked account</span>
+                  <button className="bg-green-500 text-white py-1 px-3 rounded">
+                    Unblock Account
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* My Bills */}
+            <div className="p-6 border shadow-md rounded-md lg:w-1/3">
+              <h3 className="font-bold text-lg mb-4">My Bills</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span>Phone bill</span>
+                  <span className="text-green-500 font-bold">Paid</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Internet bill</span>
+                  <span className="text-red-500 font-bold">Not Paid</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>House rent</span>
+                  <span className="text-green-500 font-bold">Paid</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Income tax</span>
+                  <span className="text-green-500 font-bold">Paid</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Edit Button Visibilty */}
-        <div className="mt-4">
-          <ProfileOptionButton name="Edit Profile" route="/editProfile" />
-        </div>
-
-        <div className="mt-4">
-          <ProfileOptionButton
-            name="Address"
-            Icon={IoLocationSharp}
-            route="/editAddress"
-          />
-        </div>
-
-        <div className="mt-4">
-          <ProfileOptionButton
-            name="User Settings"
-            Icon={IoSettings}
-            route="/userSettings"
-          />
-        </div>
-
-        <div>
-          <Switch Icon={MdDarkMode} name="DarkMode" />
-        </div>
-
-        <div className="mt-4">
-          <ProfileOptionButton name="Language" Icon={HiMiniLanguage} route="" />
-        </div>
-
-        <div className="mt-4">
-          <ProfileOptionButton
-            name="Terms and Services"
-            Icon={MdDocumentScanner}
-            route=""
-          />
-        </div>
-
-        <div className="mt-4">
-          <ProfileOptionButton name="LogOut" Icon={TbLogout} route="" />
         </div>
       </div>
     </div>
