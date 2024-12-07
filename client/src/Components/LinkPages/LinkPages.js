@@ -3,46 +3,15 @@ import "./LinkPages.css";
 import Button from "../Buttons/Button";
 import Line from "../../Assets/Line.png";
 
-const LinkPages = ({
-  label,
-  buttonLabel,
-  background,
-  ContainerHeight,
-  ContainerWidth,
-  ButtonContainerWidth,
-  ButtonContainerHeight,
-  ButtonTextColor,
-  ButtonWidth,
-  ButtonHeight,
-  lineHeight,
-  lineWidth,
-  ButtonBorderColor,
-  handleGotoRegister,
-}) => {
+const LinkPages = ({ label, buttonLabel, handleGotoRegister }) => {
   return (
-    <div
-      className="LinkPagesContainerOuter"
-      style={{
-        minHeight: `${ContainerHeight}`,
-        width: `${ContainerWidth}`,
-      }}
-    >
-      <div className="LinkPagesContainer">
-        <img height={lineHeight} width={lineWidth} src={Line} />
-        {label}
-        <img height={lineHeight} width={lineWidth} src={Line} />
+    <div className="p-6 w-full lg:flex lg:justify-center lg:items-center">
+      <div className="lg:justify-center lg:w-3/12 flex flex-col border-t border-gray-200 pt-2">
+        <div className="text-sm text-center font-semibold ">{label}</div>
+        <div className="flex justiy-center items-center">
+          <Button label={buttonLabel} ButtonActivation={handleGotoRegister} />
+        </div>
       </div>
-      <Button
-        background={background}
-        label={buttonLabel}
-        containerWidth={ButtonContainerWidth}
-        containerHeight={ButtonContainerHeight}
-        textColor={ButtonTextColor}
-        ButtonWidth={ButtonWidth}
-        ButtonHeight={ButtonHeight}
-        borderColor={ButtonBorderColor}
-        ButtonActivation={handleGotoRegister}
-      />
     </div>
   );
 };

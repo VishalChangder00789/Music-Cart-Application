@@ -14,6 +14,7 @@ import {
   sendTokenToLocalStorage,
 } from "../../Controller/localStorageConnection";
 import { PRODUCTS, REGISTER } from "../../Constants/Client_Path";
+import Banner from "../../Components/Banner/Banner";
 
 const Login = () => {
   const [Email, setEmail] = useState("");
@@ -51,60 +52,39 @@ const Login = () => {
   };
 
   return (
-    <div className="_GLOBAL_PAGE_INNER_HOLDER">
-      <LogoHeader
-        ContainerHeight="60px"
-        ContainerWidth="100%"
-        LogoHeight="70%"
-        LogoWidth="10%"
-      />
-      <FormContainer
-        FormTaskLabel="SignIn"
-        width="450px"
-        height="400px"
-        MainContainerMarginTop="1%"
-        numberOFInputs={2}
-        arrayOflabels={["Enter your email or mobile number", "Password"]}
-        arrayofPlaceholders={["Email", "Password"]}
-        arrayofTypes={["email", "password"]}
-        inputMarginTop="5%"
-        inputWidth="97%"
-        inputHeight="40px"
-        labelContainerHeight="40px"
-        ButtoncontainerHeight="50px"
-        ButtoncontainerWidth="100%"
-        ButtonHeight="100%"
-        ButtonWidth="100%"
-        ButtonLabel="Continue"
-        ButtontextColor="white"
-        bottomMessage="By continuing, you agree to Musicart privacy notice and conditions of use."
-        arrayOfStates={[setEmail, setPassword]}
-        containerMarginTop="4%"
-        ButtonActivation={handleLoginButton}
-      />
-      <LinkPages
-        label="New to Musicart?"
-        buttonLabel="Create your Musicart account"
-        background="none"
-        ContainerHeight="5px"
-        ContainerWidth="450px"
-        ButtonContainerWidth="100%"
-        ButtonContainerHeight="50px"
-        ButtonTextColor="black"
-        ButtonHeight="100%"
-        ButtonWidth="100%"
-        lineHeight="10%"
-        lineWidth="30%"
-        ButtonBorderColor="#BDBDBD"
-        handleGotoRegister={handleGotoRegister}
-      />
-      <Footer
-        ContainerHeight="40px"
-        ContainerWidth="100%"
-        FooterMessage="Musicart | All rights reserved"
-        FooterBackground="
-        #2E0052"
-      />
+    <div>
+      <Banner />
+      <div className="min-h-[700px] lg:border-2">
+        <FormContainer
+          FormTaskLabel="SignIn"
+          width="450px"
+          height="400px"
+          MainContainerMarginTop="1%"
+          numberOFInputs={2}
+          arrayOflabels={["Enter your email or mobile number", "Password"]}
+          arrayofPlaceholders={["Email", "Password"]}
+          arrayofTypes={["email", "password"]}
+          inputMarginTop="5%"
+          inputWidth="97%"
+          inputHeight="40px"
+          labelContainerHeight="40px"
+          ButtoncontainerHeight="50px"
+          ButtoncontainerWidth="100%"
+          ButtonHeight="100%"
+          ButtonWidth="100%"
+          ButtonLabel="Continue"
+          ButtontextColor="white"
+          bottomMessage="By continuing, you agree to Musicart privacy notice and conditions of use."
+          arrayOfStates={[setEmail, setPassword]}
+          containerMarginTop="4%"
+          ButtonActivation={handleLoginButton}
+        />
+        <LinkPages
+          label="New to Musicart?"
+          buttonLabel="Create your Musicart account"
+          handleGotoRegister={handleGotoRegister}
+        />
+      </div>
     </div>
   );
 };

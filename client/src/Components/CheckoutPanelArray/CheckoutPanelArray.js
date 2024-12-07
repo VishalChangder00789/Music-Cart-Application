@@ -53,24 +53,31 @@ const CheckoutPanelArray = ({ title, Details }) => {
   }, []);
 
   return (
-    <div className="CheckoutPanelArrayContainer">
-      <div className="CheckoutPanelArrayContainer_Title">{title}</div>
-      <div className="CheckoutPanelArrayContainer_Details">
+    <div className="flex flex-col bg-white p-2 rounded-sm">
+      <div className="text-sm font-semibold">{title}</div>
+      <div className="w-full mt-2">
         {mergedData
           ? mergedData.map((item) => {
               return (
-                <div className="CheckoutItemHolder">
-                  <div className="CheckoutItemHolder_ImageHolder">
-                    <img src={item.details.fetchedProduct.imageURL[0]} />
+                <div className="border border-[#929292] lg:mt-4 lg:border-none lg:shadow-md shadow-[#6c6c6c56] mt-2 w-full min-h-24 max-h-40 flex items-center p-1 rounded-md lg:bg-[#a4a4a433]">
+                  <div className="h-24 lg:h-28 w-[33%] lg:w-[20%] flex items-center p-1 bg-[#cecece]">
+                    <img
+                      className="h-full w-full shadow-md"
+                      src={item.details.fetchedProduct.imageURL[0]}
+                    />
                   </div>
-                  <div className="CheckoutItemHolder_Details Heading">
-                    {item.details.fetchedProduct.codeName}
+                  <div className="ml-2 text-sm w-1/3 h-full">
+                    <div className="">
+                      {item.details.fetchedProduct.codeName}
+                    </div>
+                    <div className="text-xs font-semibold mt-1">
+                      {item.details.fetchedProduct.color}
+                    </div>
                   </div>
-                  <div className="CheckoutItemHolder_Details">
-                    Colour : {item.details.fetchedProduct.color}
-                  </div>
-                  <div className="CheckoutItemHolder_Details">
-                    Estimated delivery : Monday — FREE Standard Delivery
+                  <div className="w-1/3 text-xs flex flex-col">
+                    <div>Estimated delivery</div>
+                    <div> Monday FREE </div>
+                    <div>Standard Delivery</div>
                   </div>
                 </div>
               );

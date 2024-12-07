@@ -34,48 +34,29 @@ const FormContainer = ({
     renderInputs.push(
       <Input
         label={arrayOflabels[i]}
-        width={inputWidth}
-        height={inputHeight}
         placeholder={arrayofPlaceholders[i]}
         type={arrayofTypes[i]}
-        marginTop={inputMarginTop}
         setValue={arrayOfStates[i]}
-        containerMarginTop={containerMarginTop}
       />
     );
   }
 
   return (
-    <div
-      className="FormContainer_Container"
-      style={{
-        width: `${width}`,
-        minHeight: `${height}`,
-        marginTop: `${MainContainerMarginTop}`,
-      }}
-    >
-      <div
-        className="LabelContainer"
-        style={{
-          height: `${labelContainerHeight}`,
-        }}
-      >
+    <div className="flex flex-col items-center p-6">
+      <div className="w-full text-2xl lg:flex lg:justify-center lg:items-center font-semibold">
         {FormTaskLabel}
       </div>
-      <div className="FormBody">
-        {renderInputs}
-        {PreMessage ? <div className="BottomMessage">{PreMessage}</div> : ""}
-        <Button
-          label={ButtonLabel}
-          containerHeight={ButtoncontainerHeight}
-          containerWidth={ButtoncontainerWidth}
-          ButtonHeight={ButtonHeight}
-          ButtonWidth={ButtonWidth}
-          textColor={ButtontextColor}
-          background="#2E0052"
-          ButtonActivation={ButtonActivation}
-        />
-        <div className="BottomMessage">{bottomMessage}</div>
+      <div className="flex flex-col mt-6 lg:w-3/12 lg:justify-center">
+        <div className="flex flex-col bg-[#eaeaea80] p-4 rounded-md shadow-md shadow-[#00000079] lg:w-5/3">
+          {renderInputs}
+          {PreMessage ? (
+            <div className="mt-2 pl-2 text-xs font-semibold">{PreMessage}</div>
+          ) : (
+            ""
+          )}
+          <Button label={ButtonLabel} ButtonActivation={ButtonActivation} />
+          <div className="mt-4 text-xs font-semibold">{bottomMessage}</div>
+        </div>
       </div>
     </div>
   );

@@ -20,6 +20,28 @@ const Profile = () => {
   const { userInformation, setUserInformation } = useUserInformation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const getUserInformation = async () => {
+      try {
+        const userId = JSON.parse(getIdsFromLocalStorage()).userId;
+        console.log("UserId is :", userId);
+        const response = await axios.get(
+          `https://music-cart-backend-5.onrender.com/api/v1/_USERS/${userId}`
+        );
+        console.log(response);
+        setUserInformation(response.data.data);
+      } catch (error) {
+        console.error("Failed to fetch user information:", error.message);
+      }
+    };
+
+    getUserInformation();
+  }, []);
+
+  if (!userInformation) {
+    return <div>Loading...</div>; // Or a better-designed loading component
+  }
+
   return (
     <div>
       <Banner />

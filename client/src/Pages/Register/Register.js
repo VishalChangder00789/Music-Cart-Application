@@ -15,6 +15,7 @@ import {
   sendTokenToLocalStorage,
 } from "../../Controller/localStorageConnection";
 import { PRODUCTS } from "../../Constants/Client_Path";
+import Banner from "../../Components/Banner/Banner";
 
 const Register = () => {
   const [Name, setName] = useState("");
@@ -58,12 +59,7 @@ const Register = () => {
 
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
-      <LogoHeader
-        ContainerHeight="60px"
-        ContainerWidth="100%"
-        LogoHeight="70%"
-        LogoWidth="10%"
-      />
+      <Banner />
       <FormContainer
         FormTaskLabel="Create Account"
         width="450px"
@@ -90,20 +86,17 @@ const Register = () => {
         ButtonActivation={handleRegister}
       />
 
-      <div className="LinkToOtherPage">
-        Already have an account?
-        <Link className="Link" to="/login">
+      <div className="w-full mt-4 justify-center flex items-center mb-10">
+        <div className="text-sm font-semibold flex items-center">
+          Already have an account?
+        </div>
+        <Link
+          className="text-blue-700 hover:underline ml-2 text-lg flex items-center"
+          to="/login"
+        >
           SignIn
         </Link>
       </div>
-
-      <Footer
-        ContainerHeight="40px"
-        ContainerWidth="100%"
-        FooterMessage="Musicart | All rights reserved"
-        FooterBackground="
-      #2E0052"
-      />
     </div>
   );
 };

@@ -38,14 +38,6 @@ const Thankyou = () => {
           </div>
         </div>
       </div>
-
-      <Footer
-        ContainerHeight="40px"
-        ContainerWidth="100%"
-        FooterMessage="Musicart | All rights reserved"
-        FooterBackground="
-        #2E0052"
-      />
     </div>
   );
 };

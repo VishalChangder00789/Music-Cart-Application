@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import {
   LOGIN,
   REGISTER,
