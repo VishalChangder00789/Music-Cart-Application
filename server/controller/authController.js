@@ -108,7 +108,7 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
       validateBeforeSave: false,
     });
 
-    let resetUrl = `http://localhost:3000/reset-password/confirm-password/${encodeURIComponent(
+    let resetUrl = `https://music-cart-application.vercel.app/reset-password/confirm-password/${encodeURIComponent(
       hashedResetToken
     )}`;
 
