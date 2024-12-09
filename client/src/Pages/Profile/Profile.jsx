@@ -31,9 +31,7 @@ const Profile = () => {
         const response = await axios.get(
           `https://music-cart-backend-5.onrender.com/api/v1/_USERS/${userId}`
         );
-        const userPicture =
-          `http://localhost:8000/${response.data.data.photo}` ||
-          `https://music-cart-backend-5.onrender.com/${response.data.data.photo}`;
+        const userPicture = `https://music-cart-backend-5.onrender.com/${response.data.data.photo}`;
         setUserPicture(userPicture);
         setUserInformation(response.data.data);
       } catch (error) {
