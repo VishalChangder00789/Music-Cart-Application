@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const authController = require("../controller/authController");
 const cartController = require("../controller/cartController");
+const fileController = require("../controller/fileController");
 const productController = require("../controller/productController");
 
 // USERS
@@ -10,6 +11,17 @@ router.route("/_REGISTER").post(authController.register);
 router.route("/_LOGIN").post(authController.login);
 router.route("/_USERS").get(userController.getAllUsers);
 router.route("/_USERS/:userId").get(userController.getUser);
+
+router.route("/forget-password").post(authController.forgetPassword);
+router.route("/resetpassword").post(authController.finishForgotPassword);
+router.route("/changepassword").post(authController.changePassword);
+router
+  .route("/profile/upload")
+  .post(
+    fileController.attachUserId,
+    fileController.upload,
+    fileController.uploadFile
+  );
 
 // CART
 

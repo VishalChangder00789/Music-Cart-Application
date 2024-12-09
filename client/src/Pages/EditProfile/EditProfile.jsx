@@ -10,6 +10,7 @@ import PasswordInput from "./components/PasswordInput/PasswordInput";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import DatePicker from "./components/DatePicker/DatePicker";
 import DatePickerComponent from "./components/DatePicker/DatePicker";
+import AddPicture from "./components/AddPicture/AddPicture";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -67,7 +68,9 @@ const EditProfile = () => {
           {/* Profile Card */}
           <div className="p-6 rounded-md lg:w-1/3">
             <div className="flex items-center mb-6 h-60 justify-center bg-[#a2a2a26e] p-4 ">
-              <div className="w-48 h-48 rounded-full bg-[#585858] "></div>
+              <div className="w-48 h-48 rounded-full bg-[#b786e8] flex justify-center items-center ">
+                <AddPicture />
+              </div>
             </div>
             <div className="border p-4 rounded-md bg-[#cececea0] min-h-[400px]">
               <input

@@ -1,7 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+import ReactDOM from "react-dom";
 import App from "./App";
+import { ToastContextProvider } from "./Contexts/ToastContext/ToastContext";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+ReactDOM.render(
+  <ToastContextProvider>
+    <App />
+  </ToastContextProvider>,
+  document.getElementById("root")
+);

@@ -15,7 +15,13 @@ const Banner = ({ navigationRoute }) => {
   const navigate = useNavigate();
   const { width } = useScreenSize();
   const pathname = useLocation().pathname;
-  const exculudedPaths = ["/login", "/register", "/profile", "/editProfile"];
+  const exculudedPaths = [
+    "/login",
+    "/register",
+    "/profile",
+    "/editProfile",
+    "/forget-password",
+  ];
 
   return (
     <div className="bg-[#3c1143] flex p-2 min-h-16 items-center justify-between  lg:min-h-10 lg:p-4 lg:justify-between lg:sticky lg:top-0 lg:z-20">

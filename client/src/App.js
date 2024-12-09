@@ -1,6 +1,7 @@
+import React, { useContext, useState } from "react";
 import "./App.css";
 import "./index.css";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   LOGIN,
   REGISTER,
@@ -12,7 +13,6 @@ import {
 } from "./Constants/Client_Path";
 
 // Files
-import { useEffect, useState } from "react";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Products from "./Pages/Products/Products";
@@ -29,21 +29,32 @@ import useScreenSize from "./CustomHooks/useScreenSize";
 import isLoggedIn from "./CustomHooks/IsLoggedIn";
 import ProtectedRoute from "./Pages/ProtectedRoute/ProtectedRoute";
 import EditProfile from "./Pages/EditProfile/EditProfile";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContext } from "./Contexts/ToastContext/ToastContext";
+import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
+import ConfirmPasswordPage from "./Pages/ConfirmPasswordPage/ConfirmPasswordPage";
 
 function App() {
   const [SelectedProduct, setSelectedProduct] = useState({});
   const { width } = useScreenSize();
-
-  console.log(isLoggedIn());
+  const { apiErrors } = useContext(ToastContext);
 
   const isMobile = width < 450;
 
   return (
     <div className={isMobile ? "Mobile" : "App"}>
       <BrowserRouter>
+        <ToastContainer
+          position="bottom-center"
+          draggable
+          theme="light"
+          className="custom-toast"
+        />
         <UserInformationProvider>
           <Routes>
             <Route path="/thankyou" element={<Thankyou />} />
+            <Route path="/forget-password" element={<ForgotPassword />} />
             <Route
               path="/profile"
               element={
@@ -79,14 +90,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* <Route
+            <Route
               path={"/editProfile"}
               element={
                 <ProtectedRoute>
                   <EditProfile />
                 </ProtectedRoute>
               }
-            /> */}
+            />
+
+            <Route
+              path="/reset-password/confirm-password/:token"
+              element={<ConfirmPasswordPage />}
+            />
           </Routes>
           {isMobile ? <FooterOptions /> : <Footer />}
         </UserInformationProvider>

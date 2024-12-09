@@ -9,11 +9,11 @@ const userSchema = mongoose.Schema({
   },
   dateOfBirth: {
     type: String,
-    required: [true, "A user should have a DOB"],
+    // required: [true, "A user should have a DOB"],
   },
   location: {
     type: String,
-    required: [true, "A user should have a location"],
+    // required: [true, "A user should have a location"],
   },
   email: {
     type: String,
@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
 
   phone: {
     type: Number,
-    required: [true, "A user should have a phone"],
+    // required: [true, "A user should have a phone"],
     min: [10, "A phone number should be 10 digits"],
     max: [10, "A phone number should be 10 digits"],
   },
@@ -41,10 +41,11 @@ const userSchema = mongoose.Schema({
   },
   passwordConfirm: {
     type: String,
-    required: [true, "Please confirm your password"],
+    // required: [true, "Please confirm your password"],
     validate: {
       // This will only work on SAVE or CREATE
       validator: function (el) {
+        // this.password exists only during creation or password update (not when just updating other fields)
         return el === this.password;
       },
     },
@@ -61,14 +62,24 @@ const userSchema = mongoose.Schema({
   ],
 
   passwordChangedAt: Date,
+  passwordResetToken: {
+    type: String,
+    default: null,
+  },
+  passwordResetExpires: {
+    type: Date,
+    default: null,
+  },
 });
 
 // Pre Hook Middlewares
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
+  // Hash password
   this.password = await bcrypt.hash(this.password, 12);
-  this.passwordConfirm = undefined;
+  this.passwordConfirm = undefined; // We clear passwordConfirm since it's not needed
+
   next();
 });
 

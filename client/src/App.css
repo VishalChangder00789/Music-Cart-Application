@@ -15,6 +15,19 @@
 }
 
 
+
+
+@media only screen and (max-width: 480px) {
+
+  .Toastify__toast-container {
+    margin-bottom: 135px !important; /* Use !important to force the margin */
+  }
+}
+
+
+
+
+
 /*SCROLLBAR*/
 /* width */
 ::-webkit-scrollbar {

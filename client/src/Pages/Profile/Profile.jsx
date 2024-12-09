@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { userInformation, setUserInformation } = useUserInformation();
+  const [userpicture, setUserPicture] = useState("");
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to manage mobile menu
   const navigate = useNavigate();
 
@@ -26,11 +28,13 @@ const Profile = () => {
     const getUserInformation = async () => {
       try {
         const userId = JSON.parse(getIdsFromLocalStorage()).userId;
-        console.log("UserId is :", userId);
         const response = await axios.get(
           `https://music-cart-backend-5.onrender.com/api/v1/_USERS/${userId}`
         );
-        console.log(response);
+        const userPicture =
+          `http://localhost:8000/${response.data.data.photo}` ||
+          `https://music-cart-backend-5.onrender.com/${response.data.data.photo}`;
+        setUserPicture(userPicture);
         setUserInformation(response.data.data);
       } catch (error) {
         console.error("Failed to fetch user information:", error.message);
@@ -55,6 +59,7 @@ const Profile = () => {
             size={30}
             onClick={() => navigate("/")}
           />
+
           <HiOutlineMenu
             size={30}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -90,14 +95,21 @@ const Profile = () => {
         {/* Main Content */}
         <div className="lg:flex lg:flex-col lg:w-3/4 bg-white lg:p-2">
           {/* Profile Header */}
-          <div className="lg:flex lg:space-x-8">
-            {/* Profile Card */}
-            <div className="p-6 border shadow-md rounded-md lg:w-1/3">
-              <div className="flex items-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-[#585858]"></div>
-                <div className="flex flex-col ml-4">
-                  <div className="font-bold">{userInformation.name}</div>
-                  <div className="text-sm text-[#7f7f7f]">
+          <div className="lg:flex lg:space-x-8 ">
+            <div className="p-6 shadow-md rounded-md lg:w-2/3 border">
+              <div className="flex flex-col items-center mb-6 w-full p-1">
+                <img
+                  className="rounded-full w-40 object-cover"
+                  src={userpicture}
+                  alt="profilepic"
+                />
+
+                {/* Profile Information */}
+                <div className="flex flex-col mt-4  w-full justify-center items-center h-full">
+                  <div className="font-bold text-lg">
+                    {userInformation.name}
+                  </div>
+                  <div className="text-xs text-wrap text-[#7f7f7f]">
                     {userInformation.email}
                   </div>
                 </div>
@@ -109,7 +121,6 @@ const Profile = () => {
                 Edit Profile
               </button>
             </div>
-
             {/* Account Details */}
             <div className="p-6 border shadow-md rounded-md lg:w-1/3 bg-white">
               <h3 className="font-bold text-lg mb-4">My xPay Accounts</h3>
@@ -128,7 +139,6 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-
             {/* My Bills */}
             <div className="p-6 border shadow-md rounded-md lg:w-1/3">
               <h3 className="font-bold text-lg mb-4">My Bills</h3>

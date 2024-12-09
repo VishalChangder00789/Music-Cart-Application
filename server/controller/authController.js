@@ -4,6 +4,8 @@ const cartModel = require("../models/CartModel");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const { sendEmail } = require("./emailController");
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 //creating token
 const signToken = (id) => {
@@ -72,6 +74,71 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.forgetPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+
+  // Check if email is provided
+  if (!email) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Email is required",
+    });
+  }
+
+  try {
+    // Find user in the database
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        status: "fail",
+        message: "User does not exist",
+      });
+    }
+
+    // create a token and expiry and attach it to the frontend when the person clicks on that link
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const hashedResetToken = await bcrypt.hash(resetToken, 12);
+    const tokenExpiresIn = Date.now() + 10 * 60 * 1000;
+    // const tokenExpiredIn = Date.now() + 3000;
+
+    user.passwordResetToken = hashedResetToken;
+    user.passwordResetExpires = tokenExpiresIn;
+    user.save({
+      validateBeforeSave: false,
+    });
+
+    let resetUrl = `http://localhost:3000/reset-password/confirm-password/${encodeURIComponent(
+      hashedResetToken
+    )}`;
+
+    // Successfull
+    let subject = "Reset your password";
+    let text = `Hi ${user.name},
+    You requested to reset your password. Please use the link below to reset your password:
+    ${resetUrl}
+
+    The above link will be valid for 10 mins
+
+    If you did not request this, please ignore this email.
+  `;
+
+    await sendEmail(email, subject, text);
+
+    return res.status(200).json({
+      status: "success",
+      message: "Email is sent",
+    });
+  } catch (error) {
+    // Handle any unexpected errors
+    return res.status(500).json({
+      status: "error",
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+});
+
 exports.protect = catchAsync(async (req, res, next) => {
   //1. if token exist
 
@@ -119,4 +186,97 @@ exports.protect = catchAsync(async (req, res, next) => {
   // GRANTED ACCESS
   req.user = freshUser;
   next();
+});
+
+exports.finishForgotPassword = catchAsync(async (req, res, next) => {
+  const { token } = req.body;
+
+  // Validate token presence
+  if (!token) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Token is required",
+    });
+  }
+
+  // Find user by reset token
+  const user = await userModel.findOne({ passwordResetToken: token });
+
+  if (
+    !user ||
+    !user.passwordResetExpires ||
+    user.passwordResetExpires < Date.now()
+  ) {
+    return res.status(401).json({
+      status: "fail",
+      message: "Token is invalid or has expired",
+    });
+  }
+
+  return res.status(200).json({
+    status: "success",
+    message: "Password has been reset successfully",
+  });
+});
+
+exports.changePassword = catchAsync(async (req, res, next) => {
+  const { newPassword, confirmPassword, token } = req.body;
+
+  // Find user by passwordResetToken (token should be valid)
+  const user = await userModel.findOne({ passwordResetToken: token });
+  if (!user) {
+    return res.status(404).json({
+      status: "fail",
+      message: "User not found.",
+    });
+  }
+
+  const userId = user._id;
+
+  // 1. Check if all fields are provided
+  if (!newPassword || !confirmPassword) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Please provide new password and confirm password.",
+    });
+  }
+
+  // 2. Check if the new password matches the confirmed password
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({
+      status: "fail",
+      message: "New password and confirm password do not match.",
+    });
+  }
+
+  // 3. Fetch the previous password for comparison
+  const previousPassword = await userModel.findById(userId).select("+password");
+
+  // 4. Check if the new password is the same as the old password
+  const isPasswordMatch = await bcrypt.compare(
+    newPassword,
+    previousPassword.password
+  );
+  if (isPasswordMatch) {
+    return res.status(400).json({
+      status: "fail",
+      message: "New password cannot be the same as the old password.",
+    });
+  }
+
+  // 5. Hash the new password before saving (using pre-save hook)
+  user.password = newPassword; // The pre-save hook will hash it automatically
+  user.passwordConfirm = undefined; // No need to store confirmPassword in DB
+  user.passwordResetToken = undefined; // Optionally clear the reset token
+  user.passwordResetExpires = undefined; // Clear expiration
+  user.passwordChangedAt = Date.now(); // Record the time the password was changed
+
+  // Save the updated user record
+  await user.save();
+
+  // 6. Send success response
+  res.status(200).json({
+    status: "success",
+    message: "Password updated successfully.",
+  });
 });

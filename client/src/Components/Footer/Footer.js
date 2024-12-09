@@ -6,7 +6,7 @@ import HeaderLogo2 from "../../Assets/HeaderLogoMobile.png";
 
 const Footer = () => {
   return (
-    <footer class="bg-[#531A5B] text-white py-8 flex justify-between mt-16">
+    <footer class="bg-[#531A5B] text-white py-8 flex justify-between">
       <div class="justify-center mt-10 flex flex-col h-full w-1/3 items-center mb-6 md:mb-0">
         <img src={HeaderLogo2} alt="Logo" class="h-full w-40" />
         {/* <span class="text-lg font-bold">Company Name</span> */}

@@ -3,6 +3,7 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Files Import
 import LinkPages from "../../Components/LinkPages/LinkPages";
@@ -23,40 +24,54 @@ const Register = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [Error, setError] = useState("");
+  const [noErrors, setNoErrors] = useState(true);
+
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    if (!Name || !Mobile || !Email || !Password) {
+    if (!noErrors) {
+      console.log("Please fix the errors before submitting.");
       return;
     }
 
-    await axios
-      // SERVER_REGISTER_ALL_USERS
-      .post("http://localhost:8000/api/v1/_REGISTER", {
-        name: Name,
-        mobile: Mobile,
-        email: Email,
-        password: Password,
-        passwordConfirm: Password,
-      })
-      .then((response) => {
-        let data = response.data;
-        let token = data.token;
-        let cartId = data.cartId;
-        let userId = data.userId;
+    // Validate form fields
+    if (!Name || !Mobile || !Email || !Password) {
+      setError("All fields are required.");
+      return;
+    }
 
-        console.log(
-          `Data is : ${data} \n Token is : ${token} \n CartId : ${cartId} \n UserId : ${userId}`
-        );
+    try {
+      const response = await axios.post(
+        "https://music-cart-backend-5.onrender.com/api/v1/_REGISTER",
+        {
+          name: Name,
+          mobile: Mobile,
+          email: Email,
+          password: Password,
+          passwordConfirm: Password,
+        }
+      );
 
-        sendTokenToLocalStorage(token);
-        sendIdsToLocalStorage(userId, cartId);
-        navigate(PRODUCTS);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      const { token, cartId, userId } = response.data;
+
+      console.log(
+        `Data: ${response.data} \nToken: ${token} \nCartId: ${cartId} \nUserId: ${userId}`
+      );
+
+      // Save data to local storage
+      sendTokenToLocalStorage(token);
+      sendIdsToLocalStorage(userId, cartId);
+
+      // Navigate to the products page
+      navigate(PRODUCTS);
+    } catch (err) {
+      const errorMessage = err.response.data.message;
+      toast(errorMessage);
+    }
   };
+
+  // Disable button if the form is incomplete
+  const isFormValid = Name && Mobile && Email && Password;
 
   return (
     <div className="_GLOBAL_PAGE_INNER_HOLDER">
@@ -85,7 +100,16 @@ const Register = () => {
         inputMarginTop="0%"
         containerMarginTop="4%"
         ButtonActivation={handleRegister}
+        ButtonDisabled={!isFormValid} // Disable button if the form is incomplete
+        setNoErrors={setNoErrors}
       />
+
+      {/* Error Message */}
+      {Error && (
+        <div className="text-red-500 text-center mt-2">
+          <p>{Error}</p>
+        </div>
+      )}
 
       <div className="w-full mt-4 justify-center flex items-center mb-10">
         <div className="text-sm font-semibold flex items-center">
@@ -94,6 +118,7 @@ const Register = () => {
         <Link
           className="text-blue-700 hover:underline ml-2 text-lg flex items-center"
           to="/login"
+          aria-disabled={!noErrors ? false : true}
         >
           SignIn
         </Link>
