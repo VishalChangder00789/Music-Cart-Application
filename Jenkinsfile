@@ -4,7 +4,8 @@ pipeline {
     environment {
         APP_DIR = "/var/lib/jenkins/appInstall/Music-Cart-Application"
         BRANCH = "master"
-        PM2_NAME = "server"
+        PM2_NAME = "server-app"
+        SERVER_DIR = "server" // relative path to the folder containing index.js
     }
 
     stages {
@@ -12,12 +13,10 @@ pipeline {
             steps {
                 script {
                     sh """
-                        # Ensure APP_DIR exists
                         if [ ! -d "${APP_DIR}" ]; then
                             mkdir -p "${APP_DIR}"
                         fi
 
-                        # Clone repo if not already cloned
                         if [ ! -d "${APP_DIR}/.git" ]; then
                             git clone https://github.com/VishalChangder00789/Music-Cart-Application.git "${APP_DIR}"
                         fi
@@ -43,13 +42,16 @@ pipeline {
 
         stage("Restart App with PM2") {
             steps {
-                dir("${APP_DIR}") {
+                dir("${APP_DIR}/${SERVER_DIR}") {
                     sh """
-                        # Restart if running, otherwise start
+                        export PATH=\$PATH:/usr/local/bin
+
                         pm2 describe ${PM2_NAME} > /dev/null 2>&1
                         if [ \$? -eq 0 ]; then
+                            echo "Restarting existing PM2 process..."
                             pm2 restart ${PM2_NAME}
                         else
+                            echo "Starting PM2 process..."
                             pm2 start index.js --name ${PM2_NAME}
                         fi
 
