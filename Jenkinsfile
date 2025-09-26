@@ -8,19 +8,18 @@ pipeline {
     }
 
     stages {
-
         stage("Pull Latest Code") {
-            steps {
-                dir("$APP_DIR") {
-                    sh """
-                    if [ ! -d . ]; then
-                        git clone https://github.com/VishalChangder00789/Music-Cart-Application.git .
-                    fi
-                    git fetch origin
-                    git reset --hard origin/$BRANCH
-                    """
-                }
-            }
+          steps {
+            sh """
+              if [ ! -d "$APP_DIR/.git" ]; then
+                git clone https://github.com/VishalChangder00789/Music-Cart-Application.git $APP_DIR
+              fi
+              cd $APP_DIR
+              git fetch origin
+              git reset --hard origin/$BRANCH
+                """
+  }
+}
         }
 
         stage("Install Dependencies") {
