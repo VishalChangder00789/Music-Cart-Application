@@ -5,7 +5,7 @@ pipeline {
         APP_DIR = "/var/lib/jenkins/appInstall/Music-Cart-Application"
         BRANCH = "master"
         PM2_NAME = "Music-Cart-Application"
-        ENTRY_FILE = "server/index.js"
+        ENTRY_FILE = "server/index.js"   // Path to your main file relative to APP_DIR
     }
 
     stages {
@@ -13,15 +13,17 @@ pipeline {
             steps {
                 script {
                     sh """
+                        # Ensure APP_DIR exists
                         if [ ! -d "$APP_DIR" ]; then
-                            mkdir -p $APP_DIR
+                            mkdir -p "$APP_DIR"
                         fi
 
+                        # Clone repo if not already a git repo
                         if [ ! -d "$APP_DIR/.git" ]; then
-                            git clone https://github.com/VishalChangder00789/Music-Cart-Application.git $APP_DIR
+                            git clone https://github.com/VishalChangder00789/Music-Cart-Application.git "$APP_DIR"
                         fi
 
-                        cd $APP_DIR
+                        cd "$APP_DIR"
                         git fetch origin
                         git reset --hard origin/$BRANCH
                         git clean -fd
@@ -33,7 +35,9 @@ pipeline {
         stage("Install Dependencies") {
             steps {
                 dir("$APP_DIR") {
-                    sh "npm install --silent"
+                    sh """
+                        npm install --silent
+                    """
                 }
             }
         }
@@ -42,9 +46,12 @@ pipeline {
             steps {
                 dir("$APP_DIR") {
                     sh """
-                        # Restart if running, otherwise start with watch
+                        set +e   # Ignore non-zero exit codes for checks
+
+                        # Check if PM2 process exists
                         pm2 describe $PM2_NAME > /dev/null 2>&1
-                        if [ \$? -eq 0 ]; then
+
+                        if [ $? -eq 0 ]; then
                             pm2 restart $PM2_NAME
                         else
                             pm2 start $ENTRY_FILE --name $PM2_NAME --watch
