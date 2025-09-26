@@ -36,7 +36,7 @@ stages {
         steps {
             dir("\$APP_DIR/server") {
                 sh """
-                    npm install --silent
+                    npm install 
                 """
             }
         }
@@ -65,3 +65,4 @@ stages {
 }
 
 }
+
