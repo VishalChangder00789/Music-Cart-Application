@@ -34,35 +34,32 @@ stages {
 
     stage("Install Dependencies") {
         steps {
-            dir("\$APP_DIR/server") {
-                sh """
-                    npm install 
-                """
-            }
+            sh """
+                cd "\$APP_DIR/server"
+                npm install
+            """
         }
     }
 
     stage("Restart App with PM2") {
         steps {
-            dir("\$APP_DIR") {
-                sh """
-                    set +e    # Ignore non-zero exit codes for checks
+            sh """
+                cd "\$APP_DIR"
+                set +e    # Ignore non-zero exit codes for checks
 
-                    # Check if PM2 process exists
-                    pm2 describe \$PM2_NAME > /dev/null 2>&1
+                # Check if PM2 process exists
+                pm2 describe \$PM2_NAME > /dev/null 2>&1
 
-                    if [ \$? -eq 0 ]; then
-                        pm2 restart \$PM2_NAME
-                    else
-                        pm2 start \$ENTRY_FILE --name \$PM2_NAME --watch
-                    fi
+                if [ \$? -eq 0 ]; then
+                    pm2 restart \$PM2_NAME
+                else
+                    pm2 start \$ENTRY_FILE --name \$PM2_NAME --watch
+                fi
 
-                    pm2 save
-                """
-            }
+                pm2 save
+            """
         }
     }
 }
 
 }
-
