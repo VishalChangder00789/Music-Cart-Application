@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_DIR = "/home/ubuntu/appInstall/Music-Cart-Application"
+         APP_DIR = "/var/lib/jenkins/appInstall/Music-Cart-Application/"
         BRANCH = "master"
         PM2_NAME = "server"
     }
@@ -45,3 +45,4 @@ pipeline {
         }
     }
 }
+
