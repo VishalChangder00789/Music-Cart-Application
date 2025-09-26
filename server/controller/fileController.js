@@ -1,13 +1,22 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
 const catchAsync = require("../utils/catchAsync");
 const userModel = require("../models/UserModel");
+const dotenv = require("dotenv");
+dotenv.config();
 
 exports.attachUserId = (req, res, next) => {
   console.log("User ID attached:", req.body);
   next();
 };
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 // Setting up the storage engine for multer
 const storage = multer.diskStorage({
@@ -23,9 +32,10 @@ const storage = multer.diskStorage({
 
   filename: (req, file, cb) => {
     const fileName = `${Date.now()}-${file.originalname}`;
-    req.finalDestination = `uploads/${
-      req.headers["userId"] || req.headers["userid"]
-    }/${fileName}`;
+    req.finalDestination = path.join(
+      __dirname,
+      `../uploads/${req.headers["userId"] || req.headers["userid"]}/${fileName}`
+    );
 
     cb(null, fileName); // Ensure unique filenames
   },
@@ -45,7 +55,7 @@ exports.upload = multer({
     if (mimeType && extension) {
       return cb(null, true);
     } else {
-      cb("Error: Only images are allowed");
+      cb(new Error("Only images are allowed."));
     }
   },
 }).single("photo"); // 'photo' is the field name in the form
@@ -53,7 +63,6 @@ exports.upload = multer({
 // Controller to handle the file after it's uploaded
 exports.uploadFile = catchAsync(async (req, res, next) => {
   const userId = req.body.userId || req.headers.userid; // Fallback to headers if body is undefined
-  console.log("UserId we get is:", userId);
 
   if (!userId) {
     return res.status(400).json({ message: "UserId is missing." });
@@ -64,14 +73,22 @@ exports.uploadFile = catchAsync(async (req, res, next) => {
   }
 
   const filePath = req.finalDestination;
-  console.log(req.finalDestination);
+  console.log("File saved locally at:", filePath);
 
   try {
-    // Update the user's photo path in the database
+    // Upload the file to Cloudinary
+    const result = await cloudinary.uploader.upload(filePath, {
+      folder: `uploads/${userId}`,
+      public_id: path.basename(filePath, path.extname(filePath)), // File name without extension
+    });
+
+    console.log("Uploaded to Cloudinary:", result);
+
+    // Update the user's photo URL in the database
     const user = await userModel.findByIdAndUpdate(
       userId,
-      { photo: filePath },
-      { new: true, runValidators: true } // Ensures validation and returns the updated document
+      { photo: result.secure_url }, // Save Cloudinary URL
+      { new: true, runValidators: true }
     );
 
     if (!user) {
@@ -80,10 +97,11 @@ exports.uploadFile = catchAsync(async (req, res, next) => {
 
     return res.status(200).json({
       message: "File uploaded successfully",
-      file: req.file, // Return file details like path, name, etc.
-      user, // Optionally include updated user data
+      cloudinaryUrl: result.secure_url, // Cloudinary URL
+      user, // Updated user data
     });
   } catch (err) {
+    console.error("Error uploading to Cloudinary:", err);
     return next(err); // Pass the error to the global error handler
   }
 });

@@ -1,10 +1,17 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
-const ProfileOptionButton = ({ name = "Default", route, Icon }) => {
+const ProfileOptionButton = ({
+  name = "Default",
+  route,
+  Icon,
+  exclusive = false,
+}) => {
   const navigate = useNavigate();
+  const pathname = useLocation().pathname;
+
   const handleProfileOptionButtonClick = () => {
     if (route) {
       navigate(route);
@@ -20,11 +27,11 @@ const ProfileOptionButton = ({ name = "Default", route, Icon }) => {
   return (
     <div
       onClick={handleProfileOptionButtonClick}
-      className={`${
-        name === "Edit Profile"
-          ? `bg-[#972fff] text-white justify-center`
-          : "bg-[#ffffff] border text-black justify-between"
-      } mt-8  w-full flex  items-center p-2 rounded-md font-semibold`}
+      className={`text-black ${
+        name === "Logout"
+          ? "justify-end w-1/3 bg-red-500 text-white"
+          : "justify-between p-2 w-full font-semibold"
+      } flex  items-center rounded-md cursor-pointer`}
     >
       {Icon && (
         <div className="w-[30px]">
@@ -32,8 +39,18 @@ const ProfileOptionButton = ({ name = "Default", route, Icon }) => {
         </div>
       )}
 
-      <div className="min-w-3/12">{name}</div>
+      <div
+        className={`${
+          exclusive
+            ? `flex items-center p-2 w-full justify-center`
+            : `text-black`
+        }`}
+      >
+        {name}
+      </div>
       {name === "Edit Profile" ? (
+        ""
+      ) : exclusive ? (
         ""
       ) : (
         <MdOutlineKeyboardArrowRight className="w-[30px]" size={25} />

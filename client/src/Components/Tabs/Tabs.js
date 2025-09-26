@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Tabs.css";
+import { useNightModeContext } from "../../Contexts/OtherCommonContext/NightModeContext";
 
 const Tabs = ({
   Tabtitle,
@@ -7,12 +8,14 @@ const Tabs = ({
   setStateValue,
   price = false,
   color = false,
+  selected,
 }) => {
   const [openDropDown, setOpenDropDown] = useState(false);
   const [tabOptionSelection, setTabOptionSelection] = useState("");
   const [sliderValue, setSliderValue] = useState(options[0]);
   const [minState, setMin] = useState(0);
   const [maxState, setMax] = useState(0);
+  const { isNightMode } = useNightModeContext();
 
   const myComponentRef = useRef(null);
 
@@ -22,7 +25,6 @@ const Tabs = ({
         myComponentRef.current &&
         !myComponentRef.current.contains(event.target)
       ) {
-        // Click occurred outside of the component
         setOpenDropDown(false);
       }
     };
@@ -72,13 +74,15 @@ const Tabs = ({
           fontWeight: "500",
           fontStyle: "normal",
         }}
-        className="border p-4 flex flex-col justify-around"
+        className={`${
+          isNightMode ? `bg-[#333333]` : `bg-white`
+        } border p-4 flex flex-col justify-around`}
       >
         <div>Color</div>
         <div className="flex w-full justify-around mt-4">
           {options.map((m, index) => (
             <div
-              key={index} // Add a key for each dropdown item
+              key={index}
               onClick={() => handleTabsClick(m)}
               className={`p-2 ${determineProductColor(
                 m
@@ -92,23 +96,28 @@ const Tabs = ({
 
   return (
     <div
-      style={{
-        fontFamily: "Poppins, sans-serif",
-        fontWeight: "500",
-        fontStyle: "normal",
-      }}
       ref={myComponentRef}
       onClick={handleOpenModal}
-      className="border bg-white rounded-sm h-10 w-2/5 text-xs flex justify-center items-center relative"
+      className={`${
+        isNightMode
+          ? `bg-[#333333] border border-[#00000051]`
+          : `bg-white border`
+      } rounded-sm h-10 w-2/5 text-xs flex justify-center items-center relative`}
     >
-      {!tabOptionSelection ? Tabtitle : tabOptionSelection}
+      {selected ? selected : Tabtitle}
       {openDropDown && (
-        <div className="min-h-[50px] max-h-[80px] absolute overflow-auto top-full border border-gray-300 mt-1 w-full bg-white rounded-sm shadow-lg">
+        <div
+          className={`${
+            isNightMode ? `bg-[#333333]` : `bg-white`
+          } min-h-[50px] max-h-[80px] absolute overflow-auto top-full border border-gray-300 mt-1 w-full rounded-sm shadow-lg`}
+        >
           {options.map((m, index) => (
             <div
-              key={index} // Add a key for each dropdown item
+              key={index}
               onClick={() => handleTabsClick(m)}
-              className="p-2 hover:bg-gray-200 cursor-pointer"
+              className={`p-2 ${
+                isNightMode ? `hover:bg-[#00000077]` : `hover:bg-gray-200`
+              } cursor-pointer`}
             >
               {m}
             </div>

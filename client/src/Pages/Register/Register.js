@@ -34,38 +34,29 @@ const Register = () => {
       return;
     }
 
-    // Validate form fields
     if (!Name || !Mobile || !Email || !Password) {
       setError("All fields are required.");
       return;
     }
 
     try {
-      const response = await axios.post(
-        "https://music-cart-backend-5.onrender.com/api/v1/_REGISTER",
-        {
-          name: Name,
-          mobile: Mobile,
-          email: Email,
-          password: Password,
-          passwordConfirm: Password,
-        }
-      );
+      const response = await axios.post(SERVER_REGISTER_ALL_USERS, {
+        name: Name,
+        mobile: Mobile,
+        email: Email,
+        password: Password,
+        passwordConfirm: Password,
+      });
 
-      const { token, cartId, userId } = response.data;
+      const { token, cartId, userId, userSettingId } = response.data;
 
-      console.log(
-        `Data: ${response.data} \nToken: ${token} \nCartId: ${cartId} \nUserId: ${userId}`
-      );
-
-      // Save data to local storage
       sendTokenToLocalStorage(token);
-      sendIdsToLocalStorage(userId, cartId);
+      sendIdsToLocalStorage(userId, cartId, userSettingId);
 
-      // Navigate to the products page
       navigate(PRODUCTS);
     } catch (err) {
-      const errorMessage = err.response.data.message;
+      const errorMessage = err.response.data.message || "An error occurred.";
+      setError(errorMessage);
       toast(errorMessage);
     }
   };

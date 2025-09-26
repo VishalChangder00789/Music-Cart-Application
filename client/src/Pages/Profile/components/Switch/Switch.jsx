@@ -1,11 +1,39 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const Switch = ({ Icon, name, mode = false }) => {
-  const [statusMode, setStatusMode] = useState(false);
+const Switch = ({ Icon, name, mode = false, onChange }) => {
+  const [statusMode, setStatusMode] = useState(mode);
 
   useEffect(() => {
     setStatusMode(mode);
   }, [mode]);
+
+  const updateSettings = async (newMode) => {
+    const { userId, userSettingId } = JSON.parse(
+      localStorage.getItem("UserIds")
+    );
+
+    try {
+      await axios.patch(
+        `http://localhost:8000/api/v1/update-user-settings/${userId}/${userSettingId}`,
+        {
+          nightMode: newMode,
+        }
+      );
+    } catch (error) {
+      console.error("Error updating user settings:", error.message);
+    }
+  };
+
+  const handleToggle = () => {
+    const newMode = !statusMode;
+    setStatusMode(newMode);
+    updateSettings(newMode);
+
+    if (onChange) {
+      onChange(newMode);
+    }
+  };
 
   return (
     <div>
@@ -13,7 +41,7 @@ const Switch = ({ Icon, name, mode = false }) => {
         className={`${
           name === "Edit Profile"
             ? `bg-[#972fff] text-white justify-center`
-            : "bg-[#ffffff] border text-black justify-between"
+            : "bg-[#ffffff] text-black justify-between"
         } w-full flex items-center p-2 rounded-md font-semibold`}
       >
         {Icon && (
@@ -23,7 +51,7 @@ const Switch = ({ Icon, name, mode = false }) => {
         )}
         <div className="flex">{name}</div>
         <div
-          onClick={() => setStatusMode(!statusMode)}
+          onClick={handleToggle}
           className={`w-[40px] mr-2 p-1 rounded-[24px] border-black ${
             statusMode ? `bg-[#972fff] flex justify-end` : "bg-[#9898987c]"
           }`}

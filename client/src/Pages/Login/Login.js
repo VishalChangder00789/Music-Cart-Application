@@ -44,19 +44,17 @@ const Login = () => {
     }
 
     await axios
-      .post(SERVER_LOGIN, {
+      .post(`http://localhost:8000/api/v1/_LOGIN`, {
         email: Email,
         password: Password,
       })
       .then((response) => {
-        let data = response.data.data;
-        let token = response.data.token;
-        let cartId = data.cartId;
-        let userId = data.userId;
+        let { cartId, userId, userName, userSettingId } = response.data.data;
+        let { token } = response.data;
 
         sendTokenToLocalStorage(token);
-        sendIdsToLocalStorage(userId, cartId);
-        navigate(PRODUCTS);
+        sendIdsToLocalStorage(userId, cartId, userSettingId);
+        navigate("/");
       })
       .catch((err) => {
         const errorMessage = err.response.data.message;

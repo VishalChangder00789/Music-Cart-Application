@@ -17,7 +17,7 @@ import {
 } from "../../Controller/localStorageConnection";
 import ImageCarousal from "../../Components/ImageCarousal/ImageCarousal";
 import Stars from "../../Components/Stars/Stars";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useProductColor from "../../CustomHooks/useProductColor";
 import {
   CLIENT_PORT,
@@ -30,20 +30,27 @@ import { RiStarSFill } from "react-icons/ri";
 import { DEPLOYED_BASE_URL } from "../../Constants/Server_Path";
 import useScreenSize from "../../CustomHooks/useScreenSize";
 import _IMAGECAROUSAL_MOBILE from "../../Components/_IMAGECAROUSAL_MOBILE/_IMAGECAROUSAL_MOBILE";
+import { useNightModeContext } from "../../Contexts/OtherCommonContext/NightModeContext";
+import { toast } from "react-toastify";
+import { useCartContext } from "../../Contexts/CartContext/CartContext";
 
 const SingleProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [moreDescription, setMoreDescription] = useState(false);
   const { width } = useScreenSize();
+  const { isNightMode } = useNightModeContext();
 
   const navigate = useNavigate();
+  const { productId } = useParams(); // Fetch productId from the URL
 
   useEffect(() => {
-    const productId = getProductIdFromLocalStorage();
-    if (!productId) return; // Early return if no productId
+    const storedProductId = getProductIdFromLocalStorage();
+    const idToFetch = storedProductId || productId; // Use productId from URL if not in local storage
+
+    if (!idToFetch) return; // Early return if no productId
 
     axios
-      .get(`${DEPLOYED_BASE_URL}/_PRODUCTS/${productId}`, {
+      .get(`${DEPLOYED_BASE_URL}/_PRODUCTS/${idToFetch}`, {
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
@@ -54,7 +61,7 @@ const SingleProduct = () => {
       .catch((err) => {
         console.log("Error fetching product: ", err);
       });
-  }, []);
+  }, [productId]);
 
   const getProductColorStyle = (color) => {
     const lightColors = ["white", "silver", "yellow"];
@@ -67,12 +74,12 @@ const SingleProduct = () => {
   const handleAddToCart = async (productId) => {
     const userId = JSON.parse(getIdsFromLocalStorage()).userId;
     const apiPath = ADD_ITEM_TO_CART(userId, productId);
-
+    // dasdad
     try {
       const response = await axios.post(apiPath);
-      console.log("Item added to cart: ", response);
+      toast("Item Added to the Cart");
     } catch (error) {
-      console.log("Error adding item to cart: ", error);
+      toast.error("Could not add item to the cart");
     }
   };
 
@@ -104,7 +111,11 @@ const SingleProduct = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div
+      className={`flex flex-col ${
+        isNightMode ? "bg-[#221128] text-white" : ""
+      }`}
+    >
       <Banner />
       <div className="lg:min-h-[450px] lg:p-8 p-4 pb-10">
         <div className="lg:flex lg:flex-row flex-col">

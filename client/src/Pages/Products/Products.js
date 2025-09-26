@@ -1,115 +1,146 @@
-import React, { useEffect, useState } from "react";
-import "./Products.css";
-import axios from "axios";
-
+import React, { useEffect, useState, useMemo } from "react";
+import { useProducts } from "../../Contexts/Products/Products";
 import Banner from "../../Components/Banner/Banner";
-import Footer from "../../Components/Footer/Footer";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import FilterMechanism from "../../Components/FilterMechanism/FilterMechanism";
-import { GET_ALL_PRODUCTS } from "../../Constants/Server_Path";
-import { CLIENT_PORT } from "../../Constants/Client_Path";
-import { DEPLOYED_BASE_URL } from "../../Constants/Server_Path";
 import useScreenSize from "../../CustomHooks/useScreenSize";
+import { useNightModeContext } from "../../Contexts/OtherCommonContext/NightModeContext";
+import { useFilterContext } from "../../Contexts/FilterContext/FilterContext";
+import noproducts from "../../Assets/no-products.png";
+import { use } from "react";
 
 const Products = ({ setSelectedProduct }) => {
-  const [products, setProducts] = useState([]);
+  // Using context values
+  const { products, searchContent, loading, error } = useProducts();
+  const {
+    selectedHeadphoneType,
+    selectedCompany,
+    selectedColor,
+    selectedPrice,
+    selectedFeatured,
+    sortedProducts,
+    setSortedProducts,
+  } = useFilterContext();
+
   const [showGrid, setShowGrid] = useState(true);
   const { width } = useScreenSize();
+  const { isNightMode } = useNightModeContext();
 
-  const [Parent_HeadPhoneType, Parent_setHeadPhoneType] = useState("");
-  const [Parent_Company, Parent_setCompany] = useState("");
-  const [Parent_Color, Parent_setColor] = useState("");
-  const [Parent_Price, Parent_setPrice] = useState("");
-  const [Parent_SearchTerm, Parent_setSearchTerm] = useState("");
-  const [Parent_Featured, Parent_setFeatured] = useState("");
+  // Filter products based on search and selected attributes
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const productName = product?.productName?.toLowerCase() || "";
+      const productCompany = product?.brand?.toLowerCase() || "";
+      const productColor = product?.color?.toLowerCase() || "";
+      const searchTerm = searchContent.toLowerCase();
 
-  useEffect(() => {
-    axios.get(GET_ALL_PRODUCTS).then((data) => {
-      // setProducts(data.data.products);
-      setProducts(data.data.products);
+      // Filter conditions
+      const matchesSearch =
+        productName.includes(searchTerm) ||
+        productCompany.includes(searchTerm) ||
+        productColor.includes(searchTerm);
+
+      const matchesHeadphoneType =
+        !selectedHeadphoneType.length ||
+        selectedHeadphoneType.includes(product?.productType);
+
+      const matchesCompany =
+        !selectedCompany.length || selectedCompany.includes(product?.brand);
+
+      const matchesColor =
+        !selectedColor.length || selectedColor.includes(product?.color);
+
+      const matchesPrice = !selectedPrice || selectedPrice === product?.price; // Corrected the price check
+
+      return (
+        matchesSearch &&
+        matchesHeadphoneType &&
+        matchesCompany &&
+        matchesColor &&
+        matchesPrice
+      );
     });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `${DEPLOYED_BASE_URL}/_PRODUCTS/?search=${Parent_SearchTerm}&color=${Parent_Color}&brand=${Parent_Company}&productType=${Parent_HeadPhoneType}&price=${Parent_Price}`
-      )
-      .then((response) => {
-        setProducts(response.data.products);
-      });
-    //}
   }, [
-    Parent_HeadPhoneType,
-    Parent_Company,
-    Parent_Color,
-    Parent_Price,
-    Parent_SearchTerm,
+    products,
+    searchContent,
+    selectedHeadphoneType,
+    selectedCompany,
+    selectedColor,
+    selectedPrice,
   ]);
 
-  useEffect(() => {
-    if (Parent_Featured === "Price : Lowest") {
-      axios.get(`${DEPLOYED_BASE_URL}/price_lowest`).then((response) => {
-        console.log(response.data.products);
-        setProducts(response.data.products);
+  // Sort the filtered products based on the selectedFeatured criteria
+  const sortedAndFilteredProducts = useMemo(() => {
+    console.log("Sorted and Filtered Products:", filteredProducts); // Log to check the sorted products
+    if (filteredProducts.length > 0) {
+      return [...filteredProducts].sort((a, b) => {
+        if (selectedFeatured === "Price : Lowest") {
+          return a.price - b.price;
+        }
+        if (selectedFeatured === "Name : (A-Z)") {
+          return a.productName.localeCompare(b.productName);
+        }
+        return 0; // No sorting applied
       });
     }
+    return []; // Return empty array if no filtered products
+  }, [filteredProducts, selectedFeatured]);
 
-    if (Parent_Featured === "Name : (A-Z)") {
-      axios.get(`${DEPLOYED_BASE_URL}/sortAscending`).then((response) => {
-        setProducts(response.data.products);
-      });
-    }
-  }, [Parent_Featured]);
+  // Update sorted products when they change
+  useEffect(() => {
+    setSortedProducts(sortedAndFilteredProducts);
+  }, [sortedAndFilteredProducts, setSortedProducts]);
 
   return (
-    <div className="w-screen">
+    <div
+      className={`w-screen ${
+        isNightMode ? "bg-[#221128] text-white" : "bg-white text-black"
+      }`}
+    >
       <Banner />
       <div className="p-4">
         {width > 768 ? (
           <FilterMechanism
             setShowGrid={setShowGrid}
-            Parent_setHeadPhoneType={Parent_setHeadPhoneType}
-            Parent_setCompany={Parent_setCompany}
-            Parent_setColor={Parent_setColor}
-            Parent_setPrice={Parent_setPrice}
-            Parent_setSearchTerm={Parent_setSearchTerm}
-            Parent_setFeatured={Parent_setFeatured}
             showGrid={showGrid}
+            className={isNightMode ? "text-white" : "text-black"}
           />
-        ) : (
-          ""
-        )}
+        ) : null}
 
         <div
-          className={
-            showGrid
-              ? `grid grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-10 mb-3% lg:mt-8 min-h-screen`
-              : `ProductHandler-List mt-8 min-h-screen`
-          }
+          className={`mt-8 ${
+            sortedProducts.length > 0
+              ? showGrid
+                ? `grid grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-10 mb-3% lg:mt-8 min-h-screen`
+                : `ProductHandler-List mt-8 min-h-screen`
+              : "w-full"
+          }`}
         >
-          {products
-            ? products.map((product) => {
-                return (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    showGrid={showGrid}
-                    setSelectedProduct={setSelectedProduct}
-                  />
-                );
-              })
-            : ""}
+          {loading ? (
+            <div>Loading...</div>
+          ) : error ? (
+            <div>{error}</div>
+          ) : sortedProducts.length > 0 ? (
+            sortedProducts.map((product) => (
+              <ProductCard
+                key={product._id}
+                product={product}
+                showGrid={showGrid}
+                setSelectedProduct={setSelectedProduct}
+                className={isNightMode ? "text-white" : "text-black"}
+              />
+            ))
+          ) : (
+            <div
+              className={`z-10 w-full flex justify-center ${
+                isNightMode ? `filter brightness-0 invert` : ``
+              }`}
+            >
+              <img src={noproducts} className="" />
+            </div>
+          )}
         </div>
       </div>
-
-      {/* <Footer
-        ContainerHeight="40px"
-        ContainerWidth="100%"
-        FooterMessage="Musicart | All rights reserved"
-        FooterBackground="
-        #2E0052"
-      /> */}
     </div>
   );
 };

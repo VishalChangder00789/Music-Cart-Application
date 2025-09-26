@@ -5,6 +5,10 @@ const authController = require("../controller/authController");
 const cartController = require("../controller/cartController");
 const fileController = require("../controller/fileController");
 const productController = require("../controller/productController");
+const userSettingsController = require("../controller/userSettingsController");
+const serverCheckController = require("../controller/serverCheckController");
+
+router.route("/server-health-check").get(serverCheckController.getServerStatus);
 
 // USERS
 router.route("/_REGISTER").post(authController.register);
@@ -12,6 +16,10 @@ router.route("/_LOGIN").post(authController.login);
 router.route("/_USERS").get(userController.getAllUsers);
 router.route("/_USERS/:userId").get(userController.getUser);
 
+// Upload Profile
+router
+  .route("/_USER/:userId/delete-account")
+  .post(userController.deleteAccount);
 router.route("/forget-password").post(authController.forgetPassword);
 router.route("/resetpassword").post(authController.finishForgotPassword);
 router.route("/changepassword").post(authController.changePassword);
@@ -24,7 +32,6 @@ router
   );
 
 // CART
-
 // Add Items to the cart and increase the quantity of the item
 router
   .route("/_USERS/:userId/_ADDPRODUCT/:productId")
@@ -55,5 +62,14 @@ router
 router.route("/price_lowest").get(productController.getLowestPriceProduct);
 
 router.route("/sortAscending").get(productController.getAscending);
+
+// User Settings
+router
+  .route("/get-user-settings/:userId")
+  .get(userSettingsController.getUserSettings);
+
+router
+  .route("/update-user-settings/:userId/:settingsId")
+  .patch(userSettingsController.updateUserSettings);
 
 module.exports = router;

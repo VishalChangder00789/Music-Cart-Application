@@ -11,6 +11,7 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import DatePicker from "./components/DatePicker/DatePicker";
 import DatePickerComponent from "./components/DatePicker/DatePicker";
 import AddPicture from "./components/AddPicture/AddPicture";
+import { useNightModeContext } from "../../Contexts/OtherCommonContext/NightModeContext";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const EditProfile = () => {
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const datePickerRef = useRef();
+  const { isNightMode } = useNightModeContext();
 
   useEffect(() => {
     // Backend logic goes here (GET, PUT, POST, DELETE)
@@ -62,81 +64,69 @@ const EditProfile = () => {
   return (
     <div>
       <Banner />
-      <div className="lg:flex lg:flex-col lg:w-3/4 bg-white lg:p-2">
+      <div className={`lg:flex lg:flex-row`}>
         {/* Profile Header */}
-        <div className="lg:flex lg:space-x-8">
+        <div
+          className={`flex lg:flex-row lg:justify-between flex-col w-full p-6 ${
+            isNightMode ? "bg-[#221128]" : "bg-white"
+          } shadow-md`}
+        >
           {/* Profile Card */}
-          <div className="p-6 rounded-md lg:w-1/3">
-            <div className="flex items-center mb-6 h-60 justify-center bg-[#a2a2a26e] p-4 ">
-              <div className="w-48 h-48 rounded-full bg-[#b786e8] flex justify-center items-center ">
-                <AddPicture />
-              </div>
-            </div>
-            <div className="border p-4 rounded-md bg-[#cececea0] min-h-[400px]">
-              <input
-                value={userInformation.name || "Name"}
-                onClick={() => navigate("/editProfile")}
-                className="w-full text-black  p-2 rounded-md pl-2"
-              />
-              <input
-                value={userInformation.email || "Email"}
-                onClick={() => navigate("/editProfile")}
-                className="mt-4 w-full text-black  p-2 rounded-md pl-2"
-              />
-
-              {/* Problematic to work with */}
-
-              {/* <div
-                ref={datePickerRef}
-                onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                className={`mt-4 w-full text-black bg-white p-2 rounded-md pl-2 flex flex-col justify-between ${
-                  isDatePickerOpen ? `h-80` : ""
-                }`}
-              >
-                <DatePickerComponent
-                  dateOfBirth={dateOfBirth}
-                  setDateOfBirth={setDateOfBirth}
-                  isDatePickerOpen={isDatePickerOpen} // Pass visibility state
-                  setIsDatePickerOpen={setIsDatePickerOpen} // Pass setter function
-                  datePickerRef={datePickerRef}
-                />
-              </div> */}
-
-              <input
-                value={userInformation.phone || "Phone"}
-                onClick={() => navigate("/editProfile")}
-                className="mt-4 w-full text-black  p-2 rounded-md pl-2"
-              />
-
-              <div className="mt-4">
-                {/* Use AddressDropdown component */}
-                <AddressDropdown
-                  addresses={address}
-                  selectedAddressIndex={selectedAddressIndex}
-                  setSelectedAddressIndex={setSelectedAddressIndex}
-                />
-
-                {/* Use AddressDetails component */}
-                {selectedAddressIndex !== null && (
-                  <AddressDetails
-                    address={address[selectedAddressIndex]}
-                    selectedAddressIndex={selectedAddressIndex}
-                    closeDropdown={closeDropdown} // Pass closeDropdown function
-                  />
-                )}
-              </div>
-
-              <PasswordInput />
-
-              <input
-                value={userInformation.location || "Location"}
-                className="mt-4 w-full text-black bg-white p-2 rounded-md pl-2"
-              />
+          <div
+            className={`flex lg:w-[45%] items-center justify-center lg:h-full mb-6 h-60 bg-[#a2a2a26e] p-4 rounded-md`}
+          >
+            <div className="rounded-full bg-[#b786e8] flex justify-center items-center">
+              <AddPicture userPicture={userInformation.photo} />
             </div>
           </div>
-        </div>
+          <div
+            className={`lg:w-1/2 lg:p-4 rounded-md ${
+              isNightMode ? "p-0" : "bg-[#cececea0]"
+            } min-h-[400px]`}
+          >
+            <input
+              value={userInformation.name || "Name"}
+              onClick={() => navigate("/editProfile")}
+              className="w-full text-black p-2 rounded-md pl-2"
+            />
+            <input
+              value={userInformation.email || "Email"}
+              onClick={() => navigate("/editProfile")}
+              className="mt-4 w-full text-black p-2 rounded-md pl-2"
+            />
 
-        {/* Address Dropdown */}
+            <input
+              value={userInformation.phone || "Phone"}
+              onClick={() => navigate("/editProfile")}
+              className="mt-4 w-full text-black p-2 rounded-md pl-2"
+            />
+
+            <div className="mt-4">
+              {/* Use AddressDropdown component */}
+              <AddressDropdown
+                addresses={address}
+                selectedAddressIndex={selectedAddressIndex}
+                setSelectedAddressIndex={setSelectedAddressIndex}
+              />
+
+              {/* Use AddressDetails component */}
+              {selectedAddressIndex !== null && (
+                <AddressDetails
+                  address={address[selectedAddressIndex]}
+                  selectedAddressIndex={selectedAddressIndex}
+                  closeDropdown={closeDropdown} // Pass closeDropdown function
+                />
+              )}
+            </div>
+
+            <PasswordInput />
+
+            <input
+              value={userInformation.location || "Location"}
+              className="mt-4 w-full text-black bg-white p-2 rounded-md pl-2"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

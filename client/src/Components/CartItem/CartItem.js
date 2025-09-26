@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./CartItem.css";
 import QuantityControl from "../QuantityControl/QuantityControl";
+import { useNightModeContext } from "../../Contexts/OtherCommonContext/NightModeContext";
 
 const CartItem = ({ key, singleProduct }) => {
   const details = singleProduct.details.fetchedProduct;
   const buisnessDetails = singleProduct;
+  const { isNightMode } = useNightModeContext();
 
   const price = details.price;
   const productId = details._id;
@@ -14,13 +16,15 @@ const CartItem = ({ key, singleProduct }) => {
   const color = details.color;
   const inStock = details.available ? "In-Stock" : "Out of Stock";
 
-  console.log(details);
-
   return (
     CartItem && (
       <div
         key={CartItem._id}
-        className="flex items-center border mt-4 p-2 lg:bg-[#f6f6f6] bg-white"
+        className={`flex items-center mt-4 p-2 ${
+          isNightMode
+            ? `bg-[#85608e] text-white rounded-md`
+            : `lg:bg-[#f6f6f6] bg-white border`
+        } `}
       >
         <div className="items-center w-[25%] h-full flex">
           <img

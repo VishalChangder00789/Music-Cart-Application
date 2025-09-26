@@ -6,10 +6,16 @@ const UserInformationContext = createContext();
 
 const UserInformationProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState("");
-
+  const [accountDeletion, setAccountDeletion] = useState(false);
+  // asda
   return (
     <UserInformationContext.Provider
-      value={{ userInformation, setUserInformation }}
+      value={{
+        userInformation,
+        setUserInformation,
+        accountDeletion,
+        setAccountDeletion,
+      }}
     >
       {children}
     </UserInformationContext.Provider>

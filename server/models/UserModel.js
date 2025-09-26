@@ -39,6 +39,10 @@ const userSchema = mongoose.Schema({
     minlength: 8,
     select: false,
   },
+  settingsId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserSettings",
+  },
   passwordConfirm: {
     type: String,
     // required: [true, "Please confirm your password"],
@@ -69,6 +73,10 @@ const userSchema = mongoose.Schema({
   passwordResetExpires: {
     type: Date,
     default: null,
+  },
+  deleteAccount: {
+    default: false,
+    type: Boolean,
   },
 });
 

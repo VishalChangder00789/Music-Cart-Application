@@ -1,55 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./FilterMechanism.css";
-import Input from "../Inputs/Inputs";
 import Tabs from "../Tabs/Tabs";
-import { GET_ALL_PRODUCTS } from "../../Constants/Server_Path";
-import axios from "axios";
-
-// Files
-import GridIcon from "../../Assets/GridView.png";
-import ListIcon from "../../Assets/ListView.png";
-import { SetProductAttribute } from "../../Controller/Utilities";
-
 import { BsGrid1X2Fill } from "react-icons/bs";
-import { FaThList } from "react-icons/fa";
-import { FaFilter } from "react-icons/fa";
+import { FaThList, FaFilter } from "react-icons/fa";
+import { SetProductAttribute } from "../../Controller/Utilities";
+import { useFilterAttributeContext } from "../../Contexts/FilterAttributeContext/FilterAttributeContext";
+import { useProducts } from "../../Contexts/Products/Products";
+import { useFilterContext } from "../../Contexts/FilterContext/FilterContext";
 
-const FilterMechanism = ({
-  setShowGrid,
-  Parent_setHeadPhoneType,
-  Parent_setCompany,
-  Parent_setColor,
-  Parent_setPrice,
-  Parent_setSearchTerm,
-  Parent_setFeatured,
-  showGrid,
-}) => {
-  const [GridView, setGridView] = useState(true);
-  const [ListView, setListView] = useState(false);
-  const [products, setProducts] = useState([]);
+const FilterMechanism = ({ setShowGrid, showGrid }) => {
+  const { products } = useProducts();
 
-  /*
-  
-  */
-  /* Creating the options */
-  const [HeadphoneType, setHeadphoneType] = useState([]);
-  const [Company, setCompany] = useState([]);
-  const [Color, setColor] = useState([]);
-  const [Price, setPrice] = useState([]);
-  const [Featured, setFeatured] = useState([]);
+  const {
+    HeadphoneType,
+    setHeadphoneType,
+    Company,
+    setCompany,
+    Color,
+    setColor,
+    Price,
+    setPrice,
+    Featured,
+    setFeatured,
+  } = useFilterAttributeContext();
 
-  // Setting up the Featured deals
-  const FeaturedOptions = ["Price : Lowest", "Name : (A-Z)"];
+  const {
+    selectedHeadphoneType,
+    setSelectedHeadphoneType,
+    selectedCompany,
+    setSelectedCompany,
+    selectedColor,
+    setSelectedColor,
+    selectedPrice,
+    setSelectedPrice,
+    selectedFeatured,
+    setSelectedFeatured,
+    FeaturedOptions,
+    sortedProducts,
+    setSortedProducts,
+  } = useFilterContext();
 
-  // Setting up all the product attributes
-  // Fetching all the products and creating options
-  useEffect(() => {
-    axios.get(GET_ALL_PRODUCTS).then((data) => {
-      // setProducts(data.data.products);
-      setProducts(data.data.products);
-    });
-  }, []);
-
+  // Populate filter attributes when products change
   useEffect(() => {
     SetProductAttribute(
       products,
@@ -58,58 +49,76 @@ const FilterMechanism = ({
       setColor,
       setPrice
     );
+  }, [products, setHeadphoneType, setCompany, setColor, setPrice]);
 
-    // console.log(HeadphoneType, Company, Color, Price);
-  }, [products]);
+  const resetFilter = () => {
+    setSortedProducts(products);
+    setSelectedHeadphoneType("");
+    setSelectedCompany("");
+    setSelectedColor("");
+    setSelectedPrice(0);
+    setSelectedFeatured(null);
+  };
 
   return (
     <div className="flex w-full justify-between">
+      {/* View Mode Selector */}
       <div className="flex w-1/3 items-center justify-start cursor-pointer">
         <div onClick={() => setShowGrid(true)} className="flex items-center">
           <BsGrid1X2Fill
             size={showGrid ? 28 : 22}
-            color={showGrid ? "black" : "grey"}
+            color={showGrid ? "#9c41b0" : "grey"}
           />
         </div>
         <div onClick={() => setShowGrid(false)} className="flex items-center">
           <FaThList
             size={!showGrid ? 28 : 25}
             className="ml-2"
-            color={!showGrid ? "black" : "grey"}
+            color={!showGrid ? "#9c41b0" : "grey"}
           />
         </div>
       </div>
 
+      {/* Filter Tabs */}
       <div className="flex w-1/3 cursor-pointer items-center justify-between">
-        <FaFilter color="#9c41b0" size={35} className="mr-4" />
+        <FaFilter
+          onClick={resetFilter}
+          color={sortedProducts.length !== products.length ? `#9c41b0` : "grey"}
+          size={35}
+          className="mr-4"
+        />
         <Tabs
           Tabtitle="Headphone Type"
           options={HeadphoneType}
-          setStateValue={Parent_setHeadPhoneType}
+          setStateValue={setSelectedHeadphoneType}
+          selected={selectedHeadphoneType}
         />
-
         <Tabs
           Tabtitle="Company"
           options={Company}
-          setStateValue={Parent_setCompany}
+          setStateValue={setSelectedCompany}
+          selected={selectedCompany}
         />
         <Tabs
           Tabtitle="Colour"
           options={Color}
-          setStateValue={Parent_setColor}
+          setStateValue={setSelectedColor}
+          selected={selectedColor}
         />
         <Tabs
           Tabtitle="Price"
           options={Price}
-          setStateValue={Parent_setPrice}
+          setStateValue={setSelectedPrice}
+          selected={selectedPrice}
         />
       </div>
 
+      {/* Sort Options */}
       <div className="lg:flex lg:justify-end lg:items-center lg:w-1/3 cursor-pointer">
         <Tabs
           Tabtitle="Sort by : Featured"
           options={FeaturedOptions}
-          setStateValue={Parent_setFeatured}
+          setStateValue={setSelectedFeatured}
         />
       </div>
     </div>

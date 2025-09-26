@@ -14,8 +14,8 @@ export const getProductIdFromLocalStorage = () => {
   return localStorage.getItem("productId");
 };
 
-export const sendIdsToLocalStorage = (userId, cartId) => {
-  const IdObject = { userId, cartId };
+export const sendIdsToLocalStorage = (userId, cartId, userSettingId) => {
+  const IdObject = { userId, cartId, userSettingId };
 
   localStorage.setItem("UserIds", JSON.stringify(IdObject));
 };

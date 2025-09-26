@@ -1,6 +1,8 @@
 const catchAsync = require("../utils/catchAsync");
 const userModel = require("../models/UserModel");
 const cartModel = require("../models/CartModel");
+const userSettingModel = require("../models/UserSettingsModel");
+
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const { sendEmail } = require("./emailController");
@@ -17,21 +19,32 @@ const signToken = (id) => {
 // The user will be signing up and will be generating a jsonWebToken
 exports.register = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body;
-  const newUser = await userModel.create(req.body);
-  const newUserCart = await cartModel.create({ user: newUser._id, items: [] });
 
+  // Create new user
+  const newUser = await userModel.create(req.body);
+
+  // Create new cart and user settings
+  const newUserCart = await cartModel.create({ user: newUser._id, items: [] });
+  const newUserSetting = await userSettingModel.create({ userId: newUser._id });
+
+  // Save the `settingsId` to the user model
+  newUser.settingsId = newUserSetting._id;
+  await newUser.save({ validateBeforeSave: false });
+
+  // Generate token
   const token = signToken(newUser._id);
 
+  // Send email
   const subject = "Welcome to Music cart";
-  const text = `Hi ${name} , We are so excited to have you on board! Get ready to explore a world of music tailored just for you. Whether you are discovering new tracks, curating your personal playlist, or shopping for the best deals on music, Music Cart is here to bring you closer to the beats you love. Start exploring, enjoy the music, and let the journey begin! Happy listening! 🎧✨ Your password is ${password}`;
-
+  const text = `Hi ${name}, We are excited to have you on board! Your password is ${password}`;
   await sendEmail(email, subject, text);
 
   return res.status(201).json({
-    status: "User is Registered",
+    status: "success",
     token,
     userId: newUser._id,
     cartId: newUserCart._id,
+    userSettingId: newUserSetting._id,
   });
 });
 
@@ -45,13 +58,7 @@ exports.login = catchAsync(async (req, res, next) => {
     });
   }
 
-  // If user exists or not
-  // explicitly select the field which is not selected in the model
-  const user = await userModel.findOne({ email: email }).select("+password");
-
-  // instance method is applied over the queried document
-
-  // Both the passwords passed are encrypted form
+  const user = await userModel.findOne({ email }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password))) {
     return res.status(400).json({
       status: "fail",
@@ -59,9 +66,9 @@ exports.login = catchAsync(async (req, res, next) => {
     });
   }
 
-  // sign the token
   const token = signToken(user._id);
   const cartId = await cartModel.findOne({ user: user._id });
+  const userSetting = await userSettingModel.findOne({ userId: user._id });
 
   return res.status(201).json({
     status: "success",
@@ -70,6 +77,7 @@ exports.login = catchAsync(async (req, res, next) => {
       userName: user.name,
       userId: user._id,
       cartId: cartId._id,
+      userSettingId: userSetting?._id, // Include user settings ID
     },
   });
 });

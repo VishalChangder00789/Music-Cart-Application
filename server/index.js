@@ -9,6 +9,7 @@ const path = require("path");
 const ParentRoutes = require("./routes/ParentRoutes");
 const AppError = require("./utils/appError");
 const gloabalErrorHandler = require("./controller/errorController");
+const { Console } = require("console");
 
 // Required Middlewares
 const app = express();
@@ -30,7 +31,7 @@ app.all("*", (req, res, next) => {
 app.use(gloabalErrorHandler);
 
 // Listening to the server
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, "0.0.0.0", () => {
   mongoose
     .connect(process.env.MONGOURL)
     .then(() => {
