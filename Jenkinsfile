@@ -27,6 +27,8 @@ stages {
                     git fetch origin
                     git reset --hard origin/\$BRANCH
                     git clean -fd
+                    # Ensure Jenkins user has ownership of the directory for permissions
+                    sudo chown -R \$(whoami) "\$APP_DIR"
                 """
             }
         }
